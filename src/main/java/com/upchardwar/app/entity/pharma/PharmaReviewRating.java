@@ -22,7 +22,7 @@ public class PharmaReviewRating {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long pharmaratingID;
+	private Long id;
 
 	@ManyToOne
 	private Patient patient;

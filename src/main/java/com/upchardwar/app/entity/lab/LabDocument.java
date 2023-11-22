@@ -31,7 +31,7 @@ public class LabDocument {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long labDocId;
+	private Long id;
 	
 	private String docType;
 	

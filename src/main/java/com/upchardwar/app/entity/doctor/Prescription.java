@@ -26,7 +26,7 @@ import lombok.Setter;
 public class Prescription {
 
 	@Id
-	private Long prescriptionId;
+	private Long id;
 	
 	private List<String> Diagnosis;
 	

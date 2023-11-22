@@ -25,7 +25,7 @@ import lombok.Setter;
 public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long appointmentId;
+	private Long id;
     
     private LocalDate appointmentDate;
     

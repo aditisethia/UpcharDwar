@@ -27,7 +27,7 @@ import lombok.Setter;
 public class MedicineInvoice {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long medInvoiceId;
+	private Long id;
 
 	private LocalDate invoiceGenerDate;
 

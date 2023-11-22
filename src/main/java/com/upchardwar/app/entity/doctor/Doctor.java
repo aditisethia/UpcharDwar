@@ -1,15 +1,21 @@
 package com.upchardwar.app.entity.doctor;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.logging.log4j.message.Message;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.upchardwar.app.entity.Conversation;
 import com.upchardwar.app.entity.Messages;
+import com.upchardwar.app.entity.UserRole;
 import com.upchardwar.app.entity.lab.LabReviewRating;
 import com.upchardwar.app.entity.pharma.PharmaReviewRating;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,7 +36,7 @@ public class Doctor {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long drId;
+	private Long id;
 	
 	private String drName;
 	
@@ -42,38 +48,53 @@ public class Doctor {
 	
 	private Long drExperience;
 	
+	private String password;
+	
+	@JsonIgnore
 	@ManyToOne
 	private Speciality speciality;
 	
-	@OneToMany(mappedBy = "doctor")
+	@JsonIgnore
+	@OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL)
 	private List<Schedule> schedules;
 	
-	@OneToMany(mappedBy = "doctor")
+	@JsonIgnore
+	@OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL)
 	private List<DoctorInvoice> doctorInvoices;
 	
-	@OneToMany(mappedBy = "doctor")
+	@JsonIgnore
+	@OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL)
 	private List<Appointment> appointments;
 	
-	@OneToMany(mappedBy = "doctor")
+	@JsonIgnore
+	@OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL)
 	private List<PatientAppointmentFile> appointmentFiles;
 	
-    @OneToMany(mappedBy = "doctor")
+	@JsonIgnore
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
 	private List<Prescription> prescriptions;
     
-    @OneToMany(mappedBy = "doctor")
+    @JsonIgnore
+    @OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL)
 	private List<PharmaReviewRating> pharmaReviewRatings;
     
     
-    @OneToMany(mappedBy = "doctor")
+    @JsonIgnore
+    @OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL)
     private List<LabReviewRating> labReviewRatings;
     
-    
-    @OneToMany(mappedBy = "doctor")
+    @JsonIgnore
+    @OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL)
     private List<Messages> messages;
     
-    @OneToMany(mappedBy = "doctor")
+    @JsonIgnore
+    @OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL)
     private List<Conversation> conversations;
     
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "doctor")
+	// @JsonIgnoreProperties(value = {"user"})
+	@JsonIgnore
+	private Set<UserRole> userRole = new HashSet<>();
     
     
 }

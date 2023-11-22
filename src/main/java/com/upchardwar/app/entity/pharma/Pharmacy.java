@@ -7,6 +7,8 @@ import com.upchardwar.app.entity.Location;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -23,7 +25,8 @@ import lombok.Setter;
 public class Pharmacy {
 
 	@Id
-	private Long pharmaId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
 	private String pharmaName;
 	
@@ -48,4 +51,7 @@ public class Pharmacy {
 	
 	@OneToMany(mappedBy = "pharmacy")
 	private List<PharmaDocuments> documents;
+	
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "pharmacy")
+	private List<PharmaRequest> pharma_requests;
 }

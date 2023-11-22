@@ -29,7 +29,7 @@ import lombok.Setter;
 public class LabInvoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private  Long labInvoiceId;
+	private  Long id;
     
     private LocalDate invoiceGenerDate ;
     

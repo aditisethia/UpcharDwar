@@ -7,6 +7,7 @@ import java.util.List;
 import com.upchardwar.app.entity.doctor.Doctor;
 import com.upchardwar.app.entity.patient.Patient;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,7 +27,7 @@ public class Conversation {
     
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long convoId;
+	private Long id;
 	
 	@ManyToOne
 	private Patient patient;
@@ -40,6 +41,6 @@ public class Conversation {
 	
 	private LocalTime endTime;
 	
-	@OneToMany(mappedBy = "conversation")
+	@OneToMany(mappedBy = "conversation",cascade = CascadeType.ALL)
 	private List<Messages> messages;
 }

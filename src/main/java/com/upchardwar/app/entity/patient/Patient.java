@@ -21,8 +21,8 @@ import com.upchardwar.app.entity.lab.LabReport;
 import com.upchardwar.app.entity.lab.LabReq;
 import com.upchardwar.app.entity.lab.LabReviewRating;
 import com.upchardwar.app.entity.lab.LabTest;
+import com.upchardwar.app.entity.pharma.PharmaRequest;
 import com.upchardwar.app.entity.pharma.PharmaReviewRating;
-import com.upchardwar.app.entity.pharma.pharma_request;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -46,7 +46,7 @@ import lombok.Setter;
 public class Patient {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long patientId;
+	private Long id;
 	
 	private String patientName;
 	
@@ -58,6 +58,7 @@ public class Patient {
 	private String mobile;
 	
 	private String age;
+	
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "patient")
 	private List<LabTest> labTest;
@@ -84,20 +85,20 @@ public class Patient {
 	private List<LabPayment> labPayments;
 	
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "patient")
-	private List<pharma_request>  pharma_requests;
+	private List<PharmaRequest>  pharma_requests;
     
-    @OneToMany(mappedBy = "patient" )
+    @OneToMany(mappedBy = "patient" ,cascade = CascadeType.ALL)
 	private List<PharmaReviewRating> pharmaReviewRatings;
     
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(mappedBy = "patient",cascade = CascadeType.ALL)
     private List<LabReviewRating> labReviewRatings;
     
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(mappedBy = "patient",cascade = CascadeType.ALL)
     private List<DoctorReviewRating> doctorReviewRatings;
     
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(mappedBy = "patient",cascade = CascadeType.ALL)
     private List<Messages> messages;
     
-    @OneToMany
+    @OneToMany(mappedBy = "patient" ,cascade = CascadeType.ALL)
     private List<Conversation> conversations;
 }

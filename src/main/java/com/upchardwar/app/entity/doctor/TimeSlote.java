@@ -27,7 +27,7 @@ public class TimeSlote {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long tsId;
+	private Long id;
 	
 	private LocalTime startTime;
 	

@@ -19,8 +19,8 @@ import lombok.Setter;
 @Setter
 public class DoctorReviewRating {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long labratingID;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
 	@ManyToOne
 	private Patient patient;

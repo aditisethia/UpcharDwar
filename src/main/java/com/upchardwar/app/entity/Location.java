@@ -19,7 +19,7 @@ public class Location {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long locId;
+	private Long id;
 	private String area;
 	private String addressLine;
 	private String city;

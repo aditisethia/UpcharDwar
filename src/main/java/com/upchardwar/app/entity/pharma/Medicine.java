@@ -19,7 +19,7 @@ public class Medicine {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long medicineId;
+	private Long id;
 	
 	private String medicineName;
 	
@@ -32,7 +32,7 @@ public class Medicine {
 	private MedicineOrder medicineOrder;
 	
 	@ManyToOne
-	private pharma_request pharReq;
+	private PharmaRequest pharReq;
 
 	
 }

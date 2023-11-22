@@ -3,16 +3,14 @@ package com.upchardwar.app.entity.doctor;
 import java.time.LocalTime;
 import java.util.List;
 
-import com.upchardwar.app.entity.lab.Lab;
-import com.upchardwar.app.entity.lab.LabTest;
-import com.upchardwar.app.entity.patient.Patient;
-
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -29,12 +27,17 @@ public class Schedule {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long sId;
+	private Long id;
 	
 	private LocalTime startTime;
 	
 	private LocalTime endTime;
 	
+	@ElementCollection
+    @CollectionTable(
+        name = "days", // Name of the join table
+        joinColumns = @JoinColumn(name = "scidfk") // Name of the foreign key column
+    )
 	private List<String> days;
 	
 	private Boolean isActive;

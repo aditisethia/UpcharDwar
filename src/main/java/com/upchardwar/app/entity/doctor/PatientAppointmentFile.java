@@ -26,7 +26,7 @@ public class PatientAppointmentFile {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long patientAppointmentFileId;
+	private Long id;
 	
 	@ManyToOne
 	private Patient patient;

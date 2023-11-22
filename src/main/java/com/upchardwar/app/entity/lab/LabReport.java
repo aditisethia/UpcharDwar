@@ -20,7 +20,7 @@ import lombok.Setter;
 public class LabReport {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long labReportId;
+	private Long id;
 
 	private String originalReport;
 

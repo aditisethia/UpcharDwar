@@ -28,7 +28,7 @@ public class LabReq {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long labReqId;
+	private Long id;
 	
 	@ManyToOne
 	private Patient patient;

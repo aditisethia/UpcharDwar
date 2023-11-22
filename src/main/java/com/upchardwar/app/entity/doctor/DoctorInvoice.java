@@ -28,7 +28,7 @@ public class DoctorInvoice {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long drinvoiceId;
+	private Long id;
 
 	private LocalDate invoiceGenerDate;
 

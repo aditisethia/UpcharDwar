@@ -26,9 +26,13 @@ public class Lab {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long labId;
+	private Long id;
 	
 	private String labName;
+	
+	private String email;
+	
+	private String password;
 	
 	@OneToOne
 	private Location location;
@@ -39,7 +43,7 @@ public class Lab {
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy ="lab")
 	private List<LabDocument> labDocument;
 	
-	@OneToMany(mappedBy = "lab")
+	@OneToMany(mappedBy = "lab",cascade = CascadeType.ALL)
 	private List<LabReport> labReports;
 
 	@OneToMany(mappedBy = "lab",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
@@ -48,10 +52,10 @@ public class Lab {
 	@OneToMany(mappedBy = "lab",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	private List<LabPayment> labPayments;
 	
-	@OneToMany(mappedBy = "lab")
+	@OneToMany(mappedBy = "lab",cascade = CascadeType.ALL)
 	private List<LabReviewRating> reviewRatings;
 	
-	@OneToMany(mappedBy = "lab")
+	@OneToMany(mappedBy = "lab",cascade = CascadeType.ALL)
 	private List<LabTestRate> labTestRates;
 	
 	

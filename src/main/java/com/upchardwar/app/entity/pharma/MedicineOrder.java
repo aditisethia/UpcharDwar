@@ -30,7 +30,7 @@ public class MedicineOrder {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long medorderId;
+	private Long id;
 
 	private String medicineName;
 
