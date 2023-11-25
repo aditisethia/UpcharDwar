@@ -41,6 +41,6 @@ public class LabTest {
 	private LabReq labReq;
 
 	@OneToMany(mappedBy = "labTest",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-	private List<PharmaPayment> pharmaPayments;
+	private List<LabPayment> labPayments;
 	
 }

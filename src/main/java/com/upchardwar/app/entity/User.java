@@ -31,8 +31,9 @@ public class User {
 	private String name;
 	private String email;
 	private String password;
-	private boolean enabled = true;
 	private String phone;
+	private Boolean isActive=false;
+	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
 	// @JsonIgnoreProperties(value = {"user"})
 	@JsonIgnore

@@ -15,11 +15,11 @@ public class ExceptionHandlerClass {
 		return new ResponseEntity<CustomExceptionMessage>(new CustomExceptionMessage(new Date().toString(), 500, "Exception in process....", userNotFoundException.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@ExceptionHandler(ResourceNotFoundException.class)
-	public ResponseEntity<CustomExceptionMessage> resourceNotFound(ResourceNotFoundException resourceNotFoundException)
-	{
-		return new ResponseEntity<CustomExceptionMessage>(new CustomExceptionMessage(new Date().toString(), 500, "Exception in process....", resourceNotFoundException.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
-	}
+//	@ExceptionHandler(ResourceNotFoundException.class)
+//	public ResponseEntity<CustomExceptionMessage> resourceNotFound(ResourceNotFoundException resourceNotFoundException)
+//	{
+//		return new ResponseEntity<CustomExceptionMessage>(new CustomExceptionMessage(new Date().toString(), 500, "Exception in process....", resourceNotFoundException.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
+//	}
 	
 	@ExceptionHandler(UserAlreadyExistException.class)
 	public ResponseEntity<CustomExceptionMessage> userAlreadyExist(UserAlreadyExistException  userAlreadyExistException)
@@ -32,5 +32,9 @@ public class ExceptionHandlerClass {
 	{
 		return new ResponseEntity<CustomExceptionMessage>(new CustomExceptionMessage(new Date().toString(), 500, "Exception in process....", resourceAlreadyExistException.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-
+	@ExceptionHandler(ResourceNotApprovedException.class)
+	public ResponseEntity<CustomExceptionMessage> resourceNotApproved(ResourceNotApprovedException  resourceNotApprovedException)
+	{
+		return new ResponseEntity<CustomExceptionMessage>(new CustomExceptionMessage(new Date().toString(), 500, "Exception in process....", resourceNotApprovedException.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 }

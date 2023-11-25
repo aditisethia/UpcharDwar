@@ -1,5 +1,6 @@
 package com.upchardwar.app.entity.payload;
 
+import com.upchardwar.app.entity.Location;
 import com.upchardwar.app.entity.doctor.Speciality;
 
 import jakarta.persistence.ManyToOne;
@@ -19,10 +20,18 @@ public class DoctorRequest {
 
 	private String drQualifications;
 
-	private String drAchivement;
-
 	private Long drExperience;
+	
+	private String email;
+	
+	private String password;
+	
+	private String phone;
 
 	private Speciality speciality;
+	
+	private Boolean isApproved=false;
+	
+	private Location location;
 
 }
