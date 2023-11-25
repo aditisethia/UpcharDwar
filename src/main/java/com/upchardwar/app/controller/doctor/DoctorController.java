@@ -29,48 +29,17 @@ import com.upchardwar.app.services.doctor.IDoctorService;
 import com.upchardwar.app.services.impl.doctor.DoctorServiceImpl;
 
 @RestController
-@RequestMapping("upchardwar/doctor")
+@RequestMapping("/upchardwar/doctor")
 public class DoctorController {
 	@Autowired
 	private IDoctorService doctorService;
 
-	@Autowired
-	private SpecialityRepository repository;
-
-	@Autowired
-	private DoctorServiceImpl doctorServiceImpl;
+	
 
 	// to create Doctor
-	@PostMapping("/")
+	@PostMapping("/save")
 	public ResponseEntity<DoctorResponse> addDoctor(@RequestBody DoctorRequest doctorRequest) {
-
-		Set<UserRole> roles = new HashSet<>();
-
-		Role role = new Role();
-		role.setRoleId(2L);
-		role.setRoleName("DOCTOR");
-
-		UserRole userRole = new UserRole();
-
-		userRole.setDoctor(this.doctorServiceImpl.doctorRequestToDoctor(doctorRequest));
-		userRole.setRole(role);
-		roles.add(userRole);
-		try {
-
-			try {
-				return new ResponseEntity<DoctorResponse>(this.doctorService.createDoctor(doctorRequest),
-						HttpStatus.OK);
-
-			} catch (Throwable e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (Exception e) {
-
-			e.printStackTrace();
-			System.out.println("return at user Controler");
-			return null;
-		}
+	
 		return new ResponseEntity<DoctorResponse>(this.doctorService.createDoctor(doctorRequest),
 				HttpStatus.OK);
 

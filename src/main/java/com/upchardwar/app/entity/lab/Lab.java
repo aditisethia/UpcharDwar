@@ -34,8 +34,13 @@ public class Lab {
 	
 	private String password;
 	
-	@OneToOne
+	private Boolean isApproved=false;
+	
+	private String phone;
+	
+	@OneToOne(cascade = CascadeType.ALL)
 	private Location location;
+	
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "lab")
 	private List<LabReq> labReq;
@@ -57,6 +62,7 @@ public class Lab {
 	
 	@OneToMany(mappedBy = "lab",cascade = CascadeType.ALL)
 	private List<LabTestRate> labTestRates;
+	
 	
 	
 }

@@ -8,6 +8,7 @@ import org.apache.logging.log4j.message.Message;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.upchardwar.app.entity.Conversation;
+import com.upchardwar.app.entity.Location;
 import com.upchardwar.app.entity.Messages;
 import com.upchardwar.app.entity.UserRole;
 import com.upchardwar.app.entity.lab.LabReviewRating;
@@ -19,8 +20,10 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,13 +47,17 @@ public class Doctor {
 	
 	private String drQualifications;
 	
-	private String drAchivement;
-	
 	private Long drExperience;
 	
 	private String password;
 	
-	@JsonIgnore
+	private String email;
+	
+	private String phone;
+	
+	private Boolean isApproved=false;
+	
+	
 	@ManyToOne
 	private Speciality speciality;
 	
@@ -91,10 +98,9 @@ public class Doctor {
     @OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL)
     private List<Conversation> conversations;
     
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "doctor")
-	// @JsonIgnoreProperties(value = {"user"})
-	@JsonIgnore
-	private Set<UserRole> userRole = new HashSet<>();
     
+    @JsonIgnore
+    @OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL)
+	private List<Achievements> achievements;
     
 }

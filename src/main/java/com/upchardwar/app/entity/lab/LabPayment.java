@@ -40,5 +40,8 @@ public class LabPayment {
 	@ManyToOne
 	private Lab lab;
 	
+	@ManyToOne
+	private LabTest labTest;
+	
 	
 }

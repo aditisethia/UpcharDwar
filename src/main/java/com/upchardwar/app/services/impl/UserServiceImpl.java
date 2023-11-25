@@ -1,11 +1,19 @@
 package com.upchardwar.app.services.impl;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.upchardwar.app.entity.Role;
@@ -17,18 +25,23 @@ import com.upchardwar.app.entity.payload.DoctorResponse;
 import com.upchardwar.app.entity.payload.UserRequest;
 import com.upchardwar.app.entity.payload.UserResponse;
 import com.upchardwar.app.exception.ResourceAlreadyExistException;
+import com.upchardwar.app.exception.ResourceNotFoundException;
 import com.upchardwar.app.repository.RoleRepository;
 import com.upchardwar.app.repository.UserRepository;
 import com.upchardwar.app.services.IUserService;
 
 @Service
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl implements IUserService{
 	
 	@Autowired
 	private UserRepository urepo;
 	
 	@Autowired
 	private RoleRepository rrepo;
+	
+	@Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+	
 	
 	@Autowired
 	private ModelMapper modelMapper;
@@ -55,7 +68,10 @@ public class UserServiceImpl implements IUserService {
 //			}
 			
 		//	request.getUserRole().addAll(userRoles);
+	  
    User user =  this.userRequestToUser(request);
+   
+   
 		 Set<UserRole> roles=new HashSet();
 	     Role role=new Role();
 	     role.setRoleId(1L);     
@@ -82,5 +98,9 @@ public class UserServiceImpl implements IUserService {
 		// TODO Auto-generated method stub
 
 	}
+
+	
+	
+	
 
 }

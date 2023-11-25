@@ -30,7 +30,15 @@ public class Pharmacy {
 	
 	private String pharmaName;
 	
-	@OneToOne
+	private String email;
+	
+	private Boolean isApproved=false;
+	
+	private String password;
+	
+	private String phone;
+	
+	@OneToOne(cascade = CascadeType.ALL)
 	private Location location;
 	
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "pharmacy")

@@ -28,9 +28,6 @@ public class UserRole {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	private User user;
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	private Doctor doctor;
 
 	@ManyToOne
 	// @JsonIgnoreProperties(value = {"userRoles"})

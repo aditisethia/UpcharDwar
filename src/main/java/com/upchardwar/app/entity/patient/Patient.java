@@ -50,14 +50,18 @@ public class Patient {
 	
 	private String patientName;
 	
-	@OneToOne
-	private Location location;
+	private String password;
+	
+	private String phone;
+	
 	
 	private String email;
 	
 	private String mobile;
 	
 	private String age;
+	
+    private String address;
 	
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "patient")
@@ -101,4 +105,6 @@ public class Patient {
     
     @OneToMany(mappedBy = "patient" ,cascade = CascadeType.ALL)
     private List<Conversation> conversations;
+    
+    
 }
