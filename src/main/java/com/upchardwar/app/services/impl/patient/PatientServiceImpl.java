@@ -48,31 +48,30 @@ public class PatientServiceImpl implements IPatientService {
 
 	@Override
 	public PatientResponse createPatient(PatientRequest request) {
-		Optional<Patient> s = this.patientRepository.findByPatientName(request.getPatientName());
+		Optional<Patient> s = this.patientRepository.findByEmail(request.getEmail());
 
 		if (s.isPresent())
 			throw new ResourceAlreadyExistException("this patient already exist");
 
 		Patient p =this.patientRequestToPatient(request);
 		
-		User user=new User();
-		user.setName(p.getPatientName());
-		user.setEmail(p.getEmail());
-		user.setPassword(p.getPassword());
-		String encPwd = passwordEncoder.encode(user.getPassword());
-		user.setPassword(encPwd);
-		user.setPhone(p.getPhone());
-		Set<UserRole> roles=new HashSet();
-	     Role role=new Role();
-	     role.setRoleId(2L);     
-	     UserRole userRole = new UserRole();
-	     userRole.setRole(role);
-	     userRole.setUser(user);
-	     roles.add(userRole);
-        user.setUserRole(roles);
-       
-       
-        this.userRepository.save(user);
+//		User user=new User();
+//		user.setName(p.getPatientName());
+//		user.setEmail(p.getEmail());
+//		user.setPassword(p.getPassword());
+//		String encPwd = passwordEncoder.encode(user.getPassword());
+//		user.setPassword(encPwd);
+//		Set<UserRole> roles=new HashSet();
+//	     Role role=new Role();
+//	     role.setRoleId(2L);     
+//	     UserRole userRole = new UserRole();
+//	     userRole.setRole(role);
+//	     userRole.setUser(user);
+//	     roles.add(userRole);
+//        user.setUserRole(roles);
+//     
+//       
+//        this.userRepository.save(user);
       		
 		
 

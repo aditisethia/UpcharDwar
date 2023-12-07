@@ -1,4 +1,4 @@
-package com.upchardwar.app.config;
+package com.upchardwar.app.security.config;
 
 import java.io.IOException;
 

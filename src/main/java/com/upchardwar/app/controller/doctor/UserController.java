@@ -13,13 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upchardwar.app.entity.Role;
+import com.upchardwar.app.entity.User;
 import com.upchardwar.app.entity.UserRole;
 import com.upchardwar.app.entity.payload.UserRequest;
 import com.upchardwar.app.entity.payload.UserResponse;
-import com.upchardwar.app.security.payload.UserResponseS;
+
 import com.upchardwar.app.services.IUserService;
 import com.upchardwar.app.services.impl.UserServiceImpl;
-import com.upchardwar.app.util.JwtUtils;
+
 
 @RestController
 @RequestMapping("/upchardwar/user")
@@ -30,9 +31,12 @@ public class UserController {
 	
 	
 	@PostMapping("/")
-public  UserResponse createUser(@RequestBody UserRequest user) throws Exception {
-	System.out.println(user.getName());
-	 return this.service.createUser(user);
+public  String createUser(@RequestBody UserRequest user) throws Exception {
+	
+  UserResponse u= service.createUser(user);
+  
+
+return null;
 }
 	
 	

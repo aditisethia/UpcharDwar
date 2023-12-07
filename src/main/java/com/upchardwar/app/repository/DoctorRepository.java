@@ -15,10 +15,12 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 	
 	public Optional<Doctor> findByDrName(String drName);
 	
-	@Query("select d from Doctor d where d.isApproved=:b and d.id=:id")
-	public Optional<Doctor> findByIdAndIsapproved(Boolean b,long id);
+	@Query("select d from Doctor d where d.status=:b and d.id=:id")
+	public Optional<Doctor> findByIdAndStatus(String b,long id);
 	
-	 Page<Doctor> findByIsApproved(boolean isApproved, Pageable pageable);
+	 Page<Doctor> findByStatus(String status, Pageable pageable);
+
+	public Optional<Doctor> findByEmail(String email);
 	 
 	  
 }

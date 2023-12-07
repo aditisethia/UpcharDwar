@@ -13,4 +13,5 @@ public interface IUserService {
 	public UserResponse getUserByName(String name);
 	
 	public void deleteUser(UserRequest request);
+
 }

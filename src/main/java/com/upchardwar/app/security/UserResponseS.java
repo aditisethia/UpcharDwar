@@ -1,4 +1,4 @@
-package com.upchardwar.app.security.payload;
+package com.upchardwar.app.security;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

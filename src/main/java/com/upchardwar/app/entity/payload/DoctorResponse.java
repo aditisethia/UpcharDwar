@@ -2,6 +2,8 @@ package com.upchardwar.app.entity.payload;
 
 import com.upchardwar.app.entity.Location;
 import com.upchardwar.app.entity.doctor.Speciality;
+import com.upchardwar.app.entity.status.AppConstant;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,7 +30,7 @@ public class DoctorResponse {
 	
 	private String phone;
 	
-	private Boolean isApproved=false;
+	private String status=AppConstant.DOCTOR_NOT_APPROVED;
 	
 	private Location location;
 }

@@ -59,7 +59,7 @@ public class DoctorServiceImpl implements IDoctorService {
 	@Override
 	public DoctorResponse createDoctor(DoctorRequest request) {
 
-		Optional<Doctor> s = this.doctorRepository.findByDrName(request.getDrName());
+		Optional<Doctor> s = this.doctorRepository.findByEmail(request.getEmail());
 
 		if (s.isPresent())
 			throw new ResourceAlreadyExistException("this doctor already exist");
@@ -72,7 +72,7 @@ public class DoctorServiceImpl implements IDoctorService {
 		user.setPassword(dr.getPassword());
 		String encPwd = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encPwd);
-		user.setPhone(dr.getPhone());
+		
 		Set<UserRole> roles = new HashSet();
 		Role role = new Role();
 		role.setRoleId(2L);
@@ -82,7 +82,7 @@ public class DoctorServiceImpl implements IDoctorService {
 		roles.add(userRole);
 		user.setUserRole(roles);
 		this.userRepository.save(user);
-		dr.setIsApproved(true);
+		
 
 		return this.doctorToDoctorResponse(this.doctorRepository.save(dr));
 	}
@@ -90,7 +90,7 @@ public class DoctorServiceImpl implements IDoctorService {
 	@Override
 	public DoctorResponse getDoctorById(Long id) {
 
-		Optional<Doctor> s = this.doctorRepository.findByIdAndIsapproved(true,id);
+		Optional<Doctor> s = this.doctorRepository.findByIdAndStatus(AppConstant.DOCTOR_STATUS_APPROVED,id);
 		if (s.isPresent())
 
 			return this.doctorToDoctorResponse(s.get());
@@ -113,7 +113,8 @@ public class DoctorServiceImpl implements IDoctorService {
 	@Override
 	public Page<DoctorResponse> getAllDoctor(Integer pageNo, Integer pageSize) {
 		PageRequest page = PageRequest.of(pageNo, pageSize);
-		Page<Doctor> pag = this.doctorRepository.findByIsApproved(true,page);
+		Page<Doctor> pag = this.doctorRepository.findByStatus(AppConstant.DOCTOR_STATUS_APPROVED,page);
+		
 		return pag.map(u -> this.doctorToDoctorResponse(u));
 	}
 
@@ -135,7 +136,7 @@ public class DoctorServiceImpl implements IDoctorService {
 	@Override
 	public DoctorResponse updateDoctor(DoctorRequest request) {
 
-		if (!request.getIsApproved()) {
+		if (request.getStatus()==AppConstant.DOCTOR_NOT_APPROVED) {
 			throw new ResourceNotApprovedException(AppConstant.DOCTOR_NOT_APPROVED);
 		}
 		Doctor doc = this.doctorRepository.save(this.doctorRequestToDoctor(request));

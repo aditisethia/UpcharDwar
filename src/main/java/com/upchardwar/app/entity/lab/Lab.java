@@ -38,6 +38,7 @@ public class Lab {
 	
 	private String phone;
 	
+	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Location location;
 	
