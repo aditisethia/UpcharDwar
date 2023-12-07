@@ -1,4 +1,4 @@
-package com.upchardwar.app.filter;
+package com.upchardwar.app.security;
 
 import java.io.IOException;
 import java.util.Enumeration;
@@ -13,7 +13,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.upchardwar.app.util.JwtUtils;
+
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

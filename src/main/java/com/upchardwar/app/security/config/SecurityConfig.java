@@ -1,4 +1,4 @@
-package com.upchardwar.app.config;
+package com.upchardwar.app.security.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
-import com.upchardwar.app.filter.SecurityFilter;
+import com.upchardwar.app.security.*;
 
 
 
@@ -31,7 +31,7 @@ public class SecurityConfig {
 	private UserDetailsService userDetailsService;
 	
 	private String[] pAll={"/upchardwar/auth/login","/upchardwar/doctor/save","/upchardwar/speciality/","/upchardwar/patient/save","/upchardwar/lab/save",
-			"/upchardwar/pharmacy/save","/upchardwar/auth/sendemail"};
+			"/upchardwar/pharmacy/save","/upchardwar/auth/sendemail","/upchardwar/auth/generate-otp","/upchardwar/auth/verify"};
 	
 	private String[] accessByAdmin= {"/user/admin"};
 	

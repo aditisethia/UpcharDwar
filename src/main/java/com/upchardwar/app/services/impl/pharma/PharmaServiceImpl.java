@@ -63,7 +63,7 @@ public class PharmaServiceImpl implements IPharmaService {
 		user.setPassword(p.getPassword());
 		String encPwd = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encPwd);
-		user.setPhone(p.getPhone());
+		
 		Set<UserRole> roles=new HashSet();
 	     Role role=new Role();
 	     role.setRoleId(5L);     

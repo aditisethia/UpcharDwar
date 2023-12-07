@@ -37,4 +37,10 @@ public class ExceptionHandlerClass {
 	{
 		return new ResponseEntity<CustomExceptionMessage>(new CustomExceptionMessage(new Date().toString(), 500, "Exception in process....", resourceNotApprovedException.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
+	@ExceptionHandler(OtpExpireException.class)
+	public ResponseEntity<CustomExceptionMessage> otpExpire(OtpExpireException resourceNotApprovedException)
+	{
+		return new ResponseEntity<CustomExceptionMessage>(new CustomExceptionMessage(new Date().toString(), 500, "Exception in process....", resourceNotApprovedException.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 }

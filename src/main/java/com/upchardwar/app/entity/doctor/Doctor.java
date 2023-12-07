@@ -13,6 +13,7 @@ import com.upchardwar.app.entity.Messages;
 import com.upchardwar.app.entity.UserRole;
 import com.upchardwar.app.entity.lab.LabReviewRating;
 import com.upchardwar.app.entity.pharma.PharmaReviewRating;
+import com.upchardwar.app.entity.status.AppConstant;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -55,7 +56,9 @@ public class Doctor {
 	
 	private String phone;
 	
-	private Boolean isApproved=false;
+	private String status=AppConstant.DOCTOR_STATUS_NEW;
+	
+	private Boolean isRejected=false;
 	
 	
 	@ManyToOne

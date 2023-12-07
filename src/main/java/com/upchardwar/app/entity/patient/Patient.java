@@ -52,9 +52,6 @@ public class Patient {
 	
 	private String password;
 	
-	private String phone;
-	
-	
 	private String email;
 	
 	private String mobile;
@@ -62,7 +59,16 @@ public class Patient {
 	private String age;
 	
     private String address;
-	
+    
+    private String city;
+    
+    private String country;
+    
+    private String zipcode;
+    
+    private String state;
+    
+    private String bloodGroup;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "patient")
 	private List<LabTest> labTest;

@@ -20,7 +20,6 @@ public class PatientResponse {
 	
 	private String password;
 	
-	private String phone;
 	
 	private String address;
 	
@@ -29,4 +28,14 @@ public class PatientResponse {
 	private String mobile;
 	
 	private String age;
+	
+	 private String city;
+	    
+	    private String country;
+	    
+	    private String zipcode;
+	    
+	    private String state;
+	    
+	    private String bloodGroup;
 }

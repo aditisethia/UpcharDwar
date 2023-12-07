@@ -18,29 +18,30 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Conversation {
-    
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@ManyToOne
 	private Patient patient;
-	
+
 	@ManyToOne
 	private Doctor doctor;
-	
+
 	private LocalDate date;
-	
+
 	private LocalTime startTime;
-	
+
 	private LocalTime endTime;
-	
-	@OneToMany(mappedBy = "conversation",cascade = CascadeType.ALL)
+
+	@OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL)
 	private List<Messages> messages;
 }

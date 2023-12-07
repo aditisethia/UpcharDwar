@@ -22,7 +22,6 @@ public class PatientRequest {
 	
 	private String password;
 	
-	private String phone;
 	
 	private String address;
 	
@@ -31,5 +30,15 @@ public class PatientRequest {
 	private String mobile;
 	
 	private String age;
+	
+	 private String city;
+	    
+	    private String country;
+	    
+	    private String zipcode;
+	    
+	    private String state;
+	    
+	    private String bloodGroup;
 	
 }
