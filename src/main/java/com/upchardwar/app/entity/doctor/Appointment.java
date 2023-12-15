@@ -3,6 +3,8 @@ package com.upchardwar.app.entity.doctor;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.upchardwar.app.entity.patient.Patient;
 
 import jakarta.persistence.CascadeType;
@@ -33,13 +35,20 @@ public class Appointment {
     
     private String status;
     
+    private String purpose;
+    
+
+    private Float paidAmount; 
+    
     @ManyToOne
+    
     private Patient patient;
     
     @ManyToOne
     private Doctor doctor;
     
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties(value = {"appointment"})
     private DoctorInvoice doctorInvoice;
     
     @ManyToOne

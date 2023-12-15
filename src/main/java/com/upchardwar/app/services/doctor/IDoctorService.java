@@ -3,14 +3,20 @@ package com.upchardwar.app.services.doctor;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.upchardwar.app.entity.doctor.Doctor;
 import com.upchardwar.app.entity.payload.DoctorRequest;
 import com.upchardwar.app.entity.payload.DoctorResponse;
 import com.upchardwar.app.entity.payload.SpecialityRequest;
 import com.upchardwar.app.entity.payload.SpecialityResponse;
 
 public interface IDoctorService {
-	public DoctorResponse createDoctor(DoctorRequest request);
+	public DoctorResponse doctorToDoctorResponse(Doctor doctor);
+	
+	public Doctor doctorRequestToDoctor(DoctorRequest doctorRequest);
+	
+	public DoctorResponse createDoctor(DoctorRequest request , List<MultipartFile> multipartFiles);
 
 	public DoctorResponse getDoctorById(Long id);
 

@@ -3,6 +3,9 @@ package com.upchardwar.app.entity.doctor;
 import java.time.LocalTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.ElementCollection;
@@ -44,6 +47,7 @@ public class Schedule {
 	
 	private Boolean isDeleted;
 	@ManyToOne
+	@JoinColumn(name="doctor_id")
 	private Doctor doctor;
 	
 	@OneToMany(cascade = CascadeType.ALL,mappedBy = "schedule")

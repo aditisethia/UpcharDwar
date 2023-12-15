@@ -48,7 +48,7 @@ public class AuthServiceImpl implements IAuthService ,UserDetailsService{
 		
 		User user = urepo.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException(email+"Not Exist User "));
 		System.out.println(email);
-		
+		System.out.println(passwordEncoder.encode("1234"));
   
 		List<GrantedAuthority> list= user.getUserRole()
 				.stream().map(role->new SimpleGrantedAuthority(role.getRole().getRoleName()))

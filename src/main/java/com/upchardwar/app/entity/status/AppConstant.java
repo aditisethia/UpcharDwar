@@ -23,6 +23,23 @@ public class AppConstant {
 	public static final Object USER_STATUS_CHANGED_SUCCESSFULLY = "user status changed successfully";
 	public static final String DOCTOR_STATUS_APPROVED = "approved";
 	public static final String USER_STATUS_ACTIVE = "avtive";
-	
-	
+	public static final String APPOINTMENT_SCHDULED = "schduled";
+	public static final String DOCTOR_WITH_EMAIL_NOT_EXIST = "doctor with this email not exist";
+	public static final String SCHEDULE_CREATED = "schedule creation is successfull";
+	public static final String INVOICE_STATUS_AWAITED = "AWAITED";
+	public static final String APPOINTMENT_STATUS_CANCELED = "Canceled";
+	public static final String APPOINTMENT_NOT_FOUND = "Appointment not found with this:";
+	public static final String APPOINTMENT_CANCELED = "Appointment canceled successfully";
+	public static final String APPOINTMENT_UPDATED = "Appointment updated successfully";
+	public static final String	APPOINTMENT_STATUS_RESCHDULED="reschduled";
+	public static final String APPOINTMENT_RESCHEDULED = "appointment rescheduled successfully";
+	public static final String NOTIFICATION_UPCOMING = "upcoming appointment created successfully";
+	public static final String APPOINTMENT_STATUS_COMPLETED = "completed";
+	public static final String INVOICE_PROCESS = "processed";
+	public static final String PAITENT_NOT_FOUND = "patient not found";
+	public static final String DOCTORS_TOTAL_PETIENT = "total petient found successfully";
+	public static final String TOTAL_PETIENT = "TOTAL_PETIENT";
+	public static final String DOCTORS_TODAYS_TOTAL_PETIENT = "doctors petient today";
+	public static final String DOCTORS_UPCOMING_APPOINTMENT_COUNT = "doctors total upcoming appointment";
+	public static final String TOTAL_UPCOMING_APPOINTMENT = "TOTALUPCOMINGAPPOINTMENTS";
 }

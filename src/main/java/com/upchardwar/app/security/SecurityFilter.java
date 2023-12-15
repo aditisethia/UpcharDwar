@@ -33,10 +33,10 @@ public class SecurityFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		String token = request.getParameter("Authorization");
-		System.out.println("talkfjlakjfl"+token);
-		Enumeration<String> names = request.getHeaderNames();
-		while(names.hasMoreElements())
-			System.out.println(names.nextElement());
+		
+//		Enumeration<String> names = request.getHeaderNames();
+//		while(names.hasMoreElements())
+//			System.out.println(names.nextElement());
 		if (token != null) {
 			String username =jwtutil.getUserName(token);
 			if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {

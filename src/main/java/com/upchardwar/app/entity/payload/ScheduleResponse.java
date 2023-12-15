@@ -3,6 +3,9 @@ package com.upchardwar.app.entity.payload;
 import java.time.LocalTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.upchardwar.app.entity.doctor.Doctor;
 
 import lombok.AllArgsConstructor;
@@ -25,5 +28,5 @@ private Long id;
 	
 	private Boolean isDeleted;
 	
-	private Doctor doctor;
+	private DoctorResponse doctor;
 }

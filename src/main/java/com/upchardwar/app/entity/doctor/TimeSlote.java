@@ -3,6 +3,10 @@ package com.upchardwar.app.entity.doctor;
 import java.time.LocalTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -33,10 +37,11 @@ public class TimeSlote {
 	
 	private LocalTime endTime;
 	
-	private Boolean isBooked;
+	private Boolean isBooked =false;
 	
-	private Boolean isDeleted;
+	private Boolean isDeleted=false;
 	
+	@JsonBackReference
 	@ManyToOne
 	private Schedule schedule;
 

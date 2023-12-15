@@ -13,7 +13,7 @@ import com.upchardwar.app.entity.doctor.Speciality;
 
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 	
-	public Optional<Doctor> findByDrName(String drName);
+	public Optional<Doctor> findByUserName(String drName);
 	
 	@Query("select d from Doctor d where d.status=:b and d.id=:id")
 	public Optional<Doctor> findByIdAndStatus(String b,long id);

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ import com.upchardwar.app.services.doctor.ISpecialityService;
 
 @RestController
 @RequestMapping("upchardwar/speciality")
+@CrossOrigin("*")
 public class SpecialityController {
     @Autowired
 	private ISpecialityService specialityService;
@@ -65,5 +67,13 @@ public class SpecialityController {
         
     	return new ResponseEntity<SpecialityResponse>(this.specialityService.updateSpeciality(request),HttpStatus.OK);
     }
+    
+    @GetMapping("/all")
+    public ResponseEntity<List<Speciality>> all(){
+    	List<Speciality> sr=this.specialityService.allSpeciality();
+    	return new ResponseEntity<List<Speciality>>(sr,HttpStatus.OK);
+    }
+    
+    
     
 }

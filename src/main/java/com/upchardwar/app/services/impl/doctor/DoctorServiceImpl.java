@@ -1,7 +1,14 @@
 package com.upchardwar.app.services.impl.doctor;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -16,11 +23,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.upchardwar.app.entity.Role;
 import com.upchardwar.app.entity.User;
 import com.upchardwar.app.entity.UserRole;
 import com.upchardwar.app.entity.doctor.Doctor;
+import com.upchardwar.app.entity.doctor.DoctorDocument;
+import com.upchardwar.app.entity.doctor.DoctorQualification;
 import com.upchardwar.app.entity.doctor.Speciality;
 import com.upchardwar.app.entity.payload.DoctorRequest;
 import com.upchardwar.app.entity.payload.DoctorResponse;
@@ -33,6 +44,7 @@ import com.upchardwar.app.exception.ResourceNotFoundException;
 import com.upchardwar.app.repository.DoctorRepository;
 import com.upchardwar.app.repository.UserRepository;
 import com.upchardwar.app.services.doctor.IDoctorService;
+
 
 @Service
 public class DoctorServiceImpl implements IDoctorService {
@@ -47,7 +59,9 @@ public class DoctorServiceImpl implements IDoctorService {
 	private ModelMapper modelMapper;
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-
+    
+	public static final String DIRECTORY=System.getProperty("user.dir")+"/src/main/resources/static/images";
+	
 	public DoctorResponse doctorToDoctorResponse(Doctor doctor) {
 		return this.modelMapper.map(doctor, DoctorResponse.class);
 	}
@@ -57,34 +71,68 @@ public class DoctorServiceImpl implements IDoctorService {
 	}
 
 	@Override
-	public DoctorResponse createDoctor(DoctorRequest request) {
+	public DoctorResponse createDoctor(DoctorRequest request, List<MultipartFile> multipartFiles) {
+		
+		Map<String, Object> response = new HashMap<>();
 
 		Optional<Doctor> s = this.doctorRepository.findByEmail(request.getEmail());
+		
+		
 
 		if (s.isPresent())
 			throw new ResourceAlreadyExistException("this doctor already exist");
 
 		Doctor dr = this.doctorRequestToDoctor(request);
-
-		User user = new User();
-		user.setName(dr.getDrName());
-		user.setEmail(dr.getEmail());
-		user.setPassword(dr.getPassword());
-		String encPwd = passwordEncoder.encode(user.getPassword());
-		user.setPassword(encPwd);
+		List<DoctorDocument> doctorDocuments= new ArrayList<>();
+		if(multipartFiles!=null) {
+			for(MultipartFile file: multipartFiles) {
+				DoctorDocument d=new DoctorDocument();
+				d.setDocumentName(file.getOriginalFilename());
+				d.setDocumentType(file.getContentType());
+				String filename= StringUtils.cleanPath(file.getOriginalFilename());
+				d.setFileName(filename);
+				Path fileStorage = Paths.get(DIRECTORY,filename).toAbsolutePath().normalize();
+				try {
+					Files.copy(file.getInputStream(), fileStorage,StandardCopyOption.REPLACE_EXISTING);
+					
+				}catch (Exception e) {
+					
+				}
+				doctorDocuments.add(d);
+			}
+		}
 		
-		Set<UserRole> roles = new HashSet();
-		Role role = new Role();
-		role.setRoleId(2L);
-		UserRole userRole = new UserRole();
-		userRole.setRole(role);
-		userRole.setUser(user);
-		roles.add(userRole);
-		user.setUserRole(roles);
-		this.userRepository.save(user);
-		
+		List<DoctorQualification> qualifications = new ArrayList<>();
+        for (DoctorQualification qualificationRequest : request.getQualifications()) {
+            DoctorQualification qualification = new DoctorQualification();
+            qualification.setDegree(qualificationRequest.getDegree());
+            qualification.setCollege(qualificationRequest.getCollege());
+            qualification.setCompletionYear(qualificationRequest.getCompletionYear());
+            qualification.setDoctor(dr);
+            qualifications.add(qualification);
+        }
+        dr.setQualifications(qualifications);
+          dr.setDoctorDocuments(doctorDocuments);
+//		User user = new User();
+//		user.setName(dr.getDrName());
+//		user.setEmail(dr.getEmail());
+//		user.setPassword(dr.getPassword());
+//		String encPwd = passwordEncoder.encode(user.getPassword());
+//		user.setPassword(encPwd);
+//		
+//		Set<UserRole> roles = new HashSet();
+//		Role role = new Role();
+//		role.setRoleId(2L);
+//		UserRole userRole = new UserRole();
+//		userRole.setRole(role);
+//		userRole.setUser(user);
+//		roles.add(userRole);
+//		user.setUserRole(roles);
+//		this.userRepository.save(user);
+//		
+          this.doctorRepository.save(dr);
 
-		return this.doctorToDoctorResponse(this.doctorRepository.save(dr));
+		return null;
 	}
 
 	@Override
