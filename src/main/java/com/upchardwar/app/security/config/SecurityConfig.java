@@ -14,6 +14,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.upchardwar.app.security.*;
 
@@ -22,6 +23,7 @@ import com.upchardwar.app.security.*;
 
 @Configuration
 @EnableWebSecurity
+
 public class SecurityConfig {
 	/** For PassWord Encode*/
 	@Autowired
@@ -31,13 +33,17 @@ public class SecurityConfig {
 	private UserDetailsService userDetailsService;
 	
 	private String[] pAll={"/upchardwar/auth/login","/upchardwar/doctor/save","/upchardwar/speciality/","/upchardwar/patient/save","/upchardwar/lab/save",
-			"/upchardwar/pharmacy/save","/upchardwar/auth/sendemail","/upchardwar/auth/generate-otp","/upchardwar/auth/verify"};
+			"/upchardwar/pharmacy/save","/upchardwar/auth/sendemail","/upchardwar/auth/generate-otp","/upchardwar/auth/verify","upchardwar/auth/current-user",
+			"upchardwar/speciality/all" ,"/upchardwar/schedule/","/upchardwar/appointment/book-appointment","/upchardwar/appointment/notify"};
 	
 	private String[] accessByAdmin= {"/user/admin"};
 	
-	private String[] accessByAdminDoctor= {"/upchardwar/doctor/"};
+	private String[] accessByAdminDoctor= {"/upchardwar/doctor/","/upchardwar/appointment/updateAppointment","/upchardwar/appointment/rescheduleAppointment"};
 	
-	private String[] accessByAdminDoctorPatient= {"/upchardwar/doctor/{id}","/upchardwar/doctor/{pageNo}/{pageSize}"};
+	private String[] accessByAdminDoctorPatient= {"/upchardwar/doctor/{id}","/upchardwar/doctor/{pageNo}/{pageSize}","/upchardwar/appointment/appointmentDetails/{id}"};
+	
+	private String[] accessByDoctor= {"/upchardwar/appointment/createSchedule","/upchardwar/appointment/createTimeSlote","/upchardwar/appointment/todaysAppointments","/upchardwar/appointment/cancelAppointment/{id}","/upchardwar/appointment/countPatient",
+			"/upchardwar/appointment/countTodaysPetient","/upchardwar/appointment/countUpcomingAppointments"};
 	
 	
 	@Autowired
@@ -70,6 +76,7 @@ public class SecurityConfig {
 		.requestMatchers(accessByAdmin).hasAuthority("ADMIN").
 	     requestMatchers(accessByAdminDoctor).hasAnyAuthority("ADMIN","DOCTOR").
 	     requestMatchers(accessByAdminDoctorPatient).hasAnyAuthority("ADMIN","DOCTOR","PATIENT").
+	     requestMatchers(accessByDoctor).hasAuthority("DOCTOR").
 		anyRequest().authenticated()
 		.and()
 		.exceptionHandling()

@@ -105,7 +105,10 @@ public class SpecialityServiceImpl implements ISpecialityService {
 		
 	}
 
-	
+	public List<Speciality> allSpeciality(){
+	   return  this.srepo.findAll();
+	          
+	}
 	
 	
 	

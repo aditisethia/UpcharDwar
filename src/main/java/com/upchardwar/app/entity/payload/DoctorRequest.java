@@ -1,38 +1,70 @@
 package com.upchardwar.app.entity.payload;
 
-import com.upchardwar.app.entity.Location;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import com.upchardwar.app.entity.doctor.DoctorDocument;
+import com.upchardwar.app.entity.doctor.DoctorQualification;
 import com.upchardwar.app.entity.doctor.Speciality;
 import com.upchardwar.app.entity.status.AppConstant;
 
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class DoctorRequest {
 	private Long id;
 
-	private String drName;
+	private String userName;
 
-	private Long drAge;
+	private String name;
 
-	private String drQualifications;
+	private LocalDate DOB;
 
-	private Long drExperience;
-	
-	private String email;
-	
-	private String password;
-	
+	private String gender;
+
 	private String phone;
 
+	private String password;
+
+	private String email;
+
+	private String biography;
+
+	private String address;
+
+	private String city;
+
+	private String state;
+
+	private String country;
+
+	private String postalcode;
+
+	private Integer rate;
+
+	private String status = AppConstant.DOCTOR_STATUS_NEW;
+
+	private Boolean isRejected = false;
+
+	private LocalDate expierenceFrom;
+
+	private LocalDate expierenceTo;
+
+	private Set<String> awards;
+
 	private Speciality speciality;
-	
-	private String status=AppConstant.DOCTOR_NOT_APPROVED;
-	
-	private Location location;
+
+	private List<DoctorQualification> qualifications = new ArrayList<>();
+
+	private List<DoctorDocument> doctorDocuments=new ArrayList<>();
 
 }

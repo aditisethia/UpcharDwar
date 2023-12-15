@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.upchardwar.app.entity.Role;
 import com.upchardwar.app.entity.UserRole;
@@ -30,6 +34,7 @@ import com.upchardwar.app.services.impl.doctor.DoctorServiceImpl;
 
 @RestController
 @RequestMapping("/upchardwar/doctor")
+@CrossOrigin("*")
 public class DoctorController {
 	@Autowired
 	private IDoctorService doctorService;
@@ -37,10 +42,11 @@ public class DoctorController {
 	
 
 	// to create Doctor
-	@PostMapping("/save")
-	public ResponseEntity<DoctorResponse> addDoctor(@RequestBody DoctorRequest doctorRequest) {
+	//@PostMapping("/save")
+	@PostMapping(path="/save" , consumes= { "multipart/form-data"  ,"application/octet-stream"})
+	public ResponseEntity<DoctorResponse> addDoctor(@RequestPart("data") DoctorRequest doctorRequest,@RequestPart(value="files[]",required = false) List<MultipartFile> multipartFiles) {
 	
-		return new ResponseEntity<DoctorResponse>(this.doctorService.createDoctor(doctorRequest),
+		return new ResponseEntity<DoctorResponse>(this.doctorService.createDoctor(doctorRequest,multipartFiles),
 				HttpStatus.OK);
 
 	}

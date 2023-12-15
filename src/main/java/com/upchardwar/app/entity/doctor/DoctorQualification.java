@@ -1,9 +1,11 @@
 package com.upchardwar.app.entity.doctor;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,15 +17,19 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Achievements {
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private Long id;
-private String achievement;
-private String description;
-
-
-
-@ManyToOne
-private Doctor doctor;
+public class DoctorQualification {
+     
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	
+	private String degree;
+	
+	private String college;
+	
+	private Integer completionYear;
+	
+	@ManyToOne
+	
+	    private Doctor doctor;
 }

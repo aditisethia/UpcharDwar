@@ -1,5 +1,7 @@
 package com.upchardwar.app.entity.doctor;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -7,6 +9,7 @@ import java.util.Set;
 import org.apache.logging.log4j.message.Message;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.upchardwar.app.entity.Conversation;
 import com.upchardwar.app.entity.Location;
 import com.upchardwar.app.entity.Messages;
@@ -16,6 +19,9 @@ import com.upchardwar.app.entity.pharma.PharmaReviewRating;
 import com.upchardwar.app.entity.status.AppConstant;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -42,34 +48,73 @@ public class Doctor {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	private String drName;
+	private String userName;
 	
-	private Long drAge;
+	private String name;
 	
-	private String drQualifications;
+	private LocalDate DOB;
 	
-	private Long drExperience;
+	private String gender;
+	
+	private String phone;
 	
 	private String password;
 	
 	private String email;
 	
-	private String phone;
+	private String biography;
+	
+	private String address;
+	
+	private String city;
+	
+	private String state;
+	
+	private String  country;
+	
+	private String postalcode;
+	
+	private Integer rate;
 	
 	private String status=AppConstant.DOCTOR_STATUS_NEW;
 	
 	private Boolean isRejected=false;
 	
+	private LocalDate expierenceFrom;
+	
+	private LocalDate expierenceTo;
+	
+	
+	 @ElementCollection
+	    @CollectionTable(name = "doctor_awards", joinColumns = @JoinColumn(name = "doctor_id"))
+	    @Column(name = "award")
+	    private Set<String> awards;
+	
 	
 	@ManyToOne
+	@JsonIgnoreProperties(value="doctors")
 	private Speciality speciality;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "doctor" ,cascade = CascadeType.ALL)
+	    private List<DoctorQualification> qualifications = new ArrayList<>();
+
+	
+	
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="doctor_id")
+	private List<DoctorDocument> doctorDocuments=new ArrayList<>();
+	
+	
+	
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "doctor")
+	
 	private List<Schedule> schedules;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL)
+	 @JsonIgnoreProperties(value = {"doctor"})
 	private List<DoctorInvoice> doctorInvoices;
 	
 	@JsonIgnore
@@ -106,4 +151,6 @@ public class Doctor {
     @OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL)
 	private List<Achievements> achievements;
     
+    
+   
 }

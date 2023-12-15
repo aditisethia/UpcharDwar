@@ -1,7 +1,9 @@
 package com.upchardwar.app.entity.doctor;
 
+import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.upchardwar.app.entity.patient.Patient;
 
 import jakarta.persistence.CascadeType;
@@ -33,6 +35,9 @@ public class PatientAppointmentFile {
 	
 	@ManyToOne
 	private Doctor doctor;
+	
+	private LocalDate date;
+	
 	
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "patientAppointmentFile")
 	private List<Appointment> appointments;

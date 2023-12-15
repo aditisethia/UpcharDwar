@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.apache.logging.log4j.message.Message;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.upchardwar.app.entity.Conversation;
 import com.upchardwar.app.entity.Location;
 import com.upchardwar.app.entity.Messages;
@@ -64,6 +65,8 @@ public class Patient {
     
     private String country;
     
+    private Float paidAmount; 
+    
     private String zipcode;
     
     private String state;
@@ -80,6 +83,7 @@ public class Patient {
 	private List<LabInvoice> labInvoices;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "patient")
+	 @JsonIgnoreProperties(value = {"patient"})
 	private List<DoctorInvoice> doctorInvoices;
 	
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "patient")

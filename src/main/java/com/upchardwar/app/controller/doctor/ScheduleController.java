@@ -1,5 +1,6 @@
 package com.upchardwar.app.controller.doctor;
 
+import java.security.Principal;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -30,9 +31,9 @@ public class ScheduleController {
      
 	//to create schedule
 	@PostMapping("/")
-	public ResponseEntity<ScheduleResponse> addSchdule(@RequestBody ScheduleRequest scheduleRequest) {
+	public ResponseEntity<?> addSchdule(@RequestBody ScheduleRequest scheduleRequest,Principal p) {
 		
-		return new ResponseEntity<ScheduleResponse>(this.service.createSchdule(scheduleRequest), HttpStatus.CREATED);
+		return new ResponseEntity<>(this.service.createSchedule(scheduleRequest,p.getName()), HttpStatus.CREATED);
 	}
 	
 	//to get schedule by id

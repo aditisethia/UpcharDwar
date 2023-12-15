@@ -1,6 +1,8 @@
 package com.upchardwar.app.services.impl.doctor;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -13,10 +15,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import com.upchardwar.app.entity.doctor.Doctor;
 import com.upchardwar.app.entity.doctor.Schedule;
+import com.upchardwar.app.entity.payload.DoctorRequest;
 import com.upchardwar.app.entity.payload.ScheduleRequest;
 import com.upchardwar.app.entity.payload.ScheduleResponse;
+import com.upchardwar.app.entity.status.AppConstant;
 import com.upchardwar.app.exception.ResourceNotFoundException;
+import com.upchardwar.app.repository.DoctorRepository;
 import com.upchardwar.app.repository.ScheduleRepository;
 import com.upchardwar.app.services.doctor.IScheduleService;
 
@@ -24,6 +31,9 @@ import com.upchardwar.app.services.doctor.IScheduleService;
 public class ScheduleServiceImpl implements IScheduleService {
 	@Autowired
 	private ScheduleRepository repository;
+	
+	@Autowired
+	private DoctorRepository doctorRepository;
 	
 	@Autowired
 	private ModelMapper modelMapper;
@@ -90,6 +100,25 @@ Optional<Schedule>  s=this.repository.findById(id);
 	public ScheduleResponse createSchdule(ScheduleRequest request) {
 		 Schedule s=this.repository.save(this.scheduleRequestToSchedule(request));
 		return this.scheduleToScheduleResponse(s);
+	}
+
+	@Override
+	public Map<String, Object> createSchedule( ScheduleRequest schedule,String doctorEmail) {
+		Map<String, Object> response=new HashMap<>();
+		 Schedule s =this.scheduleRequestToSchedule(schedule);
+		   Optional<Doctor> doc=doctorRepository.findByEmail(doctorEmail);
+		   if(doc.isPresent()) {
+		   Doctor d=doc.get();
+		   System.err.println(d.getId());
+		   s.setDoctor(d);
+		   }
+		   else {
+			   throw new ResourceNotFoundException(AppConstant.DOCTOR_WITH_EMAIL_NOT_EXIST);
+		   }
+		   
+		s=this.repository.save(s);
+		 response.put("schdule", scheduleToScheduleResponse(s));
+		return response;
 	}
 
 }

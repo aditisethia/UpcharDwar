@@ -3,7 +3,10 @@ package com.upchardwar.app.entity.doctor;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.upchardwar.app.entity.patient.Patient;
+import com.upchardwar.app.entity.status.AppConstant;
 import com.upchardwar.app.entity.status.InvoiceStatus;
 
 import jakarta.persistence.ElementCollection;
@@ -30,12 +33,11 @@ public class DoctorInvoice {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private LocalDate invoiceGenerDate;
+	private LocalDate invoiceGenerateDate;
 
 	private float amount;
 
-	@ElementCollection(fetch = FetchType.EAGER)
-	private List<InvoiceStatus> invoiceStatus;
+	private String invoiceStatus=AppConstant.INVOICE_STATUS_AWAITED;
 
 	private String paymentMethod;
 
@@ -45,6 +47,7 @@ public class DoctorInvoice {
 	@ManyToOne
 	private Patient patient;
      
+	@JsonIgnore
 	@OneToOne(mappedBy = "doctorInvoice")
 	private Appointment appointment;
 }
