@@ -66,7 +66,7 @@ public class UserServiceImpl implements IUserService{
 	  
    User user =  this.userRequestToUser(request);
    
-   
+   System.err.println("...");
 		 Set<UserRole> roles=new HashSet();
 	     Role role=new Role();
 	     role.setRoleId(1L);     

@@ -26,7 +26,7 @@ public class EmailServices {
 		return String.valueOf(rn);
 	}
 
-	public String sendEmail(String otp, String email) {
+	public Boolean sendEmail(String otp, String email) {
 		//variable for gmail
 		          
 		        boolean f=false;
@@ -86,7 +86,7 @@ public class EmailServices {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				return otp;
+				return f;
 			}
 	
 	

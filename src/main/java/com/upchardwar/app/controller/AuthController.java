@@ -22,6 +22,7 @@ import com.upchardwar.app.entity.User;
 import com.upchardwar.app.entity.Varification;
 import com.upchardwar.app.entity.payload.UserRequest;
 import com.upchardwar.app.entity.payload.UserResponse;
+import com.upchardwar.app.entity.payload.VarificationRequest;
 import com.upchardwar.app.exception.OtpExpireException;
 import com.upchardwar.app.helper.EmailRequest;
 import com.upchardwar.app.security.JwtUtils;
@@ -30,7 +31,7 @@ import com.upchardwar.app.services.IAuthService;
 import com.upchardwar.app.services.IUserService;
 
 @RestController
-@RequestMapping("upchardwar/auth")
+@RequestMapping("/upchardwar/auth")
 @CrossOrigin("*")
 public class AuthController {
 
@@ -52,8 +53,9 @@ public class AuthController {
 	@PostMapping("/login")
 	public ResponseEntity<UserResponseS> loginUser(@RequestBody UserRequest userRequest) {
 		
-		
+	
          System.out.println(userRequest.getEmail());
+         System.err.println(userRequest.getPassword());;
 		authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(userRequest.getEmail(), userRequest.getPassword()));
 
@@ -69,39 +71,27 @@ public class AuthController {
 	public ResponseEntity<?> sendEmail(@RequestBody EmailRequest request){
 		
 		this.emailServices.sendEmail(emailServices.generateOtp(), request.getTo());
-		return ResponseEntity.ok("done  ");
+		return ResponseEntity.ok("done");
 	}
+	
+	
+	
 	
 	 @PostMapping(value = "/generate-otp", produces = "application/json") 
 	 public ResponseEntity<?> sendOtpToEmail(@RequestBody Varification var) {
-	        try {
-	        	System.err.println(var.getEmail());
+	       
 	            
 	            return   ResponseEntity.ok( authService.EmailVarification(var));
-	        } catch (Exception e) {
-	        	
-	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to generate OTP: " + e.getMessage());
-	        }
+	        } 
 		
-	    }
-
-	 @GetMapping("/verify")
-	 public ResponseEntity<Object> verifyUser(@RequestParam("email") String email, @RequestParam("otp") String otp) {
-	     Map<String,Object> data = new HashMap<>();
-		 try {
-	         authService.verifyUser(email, otp);
-	         // Change the response type to your desired type
-	         // For example, return a success message
-	         data.put("data", "User verified successfully.");
-	         return ResponseEntity.status(HttpStatus.OK).body(data);
-	     } catch (OtpExpireException e) {
-	    	 data.put("data", "OTP has expired. Please generate a new one.");
-	         // Return a bad request response with a message
-	         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(data);
-	     } catch (Exception e) {
-	         // Return an internal server error response with an error message
-	         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to verify user: " + e.getMessage());
-	     }
+	    
+	 @PostMapping("/verify")
+	 
+	 public ResponseEntity<Object> verifyUser(@RequestBody VarificationRequest request) {
+		 
+		 System.out.println("hwllo");
+		 return ResponseEntity.ok(authService.verifyUser(request));
+	   
 	 }
 	 
 

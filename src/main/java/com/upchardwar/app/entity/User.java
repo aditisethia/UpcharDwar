@@ -35,9 +35,7 @@ public class User {
 	
 	private String status = AppConstant.USER_STATUS_NOT_VARIFIED;
 	
-	@ManyToOne
-	// @JsonIgnoreProperties(value = {"userRoles"})
-	private Role role;
+	
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
 	@JsonIgnoreProperties(value = { "user" })
