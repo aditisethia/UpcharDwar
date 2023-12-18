@@ -25,7 +25,7 @@ public class JwtUtils {
     /**tokenGenerate Public Methode*/
     public String generateToken(String Subject) 
     {
-    	System.out.println(Subject);
+    
     	Map<String,Object>claims=new HashMap<>();
     	return generateToken(claims,Subject);
     }

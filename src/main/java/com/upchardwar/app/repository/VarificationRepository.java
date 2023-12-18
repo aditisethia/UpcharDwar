@@ -13,4 +13,13 @@ public interface VarificationRepository extends JpaRepository<Varification, Long
 
 	Optional<Varification> findByEmailAndIsActive(String email, boolean b);
 
+	Optional<Varification> findByEmail(String email);
+
+	Optional<Varification> findByEmailAndOtp(String email, String otp);
+
+	 
+	
+		
+	
+
 }

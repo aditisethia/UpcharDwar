@@ -1,6 +1,9 @@
 package com.upchardwar.app.entity.status;
 
 public class AppConstant {
+	public static final String MESSAGE = "message";
+	
+	
 
 	public static final String DOCTOR_NOT_APPROVED = "doctor is not approved";
 	public static final String DOCTOR_WITH_ID_NOT_EXIST = "doctor with this id does not exist";
@@ -42,4 +45,19 @@ public class AppConstant {
 	public static final String DOCTORS_TODAYS_TOTAL_PETIENT = "doctors petient today";
 	public static final String DOCTORS_UPCOMING_APPOINTMENT_COUNT = "doctors total upcoming appointment";
 	public static final String TOTAL_UPCOMING_APPOINTMENT = "TOTALUPCOMINGAPPOINTMENTS";
+	public static final String DOCTOR_REVIEW_RATING = "REVIEWRATINGTODOCTOR";
+	
+	
+	
+	public static final String USER_ALREADY_REGISTERED_WITH_EMAIL = "user already exist with this email";
+	public static final Object USER_REGISTRATION_SUCCESS = "user registered successful";
+	public static final String EMAIL_STATUS = "EMAILSTATUS";
+	public static final Object VERIFICATION_EMAIL_SEND = "email sent successfully";
+	public static final String EMAIL = "EMAIL";
+	public static final Object VARIFICATION_FAILED = "failed";
+	public static final Object EMAIL_SEND_STATUS_FAILED = "email sending failed";
+	public static final long LINK_EXPIRATION_TIME = 5;
+	public static final Object INVALID_OTP = "invalid";
+	public static final Object LINK_EXPIRED = "link expired";
+	public static final Object USER_VERIFICATION_SUCCESS = "successfully varified user";
 }

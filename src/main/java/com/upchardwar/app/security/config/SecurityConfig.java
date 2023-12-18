@@ -45,6 +45,7 @@ public class SecurityConfig {
 	private String[] accessByDoctor= {"/upchardwar/appointment/createSchedule","/upchardwar/appointment/createTimeSlote","/upchardwar/appointment/todaysAppointments","/upchardwar/appointment/cancelAppointment/{id}","/upchardwar/appointment/countPatient",
 			"/upchardwar/appointment/countTodaysPetient","/upchardwar/appointment/countUpcomingAppointments"};
 	
+	private String[] accessByPatient= {"upchardwar/reviewrating/"};
 	
 	@Autowired
 	private AuthenticationEntryPoint authenticationEntryPoint;
@@ -77,7 +78,8 @@ public class SecurityConfig {
 	     requestMatchers(accessByAdminDoctor).hasAnyAuthority("ADMIN","DOCTOR").
 	     requestMatchers(accessByAdminDoctorPatient).hasAnyAuthority("ADMIN","DOCTOR","PATIENT").
 	     requestMatchers(accessByDoctor).hasAuthority("DOCTOR").
-		anyRequest().authenticated()
+	     requestMatchers(accessByPatient).hasAuthority("PETIENT").
+		 anyRequest().authenticated()
 		.and()
 		.exceptionHandling()
 		.authenticationEntryPoint(authenticationEntryPoint)
