@@ -19,7 +19,7 @@ import com.upchardwar.app.entity.lab.LabDocument;
 import com.upchardwar.app.entity.lab.LabInvoice;
 import com.upchardwar.app.entity.lab.LabPayment;
 import com.upchardwar.app.entity.lab.LabReport;
-import com.upchardwar.app.entity.lab.LabReq;
+import com.upchardwar.app.entity.lab.LabRequests;
 import com.upchardwar.app.entity.lab.LabReviewRating;
 import com.upchardwar.app.entity.lab.LabTest;
 import com.upchardwar.app.entity.pharma.PharmaRequest;

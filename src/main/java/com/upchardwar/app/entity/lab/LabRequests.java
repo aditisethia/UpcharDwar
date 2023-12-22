@@ -1,5 +1,6 @@
 package com.upchardwar.app.entity.lab;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.upchardwar.app.entity.patient.Patient;
@@ -24,7 +25,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LabReq {
+public class LabRequests {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,4 +43,5 @@ public class LabReq {
 	@ManyToOne
 	private Lab lab; 
 	
+	private LocalDate requestDate;
 }

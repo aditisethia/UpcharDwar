@@ -44,7 +44,7 @@ public class Lab {
 	
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "lab")
-	private List<LabReq> labReq;
+	private List<LabRequests> labReq;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy ="lab")
 	private List<LabDocument> labDocument;

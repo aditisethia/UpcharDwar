@@ -1,38 +1,22 @@
 package com.upchardwar.app.services.impl.lab;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.upchardwar.app.entity.Role;
-import com.upchardwar.app.entity.User;
-import com.upchardwar.app.entity.UserRole;
-import com.upchardwar.app.entity.doctor.Doctor;
 import com.upchardwar.app.entity.lab.Lab;
-import com.upchardwar.app.entity.patient.Patient;
-import com.upchardwar.app.entity.payload.DoctorRequest;
-import com.upchardwar.app.entity.payload.DoctorResponse;
 import com.upchardwar.app.entity.payload.LabRequest;
 import com.upchardwar.app.entity.payload.LabResponse;
-import com.upchardwar.app.entity.payload.PatientRequest;
-import com.upchardwar.app.entity.payload.PatientResponse;
 import com.upchardwar.app.entity.status.AppConstant;
-import com.upchardwar.app.exception.ResourceAlreadyExistException;
-import com.upchardwar.app.exception.ResourceNotApprovedException;
-import com.upchardwar.app.exception.ResourceNotFoundException;
 import com.upchardwar.app.repository.LabRepository;
 import com.upchardwar.app.repository.UserRepository;
 import com.upchardwar.app.services.lab.ILabService;
@@ -62,9 +46,14 @@ public class LabServiceImpl implements ILabService {
 	}
 
 	@Override
-	public LabResponse registerLab(LabRequest labRequest) {
+	public ResponseEntity<?> registerLab(LabRequest labRequest) {
+		Map<String, Object> response = new HashMap<>();
 		// TODO Auto-generated method stub
-		return null;
+		Lab l = this.labRequestToLab(labRequest);
+		   LabResponse lr= labToLabResponse(this.labRepository.save(l));
+	      response.put(AppConstant.LAB_CREATION, lr);
+		return new ResponseEntity<>(response,HttpStatus.CREATED);
+	
 	}
 
 	@Override
@@ -85,11 +74,14 @@ public class LabServiceImpl implements ILabService {
 		return null;
 	}
 
-	@Override
-	public Page<LabResponse> getAllLab(Integer pageNo, Integer pageSize) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Page<LabResponse> getAllLab(Integer pageNo, Integer pageSize) {
+        PageRequest paging = PageRequest.of(pageNo, pageSize);
+        Page<Lab> pagedResult = labRepository.findAll(paging);
+
+        return  pagedResult.map(this::labToLabResponse);
+    }
+	
 //	@Override
 //	public LabResponse registerLab(LabRequest request) {
 //		Optional<Lab> s = this.labRepository.findByLabName(request.getLabName());

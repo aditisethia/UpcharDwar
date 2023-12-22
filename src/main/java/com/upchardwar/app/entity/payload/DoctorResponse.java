@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.upchardwar.app.entity.Location;
 import com.upchardwar.app.entity.doctor.DoctorDocument;
 import com.upchardwar.app.entity.doctor.DoctorQualification;
 import com.upchardwar.app.entity.doctor.Speciality;
