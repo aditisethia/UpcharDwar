@@ -21,6 +21,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -59,6 +61,8 @@ public class DoctorServiceImpl implements IDoctorService {
 	private ModelMapper modelMapper;
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+	
+	
     
 	public static final String DIRECTORY=System.getProperty("user.dir")+"/src/main/resources/static/images";
 	
@@ -71,7 +75,7 @@ public class DoctorServiceImpl implements IDoctorService {
 	}
 
 	@Override
-	public DoctorResponse createDoctor(DoctorRequest request, List<MultipartFile> multipartFiles) {
+	public ResponseEntity<?> createDoctor(DoctorRequest request, List<MultipartFile> multipartFiles) {
 		
 		Map<String, Object> response = new HashMap<>();
 
@@ -80,7 +84,7 @@ public class DoctorServiceImpl implements IDoctorService {
 		
 
 		if (s.isPresent())
-			throw new ResourceAlreadyExistException("this doctor already exist");
+			throw new ResourceAlreadyExistException(AppConstant.DOCTOR_WITH_EMAIL_ALREADY_EXIST);
 
 		Doctor dr = this.doctorRequestToDoctor(request);
 		List<DoctorDocument> doctorDocuments= new ArrayList<>();
@@ -113,26 +117,13 @@ public class DoctorServiceImpl implements IDoctorService {
         }
         dr.setQualifications(qualifications);
           dr.setDoctorDocuments(doctorDocuments);
-//		User user = new User();
-//		user.setName(dr.getDrName());
-//		user.setEmail(dr.getEmail());
-//		user.setPassword(dr.getPassword());
-//		String encPwd = passwordEncoder.encode(user.getPassword());
-//		user.setPassword(encPwd);
 //		
-//		Set<UserRole> roles = new HashSet();
-//		Role role = new Role();
-//		role.setRoleId(2L);
-//		UserRole userRole = new UserRole();
-//		userRole.setRole(role);
-//		userRole.setUser(user);
-//		roles.add(userRole);
-//		user.setUserRole(roles);
-//		this.userRepository.save(user);
-//		
-          this.doctorRepository.save(dr);
+       Doctor dr1=   this.doctorRepository.save(dr);
+          
+          response.put(AppConstant.MESSAGE, AppConstant.DOCTOR_CREATED_MESSAGE);
+          response.put(AppConstant.DOCTOR_CREATED , dr1);
 
-		return null;
+		return new ResponseEntity<>(response,HttpStatus.CREATED);
 	}
 
 	@Override

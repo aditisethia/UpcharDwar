@@ -1,4 +1,5 @@
 package com.upchardwar.app.security.config;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,78 +19,71 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.upchardwar.app.security.*;
 
-
-
-
 @Configuration
 @EnableWebSecurity
 
 public class SecurityConfig {
-	/** For PassWord Encode*/
+	/** For PassWord Encode */
 	@Autowired
 	private BCryptPasswordEncoder passwoerEncoder;
-	/**For User Details Services*/
+	/** For User Details Services */
 	@Autowired
 	private UserDetailsService userDetailsService;
+
+	private String[] pAll = { "/upchardwar/auth/login", "/upchardwar/doctor/save", "/upchardwar/speciality/",
+			"/upchardwar/patient/save", "/upchardwar/lab/save", "/upchardwar/pharmacy/save",
+			"/upchardwar/auth/sendemail", "/upchardwar/auth/generate-otp", "/upchardwar/auth/verify",
+			"upchardwar/auth/current-user", "upchardwar/speciality/all", "/upchardwar/schedule/",
+			"/upchardwar/appointment/book-appointment", "/upchardwar/appointment/notify" };
+
+	private String[] accessByAdmin = { "/user/admin" };
+
+	private String[] accessByAdminDoctor = { "/upchardwar/doctor/", "/upchardwar/appointment/updateAppointment",
+			"/upchardwar/appointment/rescheduleAppointment" };
+
+	private String[] accessByAdminDoctorPatient = { "/upchardwar/doctor/{id}", "/upchardwar/doctor/{pageNo}/{pageSize}",
+			"/upchardwar/appointment/appointmentDetails/{id}",
+			"/upchardwar/appointment/all/{pageNo}/{pageSize}/{sortBy}" };
+
+	private String[] accessByDoctor = { "/upchardwar/appointment/createSchedule",
+			"/upchardwar/appointment/createTimeSlote", "/upchardwar/appointment/todaysAppointments",
+			"/upchardwar/appointment/cancelAppointment/{id}", "/upchardwar/appointment/countPatient",
+			"/upchardwar/appointment/countTodaysPetient", "/upchardwar/appointment/countUpcomingAppointments" };
 	
-	private String[] pAll={"/upchardwar/auth/login","/upchardwar/doctor/save","/upchardwar/speciality/","/upchardwar/patient/save","/upchardwar/lab/save",
-			"/upchardwar/pharmacy/save","/upchardwar/auth/sendemail","/upchardwar/auth/generate-otp","/upchardwar/auth/verify","upchardwar/auth/current-user",
-			"upchardwar/speciality/all" ,"/upchardwar/schedule/","/upchardwar/appointment/book-appointment","/upchardwar/appointment/notify"};
-	
-	private String[] accessByAdmin= {"/user/admin"};
-	
-	private String[] accessByAdminDoctor= {"/upchardwar/doctor/","/upchardwar/appointment/updateAppointment","/upchardwar/appointment/rescheduleAppointment"};
-	
-	private String[] accessByAdminDoctorPatient= {"/upchardwar/doctor/{id}","/upchardwar/doctor/{pageNo}/{pageSize}","/upchardwar/appointment/appointmentDetails/{id}"};
-	
-	private String[] accessByDoctor= {"/upchardwar/appointment/createSchedule","/upchardwar/appointment/createTimeSlote","/upchardwar/appointment/todaysAppointments","/upchardwar/appointment/cancelAppointment/{id}","/upchardwar/appointment/countPatient",
-			"/upchardwar/appointment/countTodaysPetient","/upchardwar/appointment/countUpcomingAppointments"};
-	
-	private String[] accessByPatient= {"upchardwar/reviewrating/"};
-	
+	private String[] accessByPatient = { "upchardwar/reviewrating/", "/upchardwar/patient/save1" , "/upchardwar/appointment/all/patient/{pageNo}/{pageSize}/{sortBy}" };
+
 	@Autowired
 	private AuthenticationEntryPoint authenticationEntryPoint;
-   @Autowired
+	@Autowired
 	private SecurityFilter securityfilter;
-	
-	/**For Authentication.....*/
+
+	/** For Authentication..... */
 	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception 
-	{
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
 		return authConfig.getAuthenticationManager();
 	}
+
 	@Bean
-	public DaoAuthenticationProvider authenticationProvider() 
-	{
-		DaoAuthenticationProvider provider  =  new DaoAuthenticationProvider();
+	public DaoAuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
 		provider.setPasswordEncoder(passwoerEncoder);
 		provider.setUserDetailsService(userDetailsService);
 		return provider;
 	}
-	
-	
-/** For authorization*/	
+
+	/** For authorization */
 	@Bean
-	public SecurityFilterChain configurePaths(HttpSecurity http) throws Exception  
-	{
-		 http.csrf().disable()
-		.authorizeRequests().requestMatchers(pAll).permitAll()
-		.requestMatchers(accessByAdmin).hasAuthority("ADMIN").
-	     requestMatchers(accessByAdminDoctor).hasAnyAuthority("ADMIN","DOCTOR").
-	     requestMatchers(accessByAdminDoctorPatient).hasAnyAuthority("ADMIN","DOCTOR","PATIENT").
-	     requestMatchers(accessByDoctor).hasAuthority("DOCTOR").
-	     requestMatchers(accessByPatient).hasAuthority("PETIENT").
-		 anyRequest().authenticated()
-		.and()
-		.exceptionHandling()
-		.authenticationEntryPoint(authenticationEntryPoint)
-		.and()
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		.and()
-		.addFilterBefore(securityfilter, UsernamePasswordAuthenticationFilter.class);
+	public SecurityFilterChain configurePaths(HttpSecurity http) throws Exception {
+		http.csrf().disable().authorizeRequests().requestMatchers(pAll).permitAll().requestMatchers(accessByAdmin)
+				.hasAuthority("ADMIN").requestMatchers(accessByAdminDoctor).hasAnyAuthority("ADMIN", "DOCTOR")
+				.requestMatchers(accessByAdminDoctorPatient).hasAnyAuthority("ADMIN", "DOCTOR", "PATIENT")
+				.requestMatchers(accessByDoctor).hasAuthority("DOCTOR").requestMatchers(accessByPatient)
+				.hasAuthority("PATIENT").anyRequest().authenticated().and().exceptionHandling()
+				.authenticationEntryPoint(authenticationEntryPoint).and().sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+				.addFilterBefore(securityfilter, UsernamePasswordAuthenticationFilter.class);
 		return http.build();
-		
+
 	}
-	
-	
+
 }

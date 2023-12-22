@@ -71,33 +71,7 @@ public class AuthServiceImpl implements IAuthService, UserDetailsService {
 
 	public ResponseEntity<?> EmailVarification(Varification var) {
 		Map<String, Object> response = new HashMap<>();
-//		   String otp=eServices.generateOtp();
-//		   String email=var.getEmail();
-//		   Optional<Varification> varop = varRepository.findByEmailAndIsActive(email, true);
-//		   
-//		   if(varop.isPresent()) {
-//			response.put(AppConstant.EMAIL_VARIFICATION, "user already exist pls login");
-//			   return response;
-//		   }
-//		   
-//		   
-//		   Optional<Varification> var1 = varRepository.findByEmailAndIsActive(email, false);
-//		   if(var1.isPresent()) {
-//			   response.put(AppConstant.EMAIL_VARIFICATION, "user exist but not varified");
-//			   return response;
-//		   }
-//		   
-//        eServices.sendEmail(otp,email);
 //		  
-//	   var.setOtp(otp);
-////		   var.setEmail(email);
-////		   System.out.println(var.getEmail()+"......");
-//		   var.setExprireTime(LocalDateTime.now().plusSeconds(59));
-//		   varRepository.save(var);
-//		   response.put(AppConstant.EMAIL_VARIFICATION, "email varified successfully");
-//		 return  response;
-
-		// .........................................
 		Varification varification;
 
 		Optional<Varification> user = this.varRepository.findByEmail(var.getEmail());
@@ -161,41 +135,7 @@ public class AuthServiceImpl implements IAuthService, UserDetailsService {
 
 	@Override
 	public ResponseEntity<?> verifyUser(VarificationRequest request) {
-		System.err.println(request.getEmail()+"  "+request.getOtp());
-//		System.out.println(".........");
-//		Varification var = getVarifiedByEmailAndIsActive(email);
-//		var.setIsActive(true);
-//		System.out.println(var.getIsActive());
-//		 if (var.getExprireTime().isBefore(LocalDateTime.now())&& var.getOtp().equals(otp)) {
-//	           
-//	            throw new OtpExpireException(AppConstant.OTP_EXPIRE);
-//	        }
-//		User user = new User();
-//		user.setName(var.getName());
-//		user.setEmail(var.getEmail());
-//		user.setPassword(var.getPassword());
-//		String encPwd = passwordEncoder.encode(user.getPassword());
-//		user.setPassword(encPwd);
-//		Set<UserRole> roles = new HashSet();
-//		Role role = new Role();
-//		
-//		System.err.println(var.getRoleId());
-//		role.setRoleId(var.getRoleId());
-//		UserRole userRole = new UserRole();
-//		userRole.setRole(role);
-//		userRole.setUser(user);
-//		roles.add(userRole);
-//		user.setUserRole(roles);
-//
-//		user.setRole(role);
-//	 user.setStatus(AppConstant.USER_STATUS_ACTIVE);
-//
-//		urepo.save(user);
-//
-//		varRepository.save(var);
-		
-		
-		
+		System.err.println(request.getEmail()+"  "+request.getOtp());		
 		Optional<Varification> userRegistered = this.varRepository.findByEmailAndOtp(request.getEmail(),
 				request.getOtp());
 		System.err.println(userRegistered.isPresent());

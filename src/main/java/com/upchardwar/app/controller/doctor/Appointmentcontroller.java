@@ -3,6 +3,7 @@ package com.upchardwar.app.controller.doctor;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upchardwar.app.dto.AppointmentDto;
+import com.upchardwar.app.dto.PageAppointmentDto;
 import com.upchardwar.app.entity.doctor.Appointment;
 import com.upchardwar.app.entity.doctor.Doctor;
 import com.upchardwar.app.entity.doctor.TimeSlote;
 import com.upchardwar.app.entity.patient.Patient;
+import com.upchardwar.app.entity.payload.DoctorRequest;
 import com.upchardwar.app.entity.payload.DoctorResponse;
 import com.upchardwar.app.entity.payload.ScheduleRequest;
 import com.upchardwar.app.entity.payload.ScheduleResponse;
@@ -164,4 +167,53 @@ public class Appointmentcontroller {
 		return new ResponseEntity<Map<String, Object>>(appointmentService.doctorsUpcomingTotalAppointment(p.getName()),HttpStatus.OK);
 
 	}
+	
+//	@GetMapping("/getAllAppointment")
+//	public ResponseEntity<?> getAllAppointments() {
+//
+//		return new ResponseEntity<>(appointmentService.getAllAppointment(),HttpStatus.OK);
+//
+//	}
+		
+	@PostMapping("/search/{pageNo}/{pageSize}/{sortBy}")
+	public ResponseEntity<PageAppointmentDto> getAllAppointment(@RequestBody AppointmentDto request,
+			@PathVariable("pageNo") Integer pageNo, @PathVariable("pageSize") Integer pageSize,
+			@PathVariable("sortBy") String sortBy) {
+     System.out.println("kuchhhhhh");
+	PageAppointmentDto pdto= this.appointmentService.viewAllAppointments(pageNo, pageSize, sortBy, request);
+	return new ResponseEntity<PageAppointmentDto>(pdto, HttpStatus.OK);
+  
+	
+	}
+	
+	//get All appointments of specific doctor
+	@GetMapping("/all/{pageNo}/{pageSize}/{sortBy}")
+	public ResponseEntity<PageAppointmentDto> getAllAppointmentOfDoctor(Principal p,
+			@PathVariable("pageNo") Integer pageNo, @PathVariable("pageSize") Integer pageSize,
+			@PathVariable("sortBy") String sortBy) {
+		
+		String email=p.getName();
+     System.out.println("kuchhhhhh");
+	PageAppointmentDto pdto= this.appointmentService.viewAllAppointments(pageNo, pageSize, sortBy, email);
+	return new ResponseEntity<PageAppointmentDto>(pdto, HttpStatus.OK);
+  
+	
+	}
+	
+	//get All appointments of specific patient
+	
+	@GetMapping("/all/patient/{pageNo}/{pageSize}/{sortBy}")
+	public ResponseEntity<PageAppointmentDto> getAllAppointmentOfPatient(Principal p,
+			@PathVariable("pageNo") Integer pageNo, @PathVariable("pageSize") Integer pageSize,
+			@PathVariable("sortBy") String sortBy) {
+		
+		String email=p.getName();
+     System.out.println("kuchhhhhh");
+	PageAppointmentDto pdto= this.appointmentService.viewAppointmentsByPatient(pageNo, pageSize, sortBy, email);
+	return new ResponseEntity<PageAppointmentDto>(pdto, HttpStatus.OK);
+  
+	
+	}
+	
+	
 }
