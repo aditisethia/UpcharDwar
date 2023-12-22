@@ -3,12 +3,13 @@ package com.upchardwar.app.services.lab;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 
 import com.upchardwar.app.entity.payload.LabRequest;
 import com.upchardwar.app.entity.payload.LabResponse;
 
 public interface ILabService {
-  public LabResponse registerLab(LabRequest labRequest);
+  public ResponseEntity<?> registerLab(LabRequest labRequest);
 
  public LabResponse updateLab(LabRequest request);
 

@@ -38,7 +38,7 @@ public class LabTest {
 	private Patient patient;
 	
 	@ManyToOne
-	private LabReq labReq;
+	private LabRequests labReq;
 
 	@OneToMany(mappedBy = "labTest",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	private List<LabPayment> labPayments;

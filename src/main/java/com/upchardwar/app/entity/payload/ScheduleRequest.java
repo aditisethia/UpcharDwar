@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.upchardwar.app.entity.doctor.Doctor;
 
-import jakarta.persistence.PrePersist;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

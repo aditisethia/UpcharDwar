@@ -11,7 +11,6 @@ import com.upchardwar.app.entity.doctor.Speciality;
 import com.upchardwar.app.entity.status.AppConstant;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

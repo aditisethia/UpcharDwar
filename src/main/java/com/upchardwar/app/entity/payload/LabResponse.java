@@ -1,9 +1,6 @@
 package com.upchardwar.app.entity.payload;
 
-import java.util.List;
-
 import com.upchardwar.app.entity.Location;
-import com.upchardwar.app.entity.lab.LabDocument;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

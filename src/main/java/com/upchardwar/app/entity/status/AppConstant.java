@@ -48,7 +48,7 @@ public class AppConstant {
 	public static final String DOCTOR_REVIEW_RATING = "REVIEWRATINGTODOCTOR";
 	
 	
-	
+
 	public static final String USER_ALREADY_REGISTERED_WITH_EMAIL = "user already exist with this email";
 	public static final Object USER_REGISTRATION_SUCCESS = "user registered successful";
 	public static final String EMAIL_STATUS = "EMAILSTATUS";
@@ -60,4 +60,8 @@ public class AppConstant {
 	public static final Object INVALID_OTP = "invalid";
 	public static final Object LINK_EXPIRED = "link expired";
 	public static final Object USER_VERIFICATION_SUCCESS = "successfully varified user";
+
+
+
+	public static final String LAB_CREATION = "created lab";
 }

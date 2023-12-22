@@ -2,7 +2,6 @@ package com.upchardwar.app.entity.payload;
 
 import com.upchardwar.app.entity.Location;
 
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
