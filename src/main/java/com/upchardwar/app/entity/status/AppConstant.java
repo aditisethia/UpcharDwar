@@ -60,4 +60,44 @@ public class AppConstant {
 	public static final Object INVALID_OTP = "invalid";
 	public static final Object LINK_EXPIRED = "link expired";
 	public static final Object USER_VERIFICATION_SUCCESS = "successfully varified user";
+
+
+
+	public static final String DOCTOR_CREATED = "DOCTOR :";
+
+
+
+	public static final String DOCTOR_CREATED_MESSAGE = "doctor created sccessfully";
+
+
+
+	public static final String DOCTOR_WITH_EMAIL_ALREADY_EXIST = "doctor with this email already exist";
+
+
+
+	public static final Object All_APPOINTMENT = "get all appointment successfully";
+
+
+
+     public  static final String APPOINTMENT = "APPOINTMENT :";
+
+
+
+	public static final String DIRECTORY = System.getProperty("user.dir")+"/src/main/resources/static/images";
+
+
+
+	public static final Object PATIENT_CREATED = "patient created successfully";
+
+
+
+	public static final String PATIENT = "PATIENT :";
+
+
+
+	public static final String THIS_PATIENT_ALREADY_EXIST = "this pateint already exist";
+
+
+
+	public static final String User_verified = "verified";
 }

@@ -4,7 +4,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
+
 import com.upchardwar.app.dto.AppointmentDto;
+import com.upchardwar.app.dto.PageAppointmentDto;
 import com.upchardwar.app.entity.doctor.Doctor;
 import com.upchardwar.app.entity.patient.Patient;
 
@@ -34,5 +37,11 @@ public interface IAppointmentService {
 	
 
      public	Map<String, Object> doctorsUpcomingTotalAppointment(String email);
+     
+ 	public PageAppointmentDto viewAllAppointments(int pageNo, int pageSize, String sortBy, AppointmentDto request);
+ 	
+ 	public PageAppointmentDto viewAllAppointments(int pageNo, int pageSize, String sortBy, String email);
+ 	
+ 	 public PageAppointmentDto viewAppointmentsByPatient(int pageNo, int pageSize, String sortBy, String patientEmail);
 	 
 }
