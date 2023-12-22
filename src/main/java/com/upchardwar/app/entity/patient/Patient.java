@@ -26,6 +26,7 @@ import com.upchardwar.app.entity.pharma.PharmaRequest;
 import com.upchardwar.app.entity.pharma.PharmaReviewRating;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -72,6 +73,12 @@ public class Patient {
     private String state;
     
     private String bloodGroup;
+    
+    
+	public String documentType;
+	
+	public String imageName;
+	
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "patient")
 	private List<LabTest> labTest;

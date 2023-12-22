@@ -32,4 +32,8 @@ public class PatientResponse {
 	    private String state;
 	    
 	    private String bloodGroup;
+	    
+	    public String documentType;
+		
+		public String imageName;
 }

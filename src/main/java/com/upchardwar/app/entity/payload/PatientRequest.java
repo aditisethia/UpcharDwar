@@ -33,5 +33,11 @@ public class PatientRequest {
 	    private String state;
 	    
 	    private String bloodGroup;
+	    
+	    public String documentType;
+		
+	
+		
+		
 	
 }

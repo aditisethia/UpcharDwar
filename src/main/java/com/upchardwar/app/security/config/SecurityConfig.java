@@ -29,10 +29,16 @@ public class SecurityConfig {
 	private UserDetailsService userDetailsService;
 
 	private String[] pAll = { "/upchardwar/auth/login", "/upchardwar/doctor/save", "/upchardwar/speciality/",
+
 			"/upchardwar/patient/save", "/upchardwar/lab/save","/upchardwar/lab/all", "/upchardwar/pharmacy/save",
 			"/upchardwar/auth/sendemail", "/upchardwar/auth/generate-otp", "/upchardwar/auth/verify",
 			"upchardwar/auth/current-user", "upchardwar/speciality/all", "/upchardwar/schedule/",
-			"/upchardwar/appointment/book-appointment", "/upchardwar/appointment/notify" ,"upchardwar/labrequest/save"};
+			"/upchardwar/appointment/book-appointment", "/upchardwar/appointment/notify" ,"upchardwar/labrequest/save",
+
+			"/upchardwar/patient/save", "/upchardwar/lab/save", "/upchardwar/pharmacy/save",
+			"/upchardwar/auth/sendemail", "/upchardwar/auth/generate-otp", "/upchardwar/auth/verify",
+			"upchardwar/auth/current-user", "upchardwar/speciality/all", "/upchardwar/schedule/",
+			"/upchardwar/appointment/book-appointment", "/upchardwar/appointment/notify" };
 
 	private String[] accessByAdmin = { "/user/admin" };
 
@@ -40,14 +46,20 @@ public class SecurityConfig {
 			"/upchardwar/appointment/rescheduleAppointment" };
 
 	private String[] accessByAdminDoctorPatient = { "/upchardwar/doctor/{id}", "/upchardwar/doctor/{pageNo}/{pageSize}",
-			"/upchardwar/appointment/appointmentDetails/{id}" };
+			"/upchardwar/appointment/appointmentDetails/{id}",
+			"/upchardwar/appointment/all/{pageNo}/{pageSize}/{sortBy}" };
+
 
 	private String[] accessByDoctor = { "/upchardwar/appointment/createSchedule",
 			"/upchardwar/appointment/createTimeSlote", "/upchardwar/appointment/todaysAppointments",
 			"/upchardwar/appointment/cancelAppointment/{id}", "/upchardwar/appointment/countPatient",
 			"/upchardwar/appointment/countTodaysPetient", "/upchardwar/appointment/countUpcomingAppointments" };
 
-	private String[] accessByPatient = { "upchardwar/reviewrating/" };
+
+	
+
+	
+	private String[] accessByPatient = { "upchardwar/reviewrating/", "/upchardwar/patient/save1" , "/upchardwar/appointment/all/patient/{pageNo}/{pageSize}/{sortBy}" };
 
 	@Autowired
 	private AuthenticationEntryPoint authenticationEntryPoint;
@@ -75,7 +87,11 @@ public class SecurityConfig {
 				.hasAuthority("ADMIN").requestMatchers(accessByAdminDoctor).hasAnyAuthority("ADMIN", "DOCTOR")
 				.requestMatchers(accessByAdminDoctorPatient).hasAnyAuthority("ADMIN", "DOCTOR", "PATIENT")
 				.requestMatchers(accessByDoctor).hasAuthority("DOCTOR").requestMatchers(accessByPatient)
-				.hasAuthority("PETIENT").anyRequest().authenticated().and().exceptionHandling()
+
+				
+
+				.hasAuthority("PATIENT").anyRequest().authenticated().and().exceptionHandling()
+
 				.authenticationEntryPoint(authenticationEntryPoint).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 				.addFilterBefore(securityfilter, UsernamePasswordAuthenticationFilter.class);

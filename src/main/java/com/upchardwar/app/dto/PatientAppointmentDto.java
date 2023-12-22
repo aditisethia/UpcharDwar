@@ -3,10 +3,7 @@ package com.upchardwar.app.dto;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.upchardwar.app.entity.doctor.Doctor;
+import com.upchardwar.app.entity.doctor.Speciality;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,8 +14,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonInclude(value = Include.NON_NULL)
-public class AppointmentDto {
+public class PatientAppointmentDto {
+
 	private Long id;
 	private String patientName;
     private LocalDate appointmentDate;
@@ -33,5 +30,6 @@ public class AppointmentDto {
     private String email;
     private String mobile;
     
-    
+    private String doctorName;
+    private String doctorSpeciality;
 }

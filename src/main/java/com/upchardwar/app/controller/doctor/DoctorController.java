@@ -44,9 +44,9 @@ public class DoctorController {
 	// to create Doctor
 	//@PostMapping("/save")
 	@PostMapping(path="/save" , consumes= { "multipart/form-data"  ,"application/octet-stream"})
-	public ResponseEntity<DoctorResponse> addDoctor(@RequestPart("data") DoctorRequest doctorRequest,@RequestPart(value="files[]",required = false) List<MultipartFile> multipartFiles) {
+	public ResponseEntity<?> addDoctor(@RequestPart("data") DoctorRequest doctorRequest,@RequestPart(value="files[]",required = false) List<MultipartFile> multipartFiles) {
 	
-		return new ResponseEntity<DoctorResponse>(this.doctorService.createDoctor(doctorRequest,multipartFiles),
+		return new ResponseEntity<>(this.doctorService.createDoctor(doctorRequest,multipartFiles),
 				HttpStatus.OK);
 
 	}
