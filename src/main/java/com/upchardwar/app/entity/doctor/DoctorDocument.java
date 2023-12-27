@@ -1,5 +1,7 @@
 package com.upchardwar.app.entity.doctor;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,6 +29,8 @@ private String documentName;
 private String documentType;
 
 private String fileName;
+
+private LocalDate uploadDate;
 
 @ManyToOne
 @JoinColumn(name="doctor_id")

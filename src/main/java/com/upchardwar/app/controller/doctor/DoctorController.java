@@ -73,4 +73,12 @@ public class DoctorController {
 	}
 	
 
+	@PostMapping(path = "/save1", consumes = { "multipart/form-data", "application/octet-stream" })
+	public ResponseEntity<?> addDoctor2(@RequestPart("data") DoctorRequest request,@RequestPart("files") List<MultipartFile> multipartFiles) {
+
+		return doctorService.addDoctor(request, multipartFiles.get(0), multipartFiles);
+
+		// Adjust the response based on your use case
+	}
+
 }

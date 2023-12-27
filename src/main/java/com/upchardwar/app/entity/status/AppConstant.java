@@ -68,15 +68,15 @@ public class AppConstant {
 
 
 
-	public static final String DOCTOR_CREATED_MESSAGE = "doctor created sccessfully";
+	public static final String DOCTOR_CREATED_MESSAGE = "Doctor created sccessfully";
 
 
 
-	public static final String DOCTOR_WITH_EMAIL_ALREADY_EXIST = "doctor with this email already exist";
+	public static final String DOCTOR_WITH_EMAIL_ALREADY_EXIST = "Doctor with this email already exist";
 
 
 
-	public static final Object All_APPOINTMENT = "get all appointment successfully";
+	public static final Object All_APPOINTMENT = "Get all appointment successfully";
 
 
 
@@ -84,11 +84,11 @@ public class AppConstant {
 
 
 
-	public static final String DIRECTORY = System.getProperty("user.dir")+"/src/main/resources/static/images";
+	public static final String DIRECTORY = System.getProperty("user.dir")+"../src/main/resources/static/images";
 
 
 
-	public static final Object PATIENT_CREATED = "patient created successfully";
+	public static final Object PATIENT_CREATED = "Patient created successfully";
 
 
 
@@ -101,5 +101,43 @@ public class AppConstant {
 
 
 	public static final String User_verified = "verified";
+
+
+
+	public static final Object LAB_CREATED_MESSAGE = "Lab created successfully";
+
+
+
+	public static final String LAB_CREATED = "LAB :";
+
+
+
+	public static final String LAB_STATUS_PROCEED = "proceed";
+	
+	public static final String LAB_STATUS_NOT_PROCEED = "not proceed";
+
+
+
+	public static final String LAB_NOT_FOUND = "Lab not Found";
+
+
+
+	public static final Object LAB_FIND = "Lab find successfully";
+
+
+
+	public static final String LAB = "Lab :";
+
+
+
+	public static final String LAB_TEST_STATUS = "proceed";
+
+
+
+	public static final Object LAB_TEST_CREATED = "lab test created successfully";
+
+
+
+	public static final String LAB_TEST = "LABTEST :";
 
 }

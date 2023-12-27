@@ -1,15 +1,12 @@
 package com.upchardwar.app.services.impl;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,19 +19,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.upchardwar.app.emailutil.EmailServices;
 import com.upchardwar.app.entity.Role;
 import com.upchardwar.app.entity.User;
 import com.upchardwar.app.entity.UserRole;
 import com.upchardwar.app.entity.Varification;
 import com.upchardwar.app.entity.payload.VarificationRequest;
 import com.upchardwar.app.entity.status.AppConstant;
-import com.upchardwar.app.exception.OtpExpireException;
-import com.upchardwar.app.exception.ResourceAlreadyExistException;
 import com.upchardwar.app.exception.ResourceNotFoundException;
 import com.upchardwar.app.repository.UserRepository;
 import com.upchardwar.app.repository.VarificationRepository;
 import com.upchardwar.app.services.IAuthService;
+import com.upchardwar.app.utils.EmailServices;
 
 @Service
 public class AuthServiceImpl implements IAuthService, UserDetailsService {
@@ -43,7 +38,6 @@ public class AuthServiceImpl implements IAuthService, UserDetailsService {
 	private UserRepository urepo;
 
 	@Autowired
-
 	private EmailServices eServices;
 
 	@Autowired

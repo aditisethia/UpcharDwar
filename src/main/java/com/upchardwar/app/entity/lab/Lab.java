@@ -1,15 +1,17 @@
 package com.upchardwar.app.entity.lab;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.upchardwar.app.entity.Location;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
@@ -23,47 +25,49 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Lab {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	private String labName;
-	
-	private String email;
-	
-	private String password;
-	
-	private Boolean isApproved=false;
-	
-	private String phone;
-	
-	
-	@OneToOne(cascade = CascadeType.ALL)
-	private Location location;
-	
-	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "lab")
-	private List<LabRequests> labReq;
-	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy ="lab")
-	private List<LabDocument> labDocument;
-	
-	@OneToMany(mappedBy = "lab",cascade = CascadeType.ALL)
-	private List<LabReport> labReports;
 
-	@OneToMany(mappedBy = "lab",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-	private List<LabInvoice> labinvoices;
-	
-	@OneToMany(mappedBy = "lab",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-	private List<LabPayment> labPayments;
-	
-	@OneToMany(mappedBy = "lab",cascade = CascadeType.ALL)
-	private List<LabReviewRating> reviewRatings;
-	
-	@OneToMany(mappedBy = "lab",cascade = CascadeType.ALL)
-	private List<LabTestRate> labTestRates;
 	
 	
+
+
+	private String labName;
+
+	private String email;
+
+	private String password;
+
+	private Boolean isApproved = false;
+
+	private String phone;
+
+	private String documentType;
+
+	private String imageName;
+
+	private String biography;
+
+	private Boolean isDeleted = false;
+
+
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "lab_id")
+	private List<LabDocument> labDocument;
+
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "lab_id")
+	private List<LabTest> labTests;
+
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "lab_id")
+	private List<LabReviewRating> labReviewRatings;
+
 	
+
 }

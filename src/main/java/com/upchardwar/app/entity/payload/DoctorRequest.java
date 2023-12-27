@@ -57,6 +57,9 @@ public class DoctorRequest {
 	private LocalDate expierenceFrom;
 
 	private LocalDate expierenceTo;
+	
+	public String documentType;
+	
 
 	private Set<String> awards;
 

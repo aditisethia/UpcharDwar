@@ -27,8 +27,6 @@ public class LabReviewRating {
 	@ManyToOne
 	private Patient patient;
 
-	@ManyToOne
-	private Doctor doctor;
 	
 	private Integer rating;
 	

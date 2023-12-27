@@ -57,6 +57,10 @@ public class DoctorResponse {
 	private LocalDate expierenceTo;
 
 	private Set<String> awards;
+	
+	public String documentType;
+	
+	public String imageName;
 
 	@JsonIgnore
 	private Speciality speciality;

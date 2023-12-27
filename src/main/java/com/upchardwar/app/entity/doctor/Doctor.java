@@ -40,6 +40,8 @@ public class Doctor {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	
+	
 	private String userName;
 
 	private String name;
@@ -119,6 +121,13 @@ public class Doctor {
 	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
 	private List<PharmaReviewRating> pharmaReviewRatings;
 
+    
+    
+   
+    
+    
+   
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
 	private List<LabReviewRating> labReviewRatings;
@@ -131,8 +140,5 @@ public class Doctor {
 	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
 	private List<Conversation> conversations;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
-	private List<Achievements> achievements;
-
+	
 }

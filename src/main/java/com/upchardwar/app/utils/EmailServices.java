@@ -1,4 +1,4 @@
-package com.upchardwar.app.emailutil;
+package com.upchardwar.app.utils;
 
 import java.util.Properties;
 import java.util.Random;

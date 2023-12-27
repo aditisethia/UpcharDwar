@@ -13,7 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.upchardwar.app.emailutil.EmailServices;
+
+
+import com.upchardwar.app.entity.User;
+
+
 import com.upchardwar.app.entity.Varification;
 import com.upchardwar.app.entity.payload.UserRequest;
 import com.upchardwar.app.entity.payload.UserResponse;
@@ -23,6 +27,7 @@ import com.upchardwar.app.security.JwtUtils;
 import com.upchardwar.app.security.UserResponseS;
 import com.upchardwar.app.services.IAuthService;
 import com.upchardwar.app.services.IUserService;
+import com.upchardwar.app.utils.EmailServices;
 
 @RestController
 @RequestMapping("/upchardwar/auth")
