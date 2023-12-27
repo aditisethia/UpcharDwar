@@ -19,11 +19,11 @@ import com.upchardwar.app.entity.lab.LabDocument;
 import com.upchardwar.app.entity.lab.LabInvoice;
 import com.upchardwar.app.entity.lab.LabPayment;
 import com.upchardwar.app.entity.lab.LabReport;
-<<<<<<< HEAD
+
 import com.upchardwar.app.entity.lab.Booking;
-=======
-import com.upchardwar.app.entity.lab.LabRequests;
->>>>>>> 2189d25f36afff1f9a4d2a24d71f6a8c8bdd0c6b
+
+
+
 import com.upchardwar.app.entity.lab.LabReviewRating;
 import com.upchardwar.app.entity.lab.LabTest;
 import com.upchardwar.app.entity.pharma.PharmaRequest;
