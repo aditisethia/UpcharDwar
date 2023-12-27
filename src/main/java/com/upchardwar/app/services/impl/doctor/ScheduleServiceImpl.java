@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.upchardwar.app.entity.doctor.Doctor;
 import com.upchardwar.app.entity.doctor.Schedule;
-import com.upchardwar.app.entity.payload.DoctorRequest;
+import com.upchardwar.app.entity.doctor.TimeSlote;
 import com.upchardwar.app.entity.payload.ScheduleRequest;
 import com.upchardwar.app.entity.payload.ScheduleResponse;
 import com.upchardwar.app.entity.status.AppConstant;
@@ -31,10 +31,10 @@ import com.upchardwar.app.services.doctor.IScheduleService;
 public class ScheduleServiceImpl implements IScheduleService {
 	@Autowired
 	private ScheduleRepository repository;
-	
+
 	@Autowired
 	private DoctorRepository doctorRepository;
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
 
@@ -48,77 +48,110 @@ public class ScheduleServiceImpl implements IScheduleService {
 
 	@Override
 	public ScheduleResponse getSchduleById(Long id) {
-		Optional<Schedule>  s=this.repository.findById(id);
-		if(s.isPresent()) 
+		Optional<Schedule> s = this.repository.findById(id);
+		if (s.isPresent())
 			return this.scheduleToScheduleResponse(s.get());
-		
-			throw new ResourceNotFoundException("Doctor with this id not exist");
+
+		throw new ResourceNotFoundException("Doctor with this id not exist");
 	}
 
 	@Override
 	public String deleteScheduleById(Long id) {
-Optional<Schedule>  s=this.repository.findById(id);
-	    
-		if(s.isEmpty()) {
+		Optional<Schedule> s = this.repository.findById(id);
+
+		if (s.isEmpty()) {
 			throw new ResourceNotFoundException("schedule with this id not exist");
 		}
-		   this.repository.delete(s.get());	
-          		return "deleted successfully";
-		
+		this.repository.delete(s.get());
+		return "deleted successfully";
+
 	}
 
 	@Override
 	public Page<ScheduleResponse> getAllSchdule(Integer pageNo, Integer pageSize) {
 		PageRequest page = PageRequest.of(pageNo, pageSize);
-        Page<Schedule> pag = this.repository.findAll(page);
-	 return pag.map(u ->this.scheduleToScheduleResponse(u));
-		
+		Page<Schedule> pag = this.repository.findAll(page);
+		return pag.map(u -> this.scheduleToScheduleResponse(u));
+
 	}
 
 	@Override
 	public List<ScheduleResponse> searchShdule(Integer pageNo, Integer pageSize, ScheduleRequest request,
 			String sortBy) {
 		ExampleMatcher exampleMatcher = ExampleMatcher.matching().withIgnoreNullValues()
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING) // Match anywhere in the string
-                .withIgnoreCase() // Ignore case when matching strings
-                .withMatcher("id", match->match.transform(value->value.map(id->((Integer)id==0)?null:id)));
-		
-		Example<Schedule> example = Example.of(scheduleRequestToSchedule(request),exampleMatcher);
-		Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.Direction.ASC,sortBy);
+				.withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING) // Match anywhere in the string
+				.withIgnoreCase() // Ignore case when matching strings
+				.withMatcher("id", match -> match.transform(value -> value.map(id -> ((Integer) id == 0) ? null : id)));
+
+		Example<Schedule> example = Example.of(scheduleRequestToSchedule(request), exampleMatcher);
+		Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.Direction.ASC, sortBy);
 		Page<Schedule> findAllSchedule = this.repository.findAll(example, pageable);
-		return findAllSchedule.getContent().stream().map(s->scheduleToScheduleResponse(s)).collect(Collectors.toList());
+		return findAllSchedule.getContent().stream().map(s -> scheduleToScheduleResponse(s))
+				.collect(Collectors.toList());
 	}
 
 	@Override
 	public ScheduleResponse updateSchedule(ScheduleRequest request) {
-		
-		Schedule s=	this.repository.save(scheduleRequestToSchedule(request));
+
+		Schedule s = this.repository.save(scheduleRequestToSchedule(request));
 		return this.scheduleToScheduleResponse(s);
 	}
 
 	@Override
 	public ScheduleResponse createSchdule(ScheduleRequest request) {
-		 Schedule s=this.repository.save(this.scheduleRequestToSchedule(request));
+		Schedule s = this.repository.save(this.scheduleRequestToSchedule(request));
 		return this.scheduleToScheduleResponse(s);
 	}
 
+//	@Override
+//	public Map<String, Object> createSchedule(ScheduleRequest schedule, String doctorEmail) {
+//		Map<String, Object> response = new HashMap<>();
+//		Schedule s = this.scheduleRequestToSchedule(schedule);
+//		Optional<Doctor> doc = doctorRepository.findByEmail(doctorEmail);
+//		if (doc.isPresent()) {
+//			Doctor d = doc.get();
+//			System.err.println(d.getId());
+//			s.setDoctor(d);
+//		} else {
+//			throw new ResourceNotFoundException(AppConstant.DOCTOR_WITH_EMAIL_NOT_EXIST);
+//		}
+//
+//		s = this.repository.save(s);
+//		response.put("schdule", scheduleToScheduleResponse(s));
+//		return response;
+//	}
+
 	@Override
-	public Map<String, Object> createSchedule( ScheduleRequest schedule,String doctorEmail) {
-		Map<String, Object> response=new HashMap<>();
-		 Schedule s =this.scheduleRequestToSchedule(schedule);
-		   Optional<Doctor> doc=doctorRepository.findByEmail(doctorEmail);
-		   if(doc.isPresent()) {
-		   Doctor d=doc.get();
-		   System.err.println(d.getId());
-		   s.setDoctor(d);
-		   }
-		   else {
-			   throw new ResourceNotFoundException(AppConstant.DOCTOR_WITH_EMAIL_NOT_EXIST);
-		   }
-		   
-		s=this.repository.save(s);
-		 response.put("schdule", scheduleToScheduleResponse(s));
-		return response;
+	public List<ScheduleResponse> getAllSchedules() {
+		List<Schedule> schedules = repository.findAll();
+		return schedules.stream().map(this::convertToResponseDto).collect(Collectors.toList());
+
+	}
+
+	@Override
+	public ScheduleResponse createSchedule(ScheduleRequest scheduleRequest) {
+		Schedule schedule = convertToEntity(scheduleRequest);
+
+		Doctor doctor = scheduleRequest.getDoctor();
+
+		schedule.setDoctor(doctor);
+
+		List<TimeSlote> timeSlots = schedule.getTimeSlots();
+		for (TimeSlote ts : timeSlots) {
+			ts.setSchedule(schedule);
+		}
+
+		Schedule savedSchedule = repository.save(schedule);
+		return convertToResponseDto(savedSchedule);
+	}
+
+	private Schedule convertToEntity(ScheduleRequest scheduleRequest) {
+		// TODO Auto-generated method stub
+		return modelMapper.map(scheduleRequest, Schedule.class);
+	}
+
+	private <R> ScheduleResponse convertToResponseDto(Schedule schedule1) {
+		return modelMapper.map(schedule1, ScheduleResponse.class);
 	}
 
 }

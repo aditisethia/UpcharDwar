@@ -5,12 +5,15 @@ import java.util.Map;
 
 import org.springframework.data.domain.Page;
 
-import com.upchardwar.app.entity.doctor.Doctor;
-import com.upchardwar.app.entity.payload.DoctorRequest;
 import com.upchardwar.app.entity.payload.ScheduleRequest;
 import com.upchardwar.app.entity.payload.ScheduleResponse;
 
 public interface IScheduleService {
+	
+    public List<ScheduleResponse> getAllSchedules();
+
+    public ScheduleResponse createSchedule(ScheduleRequest scheduleRequest) ;
+    
     public ScheduleResponse createSchdule(ScheduleRequest request);
 	  
 	public ScheduleResponse getSchduleById(Long id);
@@ -23,5 +26,5 @@ public interface IScheduleService {
 	
 	public ScheduleResponse updateSchedule(ScheduleRequest request);
 	
-	public Map<String, Object> createSchedule(ScheduleRequest request, String doctorEmail);
+
 }

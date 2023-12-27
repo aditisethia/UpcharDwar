@@ -1,9 +1,6 @@
 package com.upchardwar.app.controller.doctor;
 
 import java.security.Principal;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,19 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upchardwar.app.dto.AppointmentDto;
 import com.upchardwar.app.dto.PageAppointmentDto;
-import com.upchardwar.app.entity.doctor.Appointment;
-import com.upchardwar.app.entity.doctor.Doctor;
 import com.upchardwar.app.entity.doctor.TimeSlote;
-import com.upchardwar.app.entity.patient.Patient;
-import com.upchardwar.app.entity.payload.DoctorRequest;
-import com.upchardwar.app.entity.payload.DoctorResponse;
 import com.upchardwar.app.entity.payload.ScheduleRequest;
-import com.upchardwar.app.entity.payload.ScheduleResponse;
 import com.upchardwar.app.services.doctor.IAppointmentService;
 import com.upchardwar.app.services.doctor.IDoctorService;
 import com.upchardwar.app.services.doctor.IScheduleService;
@@ -52,15 +42,15 @@ public class Appointmentcontroller {
 	private IAppointmentService appointmentService;
 
 	// create schedule
-	@PostMapping("/createSchedule")
-	public ResponseEntity<Map<String, Object>> createSchdule(@RequestBody ScheduleRequest request, Principal p) {
-		System.err.println(p.getName());
-
-		// scheduleService.createSchedule( request,p.getName());
-		return new ResponseEntity<Map<String, Object>>(scheduleService.createSchedule(request, p.getName()),
-				HttpStatus.CREATED);
-
-	}
+//	@PostMapping("/createSchedule")
+//	public ResponseEntity<Map<String, Object>> createSchdule(@RequestBody ScheduleRequest request, Principal p) {
+//		System.err.println(p.getName());
+//
+//		// scheduleService.createSchedule( request,p.getName());
+//		return new ResponseEntity<Map<String, Object>>(scheduleService.createSchedule(request, p.getName()),
+//				HttpStatus.CREATED);
+//
+//	}
 
 	// for creating a timeslot
 	@PostMapping("/createTimeSlote")

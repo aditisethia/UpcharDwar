@@ -28,9 +28,9 @@ public class SecurityConfig {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-	private String[] pAll = { "/upchardwar/auth/login", "/upchardwar/doctor/save", "/upchardwar/speciality/",
+	private String[] pAll = { "/upchardwar/auth/login", "/upchardwar/doctor/save", "/upchardwar/speciality/"
 
-			"/upchardwar/patient/save", "/upchardwar/lab/save","/upchardwar/lab/all", "/upchardwar/pharmacy/save",
+			,"/upchardwar/patient/save", "/upchardwar/lab/save","/upchardwar/lab/all", "/upchardwar/pharmacy/save",
 			"/upchardwar/auth/sendemail", "/upchardwar/auth/generate-otp", "/upchardwar/auth/verify",
 			"upchardwar/auth/current-user", "upchardwar/speciality/all", "/upchardwar/schedule/",
 			"/upchardwar/appointment/book-appointment", "/upchardwar/appointment/notify" ,"upchardwar/labrequest/save",
@@ -53,7 +53,7 @@ public class SecurityConfig {
 	private String[] accessByDoctor = { "/upchardwar/appointment/createSchedule",
 			"/upchardwar/appointment/createTimeSlote", "/upchardwar/appointment/todaysAppointments",
 			"/upchardwar/appointment/cancelAppointment/{id}", "/upchardwar/appointment/countPatient",
-			"/upchardwar/appointment/countTodaysPetient", "/upchardwar/appointment/countUpcomingAppointments" };
+			"/upchardwar/appointment/countTodaysPetient", "/upchardwar/appointment/countUpcomingAppointments" ,"/upchardwar/schedule/create"};
 
 
 	
