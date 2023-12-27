@@ -36,7 +36,7 @@ public class SecurityConfig {
 			"upchardwar/auth/current-user", "upchardwar/speciality/all", "/upchardwar/schedule/",
 			"/upchardwar/appointment/book-appointment", "/upchardwar/appointment/notify" };
 
-	private String[] accessByAdmin = { "/user/admin" };
+	private String[] accessByAdmin = { "/user/admin" ,"upchardwar/lab/delete/{id}"};
 
 	private String[] accessByAdminDoctor = { "/upchardwar/doctor/", "/upchardwar/appointment/updateAppointment",
 			"/upchardwar/appointment/rescheduleAppointment" };
@@ -48,9 +48,11 @@ public class SecurityConfig {
 	private String[] accessByDoctor = { "/upchardwar/appointment/createSchedule",
 			"/upchardwar/appointment/createTimeSlote", "/upchardwar/appointment/todaysAppointments",
 			"/upchardwar/appointment/cancelAppointment/{id}", "/upchardwar/appointment/countPatient",
-			"/upchardwar/appointment/countTodaysPetient", "/upchardwar/appointment/countUpcomingAppointments" };
+			"/upchardwar/appointment/countTodaysPetient", "/upchardwar/appointment/countUpcomingAppointments","/upchardwar/doctor/save1" };
 	
 	private String[] accessByPatient = { "upchardwar/reviewrating/", "/upchardwar/patient/save1" , "/upchardwar/appointment/all/patient/{pageNo}/{pageSize}/{sortBy}" };
+	
+	private String[] accessByLab = {"upchardwar/labTest/save"};
 
 	@Autowired
 	private AuthenticationEntryPoint authenticationEntryPoint;
@@ -74,11 +76,13 @@ public class SecurityConfig {
 	/** For authorization */
 	@Bean
 	public SecurityFilterChain configurePaths(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().requestMatchers(pAll).permitAll().requestMatchers(accessByAdmin)
+		http.csrf().disable().authorizeRequests().requestMatchers(pAll).permitAll().requestMatchers("upchardwar/lab/save1").permitAll().requestMatchers(accessByAdmin)
 				.hasAuthority("ADMIN").requestMatchers(accessByAdminDoctor).hasAnyAuthority("ADMIN", "DOCTOR")
 				.requestMatchers(accessByAdminDoctorPatient).hasAnyAuthority("ADMIN", "DOCTOR", "PATIENT")
-				.requestMatchers(accessByDoctor).hasAuthority("DOCTOR").requestMatchers(accessByPatient)
-				.hasAuthority("PATIENT").anyRequest().authenticated().and().exceptionHandling()
+				.requestMatchers(accessByDoctor).hasAuthority("DOCTOR")
+				.requestMatchers(accessByPatient).hasAuthority("PATIENT")
+				.requestMatchers(accessByLab).hasAuthority("LAB")
+				.anyRequest().authenticated().and().exceptionHandling()
 				.authenticationEntryPoint(authenticationEntryPoint).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 				.addFilterBefore(securityfilter, UsernamePasswordAuthenticationFilter.class);

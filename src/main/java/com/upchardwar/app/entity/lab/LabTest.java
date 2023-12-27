@@ -2,8 +2,10 @@ package com.upchardwar.app.entity.lab;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.upchardwar.app.entity.patient.Patient;
 import com.upchardwar.app.entity.pharma.PharmaPayment;
+import com.upchardwar.app.entity.status.AppConstant;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -11,6 +13,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -31,16 +34,33 @@ public class LabTest {
 	
 	private String testName;
 	
+    private Integer ratings;
+    
+    private String description;
+    
+    private String status=AppConstant.LAB_TEST_STATUS;
 	
 	private Long rates; 
 	
-	@ManyToOne
-	private Patient patient;
+	private Boolean availability;
+	
 	
 	@ManyToOne
-	private LabReq labReq;
+    @JoinColumn(name = "lab_id")
+    private Lab lab;
 
-	@OneToMany(mappedBy = "labTest",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-	private List<LabPayment> labPayments;
+	@JsonIgnore
+    @OneToMany(mappedBy = "labTest", cascade = CascadeType.ALL)
+    private List<Booking> bookings;
+    
+	@JsonIgnore
+    @OneToMany(mappedBy = "labTest", cascade = CascadeType.ALL)
+    private List<LabReport> labReports;
+    
+	@JsonIgnore
+    @OneToMany(mappedBy = "labTest", cascade = CascadeType.ALL)
+    private List<LabInvoice> invoices;
+
+	
 	
 }

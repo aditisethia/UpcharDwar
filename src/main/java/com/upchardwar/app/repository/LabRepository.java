@@ -18,4 +18,8 @@ public interface LabRepository extends JpaRepository<Lab, Long> {
 	public Optional<Lab> findByIdAndIsApproved(boolean b, Long id);
 
 	public Page<Lab> findByIsApproved(boolean b, PageRequest page);
+
+	public Page<Lab> findByIsApprovedAndIsDeleted(boolean b, PageRequest page, boolean c);
+
+	public Optional<Lab> findByEmail(String email);
 }

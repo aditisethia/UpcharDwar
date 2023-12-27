@@ -28,7 +28,7 @@ import com.upchardwar.app.dto.AppointmentDto;
 import com.upchardwar.app.dto.PageAppointmentDto;
 import com.upchardwar.app.dto.PatientAppointmentDto;
 import com.upchardwar.app.dto.TodaysAppointmentDto;
-import com.upchardwar.app.emailutil.EmailServices;
+
 import com.upchardwar.app.entity.doctor.Appointment;
 import com.upchardwar.app.entity.doctor.Doctor;
 import com.upchardwar.app.entity.doctor.DoctorInvoice;
@@ -47,6 +47,7 @@ import com.upchardwar.app.repository.PatientRepository;
 import com.upchardwar.app.repository.ScheduleRepository;
 import com.upchardwar.app.repository.TimeSlotRepository;
 import com.upchardwar.app.services.doctor.IAppointmentService;
+import com.upchardwar.app.utils.EmailServices;
 
 @Service
 public class AppointmentServiceImpl implements IAppointmentService {

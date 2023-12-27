@@ -1,8 +1,10 @@
 package com.upchardwar.app.entity.lab;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.upchardwar.app.entity.patient.Patient;
 import com.upchardwar.app.entity.status.InvoiceStatus;
 import com.upchardwar.app.entity.status.LabStatus;
@@ -13,6 +15,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
@@ -27,22 +30,25 @@ import lombok.Setter;
 @Setter
 
 public class LabInvoice {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private  Long id;
-    
-    private LocalDate invoiceGenerDate ;
-    
-    private float amount;
-    
-	@ElementCollection(fetch = FetchType.EAGER)
-	private List<InvoiceStatus> invoiceStatus;
-    
-    private String paymentMethod;
-     
-    @ManyToOne
-    private Lab lab;
-    
-    @ManyToOne
-    private Patient patient;
+	 @Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	    private Long invoiceId;
+
+	    @OneToOne
+	    @JoinColumn(name = "booking_id")
+	    private Booking booking;
+
+	    @ManyToOne
+	    @JoinColumn(name = "lab_test_id")
+	    private LabTest labTest;
+
+	    private double totalAmount;
+	    
+	    private LocalDateTime issueTime;
+	    
+	    @ManyToOne
+	    @JoinColumn(name="patient_id")
+		@JsonIgnoreProperties(value="labInvoices")
+	    private Patient patient;
+	    
 }

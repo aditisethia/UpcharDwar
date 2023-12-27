@@ -43,4 +43,10 @@ public class ExceptionHandlerClass {
 	{
 		return new ResponseEntity<CustomExceptionMessage>(new CustomExceptionMessage(new Date().toString(), 500, "Exception in process....", resourceNotApprovedException.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
+	@ExceptionHandler(BadRequestException.class)
+	public ResponseEntity<CustomExceptionMessage> badReq(BadRequestException exception)
+	{
+		return new ResponseEntity<CustomExceptionMessage>(new CustomExceptionMessage(new Date().toString(), 500, "Exception in process....", exception.getMessage()),HttpStatus.BAD_REQUEST);
+	}
 }

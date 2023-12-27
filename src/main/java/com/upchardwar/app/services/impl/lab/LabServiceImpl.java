@@ -1,11 +1,21 @@
 package com.upchardwar.app.services.impl.lab;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.apache.catalina.connector.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -14,14 +24,22 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.upchardwar.app.entity.Location;
 import com.upchardwar.app.entity.Role;
 import com.upchardwar.app.entity.User;
 import com.upchardwar.app.entity.UserRole;
 import com.upchardwar.app.entity.doctor.Doctor;
+import com.upchardwar.app.entity.doctor.DoctorDocument;
+import com.upchardwar.app.entity.doctor.DoctorQualification;
 import com.upchardwar.app.entity.lab.Lab;
+import com.upchardwar.app.entity.lab.LabDocument;
 import com.upchardwar.app.entity.patient.Patient;
 import com.upchardwar.app.entity.payload.DoctorRequest;
 import com.upchardwar.app.entity.payload.DoctorResponse;
@@ -30,10 +48,12 @@ import com.upchardwar.app.entity.payload.LabResponse;
 import com.upchardwar.app.entity.payload.PatientRequest;
 import com.upchardwar.app.entity.payload.PatientResponse;
 import com.upchardwar.app.entity.status.AppConstant;
+import com.upchardwar.app.exception.BadRequestException;
 import com.upchardwar.app.exception.ResourceAlreadyExistException;
 import com.upchardwar.app.exception.ResourceNotApprovedException;
 import com.upchardwar.app.exception.ResourceNotFoundException;
 import com.upchardwar.app.repository.LabRepository;
+import com.upchardwar.app.repository.LocationRepository;
 import com.upchardwar.app.repository.UserRepository;
 import com.upchardwar.app.services.lab.ILabService;
 
@@ -42,16 +62,18 @@ public class LabServiceImpl implements ILabService {
 
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	@Autowired
 	private LabRepository labRepository;
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-	
+	private BCryptPasswordEncoder passwordEncoder;
+
+	@Autowired
+	private LocationRepository locationRepository;
 
 	public LabResponse labToLabResponse(Lab lab) {
 		return this.modelMapper.map(lab, LabResponse.class);
@@ -59,12 +81,6 @@ public class LabServiceImpl implements ILabService {
 
 	public Lab labRequestToLab(LabRequest labRequest) {
 		return this.modelMapper.map(labRequest, Lab.class);
-	}
-
-	@Override
-	public LabResponse registerLab(LabRequest labRequest) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -79,18 +95,7 @@ public class LabServiceImpl implements ILabService {
 		return null;
 	}
 
-	@Override
-	public String deleteLabById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Page<LabResponse> getAllLab(Integer pageNo, Integer pageSize) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-//	@Override
+	// @Override
 //	public LabResponse registerLab(LabRequest request) {
 //		Optional<Lab> s = this.labRepository.findByLabName(request.getLabName());
 //
@@ -132,22 +137,34 @@ public class LabServiceImpl implements ILabService {
 //	}
 //
 //	@Override
-//	public String deleteLabById(Long id) {
-//		Optional<Lab> s = this.labRepository.findById(id);
+	public ResponseEntity<?> deleteLabById(Long id) {
+		Map<String, Object> response = new HashMap<>();
+
+		Optional<Lab> s = this.labRepository.findById(id);
+
+		if (s.isPresent()) {
+			Lab l = s.get();
+			l.setIsDeleted(true);
+
+			System.out.println("dfghj");
+
+			labRepository.save(l);
+		} else {
+			throw new ResourceNotFoundException(AppConstant.LAB_WITH_ID_NOT_EXIST);
+		}
+
+		response.put(AppConstant.MESSAGE, "deleted successfully");
+		return new ResponseEntity<>(response, HttpStatus.OK);
+
+	}
+
 //
-//		if (s.isEmpty()) {
-//			throw new ResourceNotFoundException(AppConstant.LAB_WITH_ID_NOT_EXIST);
-//		}
-//		this.labRepository.delete(s.get());
-//		return "deleted successfully";
-//	}
-//
-//	@Override
-//	public Page<LabResponse> getAllLab(Integer pageNo, Integer pageSize) {
-//		PageRequest page = PageRequest.of(pageNo, pageSize);
-//		Page<Lab> pag = this.labRepository.findByIsApproved(true,page);
-//		return pag.map(u -> this.labToLabResponse(u));
-//	}
+	@Override
+	public Page<LabResponse> getAllLab(Integer pageNo, Integer pageSize) {
+		PageRequest page = PageRequest.of(pageNo, pageSize);
+		Page<Lab> pag = this.labRepository.findByIsApprovedAndIsDeleted(true, page, false);
+		return pag.map(u -> this.labToLabResponse(u));
+	}
 //
 //	@Override
 //	public List<LabResponse> searchLab(Integer pageNo, Integer pageSize, LabRequest labRequest,
@@ -173,5 +190,86 @@ public class LabServiceImpl implements ILabService {
 //		Lab lab = this.labRepository.save(this.labRequestToLab(request));
 //		return this.labToLabResponse(lab);
 //	}
+
+	@Override
+	public ResponseEntity<?> addLab(LabRequest request, MultipartFile file, List<MultipartFile> multipartFiles) {
+		Map<String, Object> response = new HashMap<>();
+
+		Optional<Lab> op = this.labRepository.findByEmail(request.getEmail());
+		if (op.isPresent())
+			throw new ResourceAlreadyExistException(AppConstant.LAB_ALREADY_EXIST);
+		Lab l = this.labRequestToLab(request);
+		String imageName = UUID.randomUUID().toString() + file.getOriginalFilename();
+		l.setImageName(imageName);
+
+		if (file != null) {
+
+			String filename = StringUtils.cleanPath(imageName);
+			l.setDocumentType(file.getContentType());
+
+			Path fileStorage = Paths.get(AppConstant.DIRECTORY, filename).toAbsolutePath().normalize();
+
+			try {
+				Files.copy(file.getInputStream(), fileStorage, StandardCopyOption.REPLACE_EXISTING);
+			} catch (IOException e) {
+
+			}
+		}
+		List<LabDocument> labDocuments = new ArrayList<>();
+		if (multipartFiles != null) {
+			for (MultipartFile file1 : multipartFiles) {
+				LabDocument l1 = new LabDocument();
+				l1.setDocumentName(file.getOriginalFilename());
+				l1.setDocType(file.getContentType());
+				String filename = StringUtils.cleanPath(file.getOriginalFilename());
+				l1.setFileName(filename);
+				Path fileStorage = Paths.get(AppConstant.DIRECTORY, filename).toAbsolutePath().normalize();
+				try {
+					Files.copy(file.getInputStream(), fileStorage, StandardCopyOption.REPLACE_EXISTING);
+
+				} catch (Exception e) {
+
+				}
+				labDocuments.add(l1);
+			}
+		}
+
+		l.setLabDocument(labDocuments);
+//		
+		Lab lb = this.labRepository.save(l);
+		Location location = request.getLocation();
+		location.setLab(lb);
+		location = this.locationRepository.save(location);
+		response.put(AppConstant.MESSAGE, AppConstant.LAB_CREATED_MESSAGE);
+		response.put(AppConstant.LAB_CREATED, lb);
+
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
+
+	}
+
+	
+	
+	
+	
+//find lab by id:	
+
+	public ResponseEntity<?> findLabById(Long id) {
+		Map<String, Object> response = new HashMap<>();
+
+		Lab l = labRepository.findById(id).orElseThrow(() -> new BadRequestException(AppConstant.LAB_NOT_FOUND));
+
+		LabResponse lr = labToLabResponse(l);
+		response.put(AppConstant.MESSAGE, AppConstant.LAB_FIND);
+
+		response.put(AppConstant.LAB, l);
+
+		return new ResponseEntity<>(response, HttpStatus.FOUND);
+	}
+
+	@Override
+	public LabResponse registerLab(LabRequest labRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

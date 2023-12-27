@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.upchardwar.app.entity.doctor.Doctor;
 import com.upchardwar.app.entity.payload.DoctorRequest;
 import com.upchardwar.app.entity.payload.DoctorResponse;
+import com.upchardwar.app.entity.payload.PatientRequest;
 import com.upchardwar.app.entity.payload.SpecialityRequest;
 import com.upchardwar.app.entity.payload.SpecialityResponse;
 
@@ -29,5 +30,7 @@ public interface IDoctorService {
 			String sortBy);
 
 	public DoctorResponse updateDoctor(DoctorRequest request);
+	
+	public ResponseEntity<?> addDoctor(DoctorRequest request,MultipartFile file,List<MultipartFile> multipartFiles);
 
 }

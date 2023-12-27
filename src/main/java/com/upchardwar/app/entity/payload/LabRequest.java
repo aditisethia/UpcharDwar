@@ -1,8 +1,10 @@
 package com.upchardwar.app.entity.payload;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.upchardwar.app.entity.Location;
+import com.upchardwar.app.entity.doctor.DoctorDocument;
 import com.upchardwar.app.entity.lab.LabDocument;
 
 import lombok.AllArgsConstructor;
@@ -26,5 +28,15 @@ public class LabRequest {
 	private String phone;
 
 	private Location location;
+	
+    private String documentType;
+	
+	private String imageName;
+	
+	private String biography;
+	
+	private Boolean isDeleted=false;
+	
+	private List<LabDocument> labDocuments=new ArrayList<>();
 
 }

@@ -84,6 +84,10 @@ public class Doctor {
 	
 	private LocalDate expierenceTo;
 	
+	public String documentType;
+	
+	public String imageName;
+	
 	
 	 @ElementCollection
 	    @CollectionTable(name = "doctor_awards", joinColumns = @JoinColumn(name = "doctor_id"))
@@ -133,10 +137,6 @@ public class Doctor {
     @OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL)
 	private List<PharmaReviewRating> pharmaReviewRatings;
     
-    
-    @JsonIgnore
-    @OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL)
-    private List<LabReviewRating> labReviewRatings;
     
     @JsonIgnore
     @OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL)

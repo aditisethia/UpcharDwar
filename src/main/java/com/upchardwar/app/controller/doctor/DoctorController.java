@@ -39,15 +39,13 @@ public class DoctorController {
 	@Autowired
 	private IDoctorService doctorService;
 
-	
-
 	// to create Doctor
-	//@PostMapping("/save")
-	@PostMapping(path="/save" , consumes= { "multipart/form-data"  ,"application/octet-stream"})
-	public ResponseEntity<?> addDoctor(@RequestPart("data") DoctorRequest doctorRequest,@RequestPart(value="files[]",required = false) List<MultipartFile> multipartFiles) {
-	
-		return new ResponseEntity<>(this.doctorService.createDoctor(doctorRequest,multipartFiles),
-				HttpStatus.OK);
+	// @PostMapping("/save")
+	@PostMapping(path = "/save", consumes = { "multipart/form-data", "application/octet-stream" })
+	public ResponseEntity<?> addDoctor(@RequestPart("data") DoctorRequest doctorRequest,
+			@RequestPart(value = "files[]", required = false) List<MultipartFile> multipartFiles) {
+
+		return new ResponseEntity<>(this.doctorService.createDoctor(doctorRequest, multipartFiles), HttpStatus.OK);
 
 	}
 
@@ -82,6 +80,14 @@ public class DoctorController {
 	public ResponseEntity<DoctorResponse> update(@RequestBody DoctorRequest request) {
 
 		return new ResponseEntity<DoctorResponse>(this.doctorService.updateDoctor(request), HttpStatus.OK);
+	}
+
+	@PostMapping(path = "/save1", consumes = { "multipart/form-data", "application/octet-stream" })
+	public ResponseEntity<?> addDoctor2(@RequestPart("data") DoctorRequest request,@RequestPart("files") List<MultipartFile> multipartFiles) {
+
+		return doctorService.addDoctor(request, multipartFiles.get(0), multipartFiles);
+
+		// Adjust the response based on your use case
 	}
 
 }

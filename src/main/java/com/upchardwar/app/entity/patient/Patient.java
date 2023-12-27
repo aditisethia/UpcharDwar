@@ -19,7 +19,7 @@ import com.upchardwar.app.entity.lab.LabDocument;
 import com.upchardwar.app.entity.lab.LabInvoice;
 import com.upchardwar.app.entity.lab.LabPayment;
 import com.upchardwar.app.entity.lab.LabReport;
-import com.upchardwar.app.entity.lab.LabReq;
+import com.upchardwar.app.entity.lab.Booking;
 import com.upchardwar.app.entity.lab.LabReviewRating;
 import com.upchardwar.app.entity.lab.LabTest;
 import com.upchardwar.app.entity.pharma.PharmaRequest;
@@ -80,13 +80,17 @@ public class Patient {
 	public String imageName;
 	
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "patient")
-	private List<LabTest> labTest;
+	 @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+	    private List<Booking> bookings;
 	
-	@OneToMany(mappedBy = "patient")
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name="patient_id")
+	@JsonIgnoreProperties(value="patient")
 	private Set<LabReport> labReport;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "patient")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name="patient_id")
+	@JsonIgnoreProperties(value="patient")
 	private List<LabInvoice> labInvoices;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "patient")
@@ -102,7 +106,8 @@ public class Patient {
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "patient")
 	private List<Prescription> Prescriptions;
 	
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "patient")
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value = {"patient"})	
 	private List<LabPayment> labPayments;
 	
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "patient")

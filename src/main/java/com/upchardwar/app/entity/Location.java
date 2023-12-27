@@ -35,6 +35,10 @@ public class Location {
 	private String country;
 	private String pinCode;
 	
+
+	@OneToOne
+	private Lab lab;
+	
 	
 	
 }
