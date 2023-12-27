@@ -4,10 +4,9 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-<<<<<<< HEAD
+
 import org.springframework.web.multipart.MultipartFile;
-=======
->>>>>>> 2189d25f36afff1f9a4d2a24d71f6a8c8bdd0c6b
+
 
 import com.upchardwar.app.entity.payload.DoctorRequest;
 import com.upchardwar.app.entity.payload.LabRequest;
