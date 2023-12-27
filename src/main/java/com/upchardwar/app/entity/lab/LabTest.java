@@ -45,9 +45,6 @@ public class LabTest {
 	private Boolean availability;
 	
 	
-	@ManyToOne
-    @JoinColumn(name = "lab_id")
-    private Lab lab;
 
 	@JsonIgnore
     @OneToMany(mappedBy = "labTest", cascade = CascadeType.ALL)

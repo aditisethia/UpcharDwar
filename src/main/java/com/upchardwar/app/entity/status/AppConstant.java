@@ -48,7 +48,7 @@ public class AppConstant {
 	public static final String DOCTOR_REVIEW_RATING = "REVIEWRATINGTODOCTOR";
 	
 	
-	
+
 	public static final String USER_ALREADY_REGISTERED_WITH_EMAIL = "user already exist with this email";
 	public static final Object USER_REGISTRATION_SUCCESS = "user registered successful";
 	public static final String EMAIL_STATUS = "EMAILSTATUS";
@@ -63,6 +63,7 @@ public class AppConstant {
 
 
 
+	public static final String LAB_CREATION = "created lab";
 	public static final String DOCTOR_CREATED = "DOCTOR :";
 
 
@@ -138,4 +139,5 @@ public class AppConstant {
 
 
 	public static final String LAB_TEST = "LABTEST :";
+
 }

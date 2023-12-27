@@ -8,11 +8,9 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -31,18 +29,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.upchardwar.app.entity.Role;
-import com.upchardwar.app.entity.User;
-import com.upchardwar.app.entity.UserRole;
 import com.upchardwar.app.entity.doctor.Doctor;
 import com.upchardwar.app.entity.doctor.DoctorDocument;
 import com.upchardwar.app.entity.doctor.DoctorQualification;
-import com.upchardwar.app.entity.doctor.Speciality;
-import com.upchardwar.app.entity.patient.Patient;
 import com.upchardwar.app.entity.payload.DoctorRequest;
 import com.upchardwar.app.entity.payload.DoctorResponse;
-import com.upchardwar.app.entity.payload.SpecialityRequest;
-import com.upchardwar.app.entity.payload.SpecialityResponse;
 import com.upchardwar.app.entity.status.AppConstant;
 import com.upchardwar.app.exception.ResourceAlreadyExistException;
 import com.upchardwar.app.exception.ResourceNotApprovedException;
@@ -50,7 +41,6 @@ import com.upchardwar.app.exception.ResourceNotFoundException;
 import com.upchardwar.app.repository.DoctorRepository;
 import com.upchardwar.app.repository.UserRepository;
 import com.upchardwar.app.services.doctor.IDoctorService;
-
 
 @Service
 public class DoctorServiceImpl implements IDoctorService {
@@ -65,11 +55,15 @@ public class DoctorServiceImpl implements IDoctorService {
 	private ModelMapper modelMapper;
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+
 	
 	
     
 	public static final String DIRECTORY=System.getProperty("user.dir")+"../src/main/resources/static/images";
 	
+
+
+
 	public DoctorResponse doctorToDoctorResponse(Doctor doctor) {
 		return this.modelMapper.map(doctor, DoctorResponse.class);
 	}
@@ -80,60 +74,57 @@ public class DoctorServiceImpl implements IDoctorService {
 
 	@Override
 	public ResponseEntity<?> createDoctor(DoctorRequest request, List<MultipartFile> multipartFiles) {
-		
+
 		Map<String, Object> response = new HashMap<>();
 
 		Optional<Doctor> s = this.doctorRepository.findByEmail(request.getEmail());
-		
-		
 
 		if (s.isPresent())
 			throw new ResourceAlreadyExistException(AppConstant.DOCTOR_WITH_EMAIL_ALREADY_EXIST);
 
 		Doctor dr = this.doctorRequestToDoctor(request);
-		List<DoctorDocument> doctorDocuments= new ArrayList<>();
-		if(multipartFiles!=null) {
-			for(MultipartFile file: multipartFiles) {
-				DoctorDocument d=new DoctorDocument();
+		List<DoctorDocument> doctorDocuments = new ArrayList<>();
+		if (multipartFiles != null) {
+			for (MultipartFile file : multipartFiles) {
+				DoctorDocument d = new DoctorDocument();
 				d.setDocumentName(file.getOriginalFilename());
 				d.setDocumentType(file.getContentType());
-				String filename= StringUtils.cleanPath(file.getOriginalFilename());
+				String filename = StringUtils.cleanPath(file.getOriginalFilename());
 				d.setFileName(filename);
-				Path fileStorage = Paths.get(DIRECTORY,filename).toAbsolutePath().normalize();
+				Path fileStorage = Paths.get(DIRECTORY, filename).toAbsolutePath().normalize();
 				try {
-					Files.copy(file.getInputStream(), fileStorage,StandardCopyOption.REPLACE_EXISTING);
-					
-				}catch (Exception e) {
-					
+					Files.copy(file.getInputStream(), fileStorage, StandardCopyOption.REPLACE_EXISTING);
+
+				} catch (Exception e) {
+
 				}
 				doctorDocuments.add(d);
 			}
 		}
-		
-		List<DoctorQualification> qualifications = new ArrayList<>();
-        for (DoctorQualification qualificationRequest : request.getQualifications()) {
-            DoctorQualification qualification = new DoctorQualification();
-            qualification.setDegree(qualificationRequest.getDegree());
-            qualification.setCollege(qualificationRequest.getCollege());
-            qualification.setCompletionYear(qualificationRequest.getCompletionYear());
-            qualification.setDoctor(dr);
-            qualifications.add(qualification);
-        }
-        dr.setQualifications(qualifications);
-          dr.setDoctorDocuments(doctorDocuments);
-//		
-       Doctor dr1=   this.doctorRepository.save(dr);
-          
-          response.put(AppConstant.MESSAGE, AppConstant.DOCTOR_CREATED_MESSAGE);
-          response.put(AppConstant.DOCTOR_CREATED , dr1);
 
-		return new ResponseEntity<>(response,HttpStatus.CREATED);
+		List<DoctorQualification> qualifications = new ArrayList<>();
+		for (DoctorQualification qualificationRequest : request.getQualifications()) {
+			DoctorQualification qualification = new DoctorQualification();
+			qualification.setDegree(qualificationRequest.getDegree());
+			qualification.setCollege(qualificationRequest.getCollege());
+			qualification.setCompletionYear(qualificationRequest.getCompletionYear());
+			qualification.setDoctor(dr);
+			qualifications.add(qualification);
+		}
+		dr.setQualifications(qualifications);
+		dr.setDoctorDocuments(doctorDocuments);		
+		Doctor dr1 = this.doctorRepository.save(dr);
+
+		response.put(AppConstant.MESSAGE, AppConstant.DOCTOR_CREATED_MESSAGE);
+		response.put(AppConstant.DOCTOR_CREATED, dr1);
+
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 
 	@Override
 	public DoctorResponse getDoctorById(Long id) {
 
-		Optional<Doctor> s = this.doctorRepository.findByIdAndStatus(AppConstant.DOCTOR_STATUS_APPROVED,id);
+		Optional<Doctor> s = this.doctorRepository.findByIdAndStatus(AppConstant.DOCTOR_STATUS_APPROVED, id);
 		if (s.isPresent())
 
 			return this.doctorToDoctorResponse(s.get());
@@ -156,8 +147,8 @@ public class DoctorServiceImpl implements IDoctorService {
 	@Override
 	public Page<DoctorResponse> getAllDoctor(Integer pageNo, Integer pageSize) {
 		PageRequest page = PageRequest.of(pageNo, pageSize);
-		Page<Doctor> pag = this.doctorRepository.findByStatus(AppConstant.DOCTOR_STATUS_APPROVED,page);
-		
+		Page<Doctor> pag = this.doctorRepository.findByStatus(AppConstant.DOCTOR_STATUS_APPROVED, page);
+
 		return pag.map(u -> this.doctorToDoctorResponse(u));
 	}
 
@@ -168,7 +159,7 @@ public class DoctorServiceImpl implements IDoctorService {
 				.withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING) // Match anywhere in the string
 				.withIgnoreCase() // Ignore case when matching strings
 				.withMatcher("id", match -> match.transform(value -> value.map(id -> ((Integer) id == 0) ? null : id)));
-       
+
 		Example<Doctor> example = Example.of(doctorRequestToDoctor(doctorRequest), exampleMatcher);
 		Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.Direction.ASC, sortBy);
 		Page<Doctor> findAllDoctor = this.doctorRepository.findAll(example, pageable);
@@ -179,7 +170,7 @@ public class DoctorServiceImpl implements IDoctorService {
 	@Override
 	public DoctorResponse updateDoctor(DoctorRequest request) {
 
-		if (request.getStatus()==AppConstant.DOCTOR_NOT_APPROVED) {
+		if (request.getStatus() == AppConstant.DOCTOR_NOT_APPROVED) {
 			throw new ResourceNotApprovedException(AppConstant.DOCTOR_NOT_APPROVED);
 		}
 		Doctor doc = this.doctorRepository.save(this.doctorRequestToDoctor(request));
@@ -187,6 +178,7 @@ public class DoctorServiceImpl implements IDoctorService {
 	}
 
 	
+
 	public ResponseEntity<?> addDoctor(DoctorRequest request, MultipartFile file , List<MultipartFile> multipartFiles) {
 		Map<String,Object> response =new HashMap<>();
 		
@@ -197,6 +189,7 @@ Optional<Doctor> s = this.doctorRepository.findByEmail(request.getEmail());
 		Doctor d =this.doctorRequestToDoctor(request);
 		   String imageName = UUID.randomUUID().toString()+file.getOriginalFilename();
 		   d.setImageName(imageName);
+		   
 
 		
 		if(file!=null) {

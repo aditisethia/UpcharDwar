@@ -1,5 +1,6 @@
 package com.upchardwar.app.services.impl.lab;
 
+<<<<<<< HEAD
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,16 +15,22 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+=======
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+>>>>>>> 2189d25f36afff1f9a4d2a24d71f6a8c8bdd0c6b
 
 import org.apache.catalina.connector.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+<<<<<<< HEAD
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+=======
+>>>>>>> 2189d25f36afff1f9a4d2a24d71f6a8c8bdd0c6b
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,6 +38,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+<<<<<<< HEAD
 import com.upchardwar.app.entity.Location;
 import com.upchardwar.app.entity.Role;
 import com.upchardwar.app.entity.User;
@@ -43,15 +51,19 @@ import com.upchardwar.app.entity.lab.LabDocument;
 import com.upchardwar.app.entity.patient.Patient;
 import com.upchardwar.app.entity.payload.DoctorRequest;
 import com.upchardwar.app.entity.payload.DoctorResponse;
+=======
+import com.upchardwar.app.entity.lab.Lab;
+>>>>>>> 2189d25f36afff1f9a4d2a24d71f6a8c8bdd0c6b
 import com.upchardwar.app.entity.payload.LabRequest;
 import com.upchardwar.app.entity.payload.LabResponse;
-import com.upchardwar.app.entity.payload.PatientRequest;
-import com.upchardwar.app.entity.payload.PatientResponse;
 import com.upchardwar.app.entity.status.AppConstant;
+<<<<<<< HEAD
 import com.upchardwar.app.exception.BadRequestException;
 import com.upchardwar.app.exception.ResourceAlreadyExistException;
 import com.upchardwar.app.exception.ResourceNotApprovedException;
 import com.upchardwar.app.exception.ResourceNotFoundException;
+=======
+>>>>>>> 2189d25f36afff1f9a4d2a24d71f6a8c8bdd0c6b
 import com.upchardwar.app.repository.LabRepository;
 import com.upchardwar.app.repository.LocationRepository;
 import com.upchardwar.app.repository.UserRepository;
@@ -84,6 +96,20 @@ public class LabServiceImpl implements ILabService {
 	}
 
 	@Override
+<<<<<<< HEAD
+=======
+	public ResponseEntity<?> registerLab(LabRequest labRequest) {
+		Map<String, Object> response = new HashMap<>();
+		// TODO Auto-generated method stub
+		Lab l = this.labRequestToLab(labRequest);
+		   LabResponse lr= labToLabResponse(this.labRepository.save(l));
+	      response.put(AppConstant.LAB_CREATION, lr);
+		return new ResponseEntity<>(response,HttpStatus.CREATED);
+	
+	}
+
+	@Override
+>>>>>>> 2189d25f36afff1f9a4d2a24d71f6a8c8bdd0c6b
 	public LabResponse updateLab(LabRequest request) {
 		// TODO Auto-generated method stub
 		return null;
@@ -95,7 +121,25 @@ public class LabServiceImpl implements ILabService {
 		return null;
 	}
 
+<<<<<<< HEAD
 	// @Override
+=======
+	@Override
+	public String deleteLabById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    @Override
+    public Page<LabResponse> getAllLab(Integer pageNo, Integer pageSize) {
+        PageRequest paging = PageRequest.of(pageNo, pageSize);
+        Page<Lab> pagedResult = labRepository.findAll(paging);
+
+        return  pagedResult.map(this::labToLabResponse);
+    }
+	
+//	@Override
+>>>>>>> 2189d25f36afff1f9a4d2a24d71f6a8c8bdd0c6b
 //	public LabResponse registerLab(LabRequest request) {
 //		Optional<Lab> s = this.labRepository.findByLabName(request.getLabName());
 //

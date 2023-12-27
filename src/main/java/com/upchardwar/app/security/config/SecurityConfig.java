@@ -14,10 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
-import com.upchardwar.app.security.*;
+import com.upchardwar.app.security.SecurityFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -30,7 +28,13 @@ public class SecurityConfig {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-	private String[] pAll = { "/upchardwar/auth/login", "/upchardwar/doctor/save", "/upchardwar/speciality/",
+	private String[] pAll = { "/upchardwar/auth/login", "/upchardwar/doctor/save", "/upchardwar/speciality/"
+
+			,"/upchardwar/patient/save", "/upchardwar/lab/save","/upchardwar/lab/all", "/upchardwar/pharmacy/save",
+			"/upchardwar/auth/sendemail", "/upchardwar/auth/generate-otp", "/upchardwar/auth/verify",
+			"upchardwar/auth/current-user", "upchardwar/speciality/all", "/upchardwar/schedule/",
+			"/upchardwar/appointment/book-appointment", "/upchardwar/appointment/notify" ,"upchardwar/labrequest/save",
+
 			"/upchardwar/patient/save", "/upchardwar/lab/save", "/upchardwar/pharmacy/save",
 			"/upchardwar/auth/sendemail", "/upchardwar/auth/generate-otp", "/upchardwar/auth/verify",
 			"upchardwar/auth/current-user", "upchardwar/speciality/all", "/upchardwar/schedule/",
@@ -45,10 +49,18 @@ public class SecurityConfig {
 			"/upchardwar/appointment/appointmentDetails/{id}",
 			"/upchardwar/appointment/all/{pageNo}/{pageSize}/{sortBy}" };
 
+
 	private String[] accessByDoctor = { "/upchardwar/appointment/createSchedule",
 			"/upchardwar/appointment/createTimeSlote", "/upchardwar/appointment/todaysAppointments",
 			"/upchardwar/appointment/cancelAppointment/{id}", "/upchardwar/appointment/countPatient",
-			"/upchardwar/appointment/countTodaysPetient", "/upchardwar/appointment/countUpcomingAppointments","/upchardwar/doctor/save1" };
+
+
+			"/upchardwar/appointment/countTodaysPetient", "/upchardwar/appointment/countUpcomingAppointments" ,"/upchardwar/schedule/create"};
+
+
+	
+
+
 	
 	private String[] accessByPatient = { "upchardwar/reviewrating/", "/upchardwar/patient/save1" , "/upchardwar/appointment/all/patient/{pageNo}/{pageSize}/{sortBy}" };
 	
@@ -78,7 +90,7 @@ public class SecurityConfig {
 	public SecurityFilterChain configurePaths(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests().requestMatchers(pAll).permitAll().requestMatchers("upchardwar/lab/save1").permitAll().requestMatchers(accessByAdmin)
 				.hasAuthority("ADMIN").requestMatchers(accessByAdminDoctor).hasAnyAuthority("ADMIN", "DOCTOR")
-				.requestMatchers(accessByAdminDoctorPatient).hasAnyAuthority("ADMIN", "DOCTOR", "PATIENT")
+
 				.requestMatchers(accessByDoctor).hasAuthority("DOCTOR")
 				.requestMatchers(accessByPatient).hasAuthority("PATIENT")
 				.requestMatchers(accessByLab).hasAuthority("LAB")

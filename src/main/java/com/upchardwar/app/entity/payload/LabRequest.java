@@ -7,6 +7,9 @@ import com.upchardwar.app.entity.Location;
 import com.upchardwar.app.entity.doctor.DoctorDocument;
 import com.upchardwar.app.entity.lab.LabDocument;
 
+import com.upchardwar.app.entity.Location;
+
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

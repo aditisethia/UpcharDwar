@@ -22,7 +22,7 @@ public class DoctorReviewRating {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "patient_id")
 	private Patient patient;
@@ -30,10 +30,9 @@ public class DoctorReviewRating {
 	@ManyToOne
 	@JoinColumn(name = "doctor_id")
 	private Doctor doctor;
-	
+
 	private Integer rating;
-	
+
 	private String review;
-	
-	
+
 }

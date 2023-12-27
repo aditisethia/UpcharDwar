@@ -1,17 +1,12 @@
 package com.upchardwar.app.entity.doctor;
 
 import java.time.LocalDate;
-import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.upchardwar.app.entity.patient.Patient;
 import com.upchardwar.app.entity.status.AppConstant;
-import com.upchardwar.app.entity.status.InvoiceStatus;
 
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;

@@ -1,11 +1,8 @@
 package com.upchardwar.app.controller;
 
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,16 +11,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
+
 import com.upchardwar.app.entity.User;
+
+
 import com.upchardwar.app.entity.Varification;
 import com.upchardwar.app.entity.payload.UserRequest;
 import com.upchardwar.app.entity.payload.UserResponse;
 import com.upchardwar.app.entity.payload.VarificationRequest;
-import com.upchardwar.app.exception.OtpExpireException;
 import com.upchardwar.app.helper.EmailRequest;
 import com.upchardwar.app.security.JwtUtils;
 import com.upchardwar.app.security.UserResponseS;
@@ -81,7 +79,7 @@ public class AuthController {
 	 @PostMapping(value = "/generate-otp", produces = "application/json") 
 	 public ResponseEntity<?> sendOtpToEmail(@RequestBody Varification var) {
 	       
-	            
+	            System.out.println("hello at controller");
 	            return   ResponseEntity.ok( authService.EmailVarification(var));
 	        } 
 		
@@ -99,7 +97,11 @@ public class AuthController {
 		@GetMapping("/current-user")
 		public UserResponse getCurrentUser(Principal p) {
 			System.out.println("fghgj");
+			if(p != null)
 			return this.uservice.getUserByName(p.getName());
+			else
+				System.out.println("p is null");
+				return null;
 			//return this.userDetailsService.loadUserByUsername(p.getName());
 		}
 }

@@ -30,6 +30,10 @@ public class Lab {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	
+	
+
+
 	private String labName;
 
 	private String email;

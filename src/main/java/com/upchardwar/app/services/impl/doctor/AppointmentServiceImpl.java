@@ -1,27 +1,21 @@
 package com.upchardwar.app.services.impl.doctor;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-import org.hibernate.query.sqm.SortOrder;
-import org.modelmapper.internal.bytebuddy.asm.Advice.OffsetMapping.Sort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.upchardwar.app.dto.AppointmentDto;
@@ -31,10 +25,6 @@ import com.upchardwar.app.dto.TodaysAppointmentDto;
 
 import com.upchardwar.app.entity.doctor.Appointment;
 import com.upchardwar.app.entity.doctor.Doctor;
-import com.upchardwar.app.entity.doctor.DoctorInvoice;
-import com.upchardwar.app.entity.doctor.PatientAppointmentFile;
-import com.upchardwar.app.entity.doctor.Schedule;
-import com.upchardwar.app.entity.doctor.TimeSlote;
 import com.upchardwar.app.entity.patient.Patient;
 import com.upchardwar.app.entity.payload.ApiResponse;
 import com.upchardwar.app.entity.status.AppConstant;
@@ -68,7 +58,7 @@ public class AppointmentServiceImpl implements IAppointmentService {
 
 	@Autowired
 	private DoctorInvoiceRepository doctorInvoiceRepository;
-	
+
 	@Autowired
 	private DoctorRepository drepo;
 
@@ -76,7 +66,7 @@ public class AppointmentServiceImpl implements IAppointmentService {
 	private PatientRepository patientRepository;
 
 	public TodaysAppointmentDto convertToTodaysAppointmentDto(Appointment appointment) {
-		
+
 		return new TodaysAppointmentDto(appointment.getId(), appointment.getPatient().getPatientName(),
 				appointment.getAppointmentDate(), appointment.getPurpose(), appointment.getPatient().getId(),
 				appointment.getPaidAmount(), appointment.getStatus()
@@ -85,7 +75,7 @@ public class AppointmentServiceImpl implements IAppointmentService {
 	}
 
 	public AppointmentDto convertToAppointmentDto(Appointment appointment) {
-		
+
 		return new AppointmentDto(appointment.getId(), appointment.getPatient().getPatientName(),
 				appointment.getAppointmentDate(), appointment.getPurpose(), appointment.getPaidAmount(),
 				appointment.getStatus(), appointment.getAppointmentTime(), appointment.getDoctor().getId(),
@@ -93,41 +83,36 @@ public class AppointmentServiceImpl implements IAppointmentService {
 
 		);
 	}
-	
-	
-	
+
 	private Appointment convertToAppointmentEntity(AppointmentDto appointmentDto) {
-		 Appointment appointment = new Appointment();
-		    appointment.setId(appointmentDto.getId());
-		    appointment.setAppointmentDate(appointmentDto.getAppointmentDate());
-		    appointment.setPurpose(appointmentDto.getPurpose());
-		    appointment.setPaidAmount(appointmentDto.getPaidAmount());
-		    appointment.setStatus(appointmentDto.getStatus());
-		    appointment.setAppointmentTime(appointmentDto.getAppointmentTime());
+		Appointment appointment = new Appointment();
+		appointment.setId(appointmentDto.getId());
+		appointment.setAppointmentDate(appointmentDto.getAppointmentDate());
+		appointment.setPurpose(appointmentDto.getPurpose());
+		appointment.setPaidAmount(appointmentDto.getPaidAmount());
+		appointment.setStatus(appointmentDto.getStatus());
+		appointment.setAppointmentTime(appointmentDto.getAppointmentTime());
 
-		    // Create and set Patient entity
-		    Patient patient = new Patient();
-		    patient.setPatientName(appointmentDto.getPatientName());
-		    patient.setEmail(appointmentDto.getEmail());
-		    // Set other Patient properties as needed
-		    appointment.setPatient(patient);
-		    Optional<Doctor> d= this.drepo.findById(appointmentDto.getDId());
-		    Doctor doctor=null;
-		    if(d.isPresent())
-		    {
-		    	 doctor = d.get();
-		    	 
-		    }
-		    else
-		    	throw new ResourceNotFoundException(AppConstant.DOCTOR_WITH_ID_NOT_EXIST);
-		    appointment.setDoctor(doctor);
+		// Create and set Patient entity
+		Patient patient = new Patient();
+		patient.setPatientName(appointmentDto.getPatientName());
+		patient.setEmail(appointmentDto.getEmail());
+		// Set other Patient properties as needed
+		appointment.setPatient(patient);
+		Optional<Doctor> d = this.drepo.findById(appointmentDto.getDId());
+		Doctor doctor = null;
+		if (d.isPresent()) {
+			doctor = d.get();
 
-		    return appointment;
-    }
-	
-	
-	//..........................
-	
+		} else
+			throw new ResourceNotFoundException(AppConstant.DOCTOR_WITH_ID_NOT_EXIST);
+		appointment.setDoctor(doctor);
+
+		return appointment;
+	}
+
+	// ..........................
+
 	private PatientAppointmentDto convertToPatientAppointmentDto(Appointment appointment) {
 //	    PatientAppointmentDto patientAppointmentDto = new PatientAppointmentDto();
 //	    
@@ -150,102 +135,83 @@ public class AppointmentServiceImpl implements IAppointmentService {
 //	    }
 //
 //	    return patientAppointmentDto;
-		
-		
-		
-		    Doctor doctor = appointment.getDoctor();
-		    Patient patient = appointment.getPatient();
 
-		    return new PatientAppointmentDto(
-		            appointment.getId(),
-		            patient.getPatientName(),
-		            appointment.getAppointmentDate(),
-		            appointment.getPurpose(),
-		            appointment.getPaidAmount(),
-		            appointment.getStatus(),
-		            appointment.getAppointmentTime(),
-		            doctor.getId(),
-		            patient.getEmail(),
-		            patient.getMobile(),
-		            doctor.getName(),
-		            doctor.getSpeciality().getSpName()
-		    );
-		}
-	
-	
-	
-	
-	
-	
-	
-	
+		Doctor doctor = appointment.getDoctor();
+		Patient patient = appointment.getPatient();
 
-	public Map<String, Object> bookAppointment(AppointmentDto appointmentDTO) {
-		Map<String, Object> response = new HashMap<>();
-		System.out.println(appointmentDTO.getDId());
-Optional<Doctor> d= this.drepo.findById(appointmentDTO.getDId());
-	    Doctor doctor=null;
-	    if(d.isPresent())
-	    {
-	    	 doctor = d.get();
-	    }
-	    else
-	    	throw new ResourceNotFoundException(AppConstant.DOCTOR_WITH_ID_NOT_EXIST);
-		
-		Patient patient = patientRepository.findByEmail(appointmentDTO.getEmail())
-				.orElseThrow(() -> new ResourceNotFoundException(AppConstant.PAITENT_NOT_FOUND));
-		LocalDate appointmentDate = appointmentDTO.getAppointmentDate();
-		LocalTime appointmentTime = appointmentDTO.getAppointmentTime();
-		Float paidAmount = appointmentDTO.getPaidAmount();
-
-		System.out.println(appointmentDate.getDayOfWeek().name());
-		
-		Schedule s = scheduleRepository.findByDoctorAndDaysAndIsActiveAndIsDeleted(doctor,
-				appointmentDate.getDayOfWeek().name(), true, false);
-
-		TimeSlote timeSlot = s.getTimeSlotes().stream().filter(slot -> slot.getStartTime().equals(appointmentTime))
-				.findFirst().orElse(null);
-		System.out.println(timeSlot.getIsBooked());
-		if (timeSlot == null || timeSlot.getIsBooked()) {
-			throw new RuntimeException("Time slot not available or already booked");
-		}
-		PatientAppointmentFile appointmentFile = fileRepository.findByDoctorAndDate(doctor, appointmentDate);
-		if (appointmentFile == null) {
-
-			appointmentFile = new PatientAppointmentFile();
-			appointmentFile.setDoctor(doctor);
-			appointmentFile.setDate(appointmentDate);
-			appointmentFile.setPatient(patient);
-
-			appointmentFile = fileRepository.save(appointmentFile);
-		}
-		Appointment appointment = new Appointment();
-		appointment.setDoctor(doctor);
-		appointment.setPatient(patient);
-		appointment.setAppointmentDate(appointmentDate);
-		appointment.setAppointmentTime(appointmentTime);
-		appointment.setStatus(AppConstant.APPOINTMENT_SCHDULED);
-		appointment.setPatientAppointmentFile(appointmentFile);
-		appointment.setPaidAmount(paidAmount); // Use the value from DTO
-		appointment.setPurpose(appointmentDTO.getPurpose());
-		DoctorInvoice invoice = new DoctorInvoice();
-		invoice.setInvoiceGenerateDate(LocalDate.now());// Set the invoice generation date
-		invoice.setAmount(appointment.getPaidAmount()); // Set the amount for the invoice
-		invoice.setInvoiceStatus(AppConstant.INVOICE_STATUS_AWAITED); // Set the initial status
-		invoice.setPaymentMethod("dfgh");
-		invoice.setDoctor(doctor);
-		invoice.setPatient(patient);
-		doctorInvoiceRepository.save(invoice);
-		appointment.setDoctorInvoice(invoice);
-		doctorInvoiceRepository.save(invoice);
-		AppointmentDto dto = convertToAppointmentDto(appointmentRepository.save(appointment));
-		timeSlot.setIsBooked(true);
-
-		timeSlotRepository.save(timeSlot);
-
-		response.put("Appointment", dto);
-		return response;
+		return new PatientAppointmentDto(appointment.getId(), patient.getPatientName(),
+				appointment.getAppointmentDate(), appointment.getPurpose(), appointment.getPaidAmount(),
+				appointment.getStatus(), appointment.getAppointmentTime(), doctor.getId(), patient.getEmail(),
+				patient.getMobile(), doctor.getName(), doctor.getSpeciality().getSpName());
 	}
+
+//
+//	public Map<String, Object> bookAppointment(AppointmentDto appointmentDTO) {
+//		Map<String, Object> response = new HashMap<>();
+//		System.out.println(appointmentDTO.getDId());
+//Optional<Doctor> d= this.drepo.findById(appointmentDTO.getDId());
+//	    Doctor doctor=null;
+//	    if(d.isPresent())
+//	    {
+//	    	 doctor = d.get();
+//	    }
+//	    else
+//	    	throw new ResourceNotFoundException(AppConstant.DOCTOR_WITH_ID_NOT_EXIST);
+//		
+//		Patient patient = patientRepository.findByEmail(appointmentDTO.getEmail())
+//				.orElseThrow(() -> new ResourceNotFoundException(AppConstant.PAITENT_NOT_FOUND));
+//		LocalDate appointmentDate = appointmentDTO.getAppointmentDate();
+//		LocalTime appointmentTime = appointmentDTO.getAppointmentTime();
+//		Float paidAmount = appointmentDTO.getPaidAmount();
+//
+//		System.out.println(appointmentDate.getDayOfWeek().name());
+//		
+//		Schedule s = scheduleRepository.findByDoctorAndDaysAndIsActiveAndIsDeleted(doctor,
+//				appointmentDate.getDayOfWeek().name(), true, false);
+//
+//		TimeSlote timeSlot = s.getTimeSlotes().stream().filter(slot -> slot.getStartTime().equals(appointmentTime))
+//				.findFirst().orElse(null);
+//		System.out.println(timeSlot.getIsBooked());
+//		if (timeSlot == null || timeSlot.getIsBooked()) {
+//			throw new RuntimeException("Time slot not available or already booked");
+//		}
+//		PatientAppointmentFile appointmentFile = fileRepository.findByDoctorAndDate(doctor, appointmentDate);
+//		if (appointmentFile == null) {
+//
+//			appointmentFile = new PatientAppointmentFile();
+//			appointmentFile.setDoctor(doctor);
+//			appointmentFile.setDate(appointmentDate);
+//			appointmentFile.setPatient(patient);
+//
+//			appointmentFile = fileRepository.save(appointmentFile);
+//		}
+//		Appointment appointment = new Appointment();
+//		appointment.setDoctor(doctor);
+//		appointment.setPatient(patient);
+//		appointment.setAppointmentDate(appointmentDate);
+//		appointment.setAppointmentTime(appointmentTime);
+//		appointment.setStatus(AppConstant.APPOINTMENT_SCHDULED);
+//		appointment.setPatientAppointmentFile(appointmentFile);
+//		appointment.setPaidAmount(paidAmount); // Use the value from DTO
+//		appointment.setPurpose(appointmentDTO.getPurpose());
+//		DoctorInvoice invoice = new DoctorInvoice();
+//		invoice.setInvoiceGenerateDate(LocalDate.now());// Set the invoice generation date
+//		invoice.setAmount(appointment.getPaidAmount()); // Set the amount for the invoice
+//		invoice.setInvoiceStatus(AppConstant.INVOICE_STATUS_AWAITED); // Set the initial status
+//		invoice.setPaymentMethod("dfgh");
+//		invoice.setDoctor(doctor);
+//		invoice.setPatient(patient);
+//		doctorInvoiceRepository.save(invoice);
+//		appointment.setDoctorInvoice(invoice);
+//		doctorInvoiceRepository.save(invoice);
+//		AppointmentDto dto = convertToAppointmentDto(appointmentRepository.save(appointment));
+//		timeSlot.setIsBooked(true);
+//
+//		timeSlotRepository.save(timeSlot);
+//
+//		response.put("Appointment", dto);
+//		return response;
+//	}
 
 	// to get todays appointment
 	@Override
@@ -419,41 +385,39 @@ Optional<Doctor> d= this.drepo.findById(appointmentDTO.getDId());
 
 	}
 
-	
-	//view all appointment and search on the ba
+	// view all appointment and search on the ba
 	public PageAppointmentDto viewAllAppointments(int pageNo, int pageSize, String sortBy, AppointmentDto request) {
-	   
-		ExampleMatcher exampleMatcher = ExampleMatcher.matching()
-	            .withIgnoreNullValues()
-	            .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
-	            .withIgnoreCase()
-	            .withMatcher("id", match -> match.transform(value -> value.map(id -> ((Long) id == 0 )? null : id)))
-	            .withMatcher("patientAppointmentFile.id", match -> match.transform(value -> value.map(id -> ((Long) id == 0 )? null : id)))
-	            .withMatcher("doctorInvoice.id", match -> match.transform(value -> value.map(id -> ((Long) id == 0 )? null : id)))
-	            .withMatcher("doctor.id", match -> match.transform(value -> value.map(dId -> ((Long) dId == 0) ? null : dId)));
-	    
-	          
 
-	    Example<Appointment> example = Example.of(convertToAppointmentEntity(request), exampleMatcher);
+		ExampleMatcher exampleMatcher = ExampleMatcher.matching().withIgnoreNullValues()
+				.withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING).withIgnoreCase()
+				.withMatcher("id", match -> match.transform(value -> value.map(id -> ((Long) id == 0) ? null : id)))
+				.withMatcher("patientAppointmentFile.id",
+						match -> match.transform(value -> value.map(id -> ((Long) id == 0) ? null : id)))
+				.withMatcher("doctorInvoice.id",
+						match -> match.transform(value -> value.map(id -> ((Long) id == 0) ? null : id)))
+				.withMatcher("doctor.id",
+						match -> match.transform(value -> value.map(dId -> ((Long) dId == 0) ? null : dId)));
 
-	    Pageable pageable = PageRequest.of(pageNo, pageSize, Direction.ASC, sortBy);
-	    Page<Appointment> findAllAppointment = appointmentRepository.findAll(example, pageable);
+		Example<Appointment> example = Example.of(convertToAppointmentEntity(request), exampleMatcher);
+
+		Pageable pageable = PageRequest.of(pageNo, pageSize, Direction.ASC, sortBy);
+		Page<Appointment> findAllAppointment = appointmentRepository.findAll(example, pageable);
 
 //	    Page<AppointmentDto> map = findAllAppointment.map(this::convertToAppointmentDto);
-	    Page<AppointmentDto> map = findAllAppointment.map(p-> convertToAppointmentDto(p));
-	    List<AppointmentDto> content = map.getContent();
-       
-	    List<AppointmentDto> newList = null;
-	    if (content != null && !content.isEmpty()) {
-	        newList = new ArrayList<>(content);
-	        Collections.reverse(newList);
-	    }
+		Page<AppointmentDto> map = findAllAppointment.map(p -> convertToAppointmentDto(p));
+		List<AppointmentDto> content = map.getContent();
 
-	    PageAppointmentDto prr = new PageAppointmentDto();
-	    prr.setContents(newList);
-	    prr.setTotalElements(findAllAppointment.getTotalElements());
+		List<AppointmentDto> newList = null;
+		if (content != null && !content.isEmpty()) {
+			newList = new ArrayList<>(content);
+			Collections.reverse(newList);
+		}
 
-	    return prr;
+		PageAppointmentDto prr = new PageAppointmentDto();
+		prr.setContents(newList);
+		prr.setTotalElements(findAllAppointment.getTotalElements());
+
+		return prr;
 	}
 
 //	@Override
@@ -471,68 +435,67 @@ Optional<Doctor> d= this.drepo.findById(appointmentDTO.getDId());
 //	}
 
 	public PageAppointmentDto viewAllAppointments(int pageNo, int pageSize, String sortBy, String email) {
-	    // Create Pageable object with pagination and sorting
-		 Pageable pageable = PageRequest.of(pageNo, pageSize, Direction.ASC, sortBy);
-		 
-	Doctor doctor=drepo.findByEmail(email).orElseThrow(()->new ResourceNotFoundException(AppConstant.DOCTOR_WITH_EMAIL_NOT_EXIST));;
+		// Create Pageable object with pagination and sorting
+		Pageable pageable = PageRequest.of(pageNo, pageSize, Direction.ASC, sortBy);
 
-	   Long doctorId=doctor.getId();
-	    // Query the database directly based on doctorId
-	    Page<Appointment> findAllAppointment = appointmentRepository.findByDoctorId(doctorId, pageable);
+		Doctor doctor = drepo.findByEmail(email)
+				.orElseThrow(() -> new ResourceNotFoundException(AppConstant.DOCTOR_WITH_EMAIL_NOT_EXIST));
+		;
 
-	    // Convert the Page of Appointment entities to a Page of AppointmentDto
-	    Page<AppointmentDto> map = findAllAppointment.map(this::convertToAppointmentDto);
+		Long doctorId = doctor.getId();
+		// Query the database directly based on doctorId
+		Page<Appointment> findAllAppointment = appointmentRepository.findByDoctorId(doctorId, pageable);
 
-	    // Reverse the order of content if needed
-	    List<AppointmentDto> content = map.getContent();
-	    List<AppointmentDto> newList = null;
-	    if (content != null && !content.isEmpty()) {
-	        newList = new ArrayList<>(content);
-	        Collections.reverse(newList);
-	    }
+		// Convert the Page of Appointment entities to a Page of AppointmentDto
+		Page<AppointmentDto> map = findAllAppointment.map(this::convertToAppointmentDto);
 
-	    // Create and return the result DTO
-	    PageAppointmentDto prr = new PageAppointmentDto();
-	    prr.setContents(newList);
-	    prr.setTotalElements(findAllAppointment.getTotalElements());
+		// Reverse the order of content if needed
+		List<AppointmentDto> content = map.getContent();
+		List<AppointmentDto> newList = null;
+		if (content != null && !content.isEmpty()) {
+			newList = new ArrayList<>(content);
+			Collections.reverse(newList);
+		}
 
-	    return prr;
+		// Create and return the result DTO
+		PageAppointmentDto prr = new PageAppointmentDto();
+		prr.setContents(newList);
+		prr.setTotalElements(findAllAppointment.getTotalElements());
+
+		return prr;
 	}
-	
-	
-	
-	   
 
-	//get All Appointment of patient by email
-	
-	    public PageAppointmentDto viewAppointmentsByPatient(int pageNo, int pageSize, String sortBy, String patientEmail) {
-	        // Create Pageable object with pagination and sorting
-	        Pageable pageable = PageRequest.of(pageNo, pageSize, Direction.ASC, sortBy);
-            
-	       
-	        Page<Appointment> findAllAppointments = appointmentRepository.findByEmail(patientEmail, pageable);
+	// get All Appointment of patient by email
 
-	        // Convert the Page of Appointment entities to a Page of AppointmentDto
-	        Page<PatientAppointmentDto> mappedAppointments = findAllAppointments.map(this::convertToPatientAppointmentDto);
+	public PageAppointmentDto viewAppointmentsByPatient(int pageNo, int pageSize, String sortBy, String patientEmail) {
+		// Create Pageable object with pagination and sorting
+		Pageable pageable = PageRequest.of(pageNo, pageSize, Direction.ASC, sortBy);
 
-	        // Reverse the order of content if needed
-	        List<PatientAppointmentDto> content = mappedAppointments.getContent();
-	        List<PatientAppointmentDto> reversedList = null;
-	        if (content != null && !content.isEmpty()) {
-	            reversedList = new ArrayList<>(content);
-	            Collections.reverse(reversedList);
-	        }
+		Page<Appointment> findAllAppointments = appointmentRepository.findByEmail(patientEmail, pageable);
 
-	        // Create and return the result DTO
-	        PageAppointmentDto resultDto = new PageAppointmentDto();
-	        resultDto.setContents(reversedList);
-	        resultDto.setTotalElements(findAllAppointments.getTotalElements());
+		// Convert the Page of Appointment entities to a Page of AppointmentDto
+		Page<PatientAppointmentDto> mappedAppointments = findAllAppointments.map(this::convertToPatientAppointmentDto);
 
-	        return resultDto;
-	    }
+		// Reverse the order of content if needed
+		List<PatientAppointmentDto> content = mappedAppointments.getContent();
+		List<PatientAppointmentDto> reversedList = null;
+		if (content != null && !content.isEmpty()) {
+			reversedList = new ArrayList<>(content);
+			Collections.reverse(reversedList);
+		}
 
-	    
-	
+		// Create and return the result DTO
+		PageAppointmentDto resultDto = new PageAppointmentDto();
+		resultDto.setContents(reversedList);
+		resultDto.setTotalElements(findAllAppointments.getTotalElements());
 
-	
+		return resultDto;
+	}
+
+	@Override
+	public Map<String, Object> bookAppointment(AppointmentDto appointmentDTO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
