@@ -1,9 +1,7 @@
 package com.upchardwar.app.entity.doctor;
 
 import java.util.List;
-import java.util.Set;
 
-import com.upchardwar.app.entity.lab.LabTest;
 import com.upchardwar.app.entity.patient.Patient;
 import com.upchardwar.app.entity.pharma.PharmaPayment;
 

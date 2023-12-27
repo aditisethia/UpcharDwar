@@ -9,8 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.upchardwar.app.entity.doctor.Doctor;
 import com.upchardwar.app.entity.payload.DoctorRequest;
 import com.upchardwar.app.entity.payload.DoctorResponse;
-import com.upchardwar.app.entity.payload.SpecialityRequest;
-import com.upchardwar.app.entity.payload.SpecialityResponse;
 
 public interface IDoctorService {
 	public DoctorResponse doctorToDoctorResponse(Doctor doctor);

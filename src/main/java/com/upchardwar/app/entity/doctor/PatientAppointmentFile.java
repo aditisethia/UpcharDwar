@@ -3,7 +3,6 @@ package com.upchardwar.app.entity.doctor;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.upchardwar.app.entity.patient.Patient;
 
 import jakarta.persistence.CascadeType;

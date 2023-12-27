@@ -1,8 +1,6 @@
 package com.upchardwar.app.controller.doctor;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,21 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.upchardwar.app.entity.Role;
-import com.upchardwar.app.entity.UserRole;
-import com.upchardwar.app.entity.doctor.Speciality;
 import com.upchardwar.app.entity.payload.DoctorRequest;
 import com.upchardwar.app.entity.payload.DoctorResponse;
-import com.upchardwar.app.entity.payload.SpecialityRequest;
-import com.upchardwar.app.entity.payload.SpecialityResponse;
-import com.upchardwar.app.repository.SpecialityRepository;
 import com.upchardwar.app.services.doctor.IDoctorService;
-import com.upchardwar.app.services.impl.doctor.DoctorServiceImpl;
 
 @RestController
 @RequestMapping("/upchardwar/doctor")
@@ -39,15 +29,13 @@ public class DoctorController {
 	@Autowired
 	private IDoctorService doctorService;
 
-	
-
 	// to create Doctor
-	//@PostMapping("/save")
-	@PostMapping(path="/save" , consumes= { "multipart/form-data"  ,"application/octet-stream"})
-	public ResponseEntity<?> addDoctor(@RequestPart("data") DoctorRequest doctorRequest,@RequestPart(value="files[]",required = false) List<MultipartFile> multipartFiles) {
-	
-		return new ResponseEntity<>(this.doctorService.createDoctor(doctorRequest,multipartFiles),
-				HttpStatus.OK);
+	// @PostMapping("/save")
+	@PostMapping(path = "/save", consumes = { "multipart/form-data", "application/octet-stream" })
+	public ResponseEntity<?> addDoctor(@RequestPart("data") DoctorRequest doctorRequest,
+			@RequestPart(value = "files[]", required = false) List<MultipartFile> multipartFiles) {
+
+		return new ResponseEntity<>(this.doctorService.createDoctor(doctorRequest, multipartFiles), HttpStatus.OK);
 
 	}
 
@@ -83,5 +71,6 @@ public class DoctorController {
 
 		return new ResponseEntity<DoctorResponse>(this.doctorService.updateDoctor(request), HttpStatus.OK);
 	}
+	
 
 }
