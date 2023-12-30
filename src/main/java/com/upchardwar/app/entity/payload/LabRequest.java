@@ -41,5 +41,7 @@ public class LabRequest {
 	private Boolean isDeleted=false;
 	
 	private List<LabDocument> labDocuments=new ArrayList<>();
+	
+	private Long userId;
 
 }

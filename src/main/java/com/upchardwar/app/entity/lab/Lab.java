@@ -1,10 +1,9 @@
 package com.upchardwar.app.entity.lab;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.upchardwar.app.entity.Location;
+import com.upchardwar.app.entity.User;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -67,6 +66,10 @@ public class Lab {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "lab_id")
 	private List<LabReviewRating> labReviewRatings;
+	
+	@OneToOne
+	@JoinColumn(name="user_id")
+	private User user;
 
 	
 
