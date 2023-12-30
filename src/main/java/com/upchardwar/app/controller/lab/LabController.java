@@ -25,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.upchardwar.app.entity.payload.LabRequest;
 import com.upchardwar.app.entity.payload.LabResponse;
-import com.upchardwar.app.services.lab.ILabRequestsService;
+
 import com.upchardwar.app.services.lab.ILabService;
 
 @RestController
@@ -51,6 +51,7 @@ public class LabController {
             @RequestPart("data") LabRequest request,
 //            @RequestPart("file") MultipartFile file,
             @RequestPart("files") List<MultipartFile> multipartFiles) {
+		System.err.println(request);
    
      return   labService.addLab(request, multipartFiles.get(0), multipartFiles);
 
@@ -66,11 +67,19 @@ public class LabController {
 
 
 	@GetMapping("/all")
-	public ResponseEntity<?> getAllLabs(@RequestParam(defaultValue = "0") Integer pageNo,@RequestParam(defaultValue = "10") Integer pageSize) {
+	public ResponseEntity<?> getAllLabs(@RequestParam(defaultValue = "0") Integer pageNo,@RequestParam(defaultValue = "5") Integer pageSize) {
 		System.out.println("at getall lab controller");
 		List<LabResponse> labs = labService.getAllLab(pageNo, pageSize).getContent();
 		
 		return new ResponseEntity<>(labs, HttpStatus.OK);
+	}
+	
+	
+	//Find Lab By User Id
+	@GetMapping("/user/{userId}")
+	public ResponseEntity<?> getLab(@PathVariable("userId") Long userId){
+		System.out.println(userId);
+		return this.labService.findLabByUserId(userId);
 	}
 
 }

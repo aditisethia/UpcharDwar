@@ -221,7 +221,7 @@ public class LabServiceImpl implements ILabService {
 	@Override
 	public ResponseEntity<?> addLab(LabRequest request, MultipartFile file, List<MultipartFile> multipartFiles) {
 		Map<String, Object> response = new HashMap<>();
-
+        
 		Optional<Lab> op = this.labRepository.findByEmail(request.getEmail());
 		if (op.isPresent())
 			throw new ResourceAlreadyExistException(AppConstant.LAB_ALREADY_EXIST);
@@ -268,7 +268,7 @@ public class LabServiceImpl implements ILabService {
 		location.setLab(lb);
 		location = this.locationRepository.save(location);
 		response.put(AppConstant.MESSAGE, AppConstant.LAB_CREATED_MESSAGE);
-		response.put(AppConstant.LAB_CREATED, lb);
+		
 
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
 
@@ -291,6 +291,17 @@ public class LabServiceImpl implements ILabService {
 		response.put(AppConstant.LAB, l);
 
 		return new ResponseEntity<>(response, HttpStatus.FOUND);
+	}
+
+	@Override
+	public ResponseEntity<?> findLabByUserId(Long userId) {
+	    Map<String, Object> response = new HashMap<>();
+	    	Lab l=	labRepository.findByUserId(userId);
+	    	LabResponse lr=this.labToLabResponse(l);
+	    	System.out.println(lr.getLabName());
+	    	response.put(AppConstant.LAB, lr);
+	    	System.out.println(response);
+	    	return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 

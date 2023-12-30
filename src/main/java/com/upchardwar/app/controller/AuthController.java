@@ -88,7 +88,7 @@ public class AuthController {
 	 
 	 public ResponseEntity<Object> verifyUser(@RequestBody VarificationRequest request) {
 		 
-		 System.out.println("hwllo");
+		
 		 return ResponseEntity.ok(authService.verifyUser(request));
 	   
 	 }

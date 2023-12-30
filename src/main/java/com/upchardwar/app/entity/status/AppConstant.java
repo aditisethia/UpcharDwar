@@ -84,7 +84,7 @@ public class AppConstant {
 
 
 
-	public static final String DIRECTORY = System.getProperty("user.dir")+"../src/main/resources/static/images";
+	public static final String DIRECTORY = System.getProperty("user.dir")+"/src/main/resources/static/images/";
 
 
 
@@ -126,7 +126,7 @@ public class AppConstant {
 
 
 
-	public static final String LAB = "Lab :";
+	public static final String LAB = "Lab";
 
 
 
@@ -138,6 +138,14 @@ public class AppConstant {
 
 
 
-	public static final String LAB_TEST = "LABTEST :";
+	public static final String LAB_TEST = "LABTEST";
+
+
+
+	public static final String LAB_WITH_EMAIL_NOT_EXIST = "lab doesn't exist";
+
+
+
+	public static final String LAB_TEST_WITH_EMAIL_NOT_EXIST = "labTest doesn't exist";
 
 }

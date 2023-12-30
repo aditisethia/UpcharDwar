@@ -24,5 +24,7 @@ public ResponseEntity<?> deleteLabById(Long id);
  public Page<LabResponse> getAllLab(Integer pageNo, Integer pageSize);
  
  public ResponseEntity<?> addLab(LabRequest request,MultipartFile file,List<MultipartFile> multipartFiles);
+ 
+ public ResponseEntity<?> findLabByUserId(Long userId);
 
 }

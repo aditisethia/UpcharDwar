@@ -1,5 +1,6 @@
 package com.upchardwar.app.repository;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -22,4 +23,6 @@ public interface LabRepository extends JpaRepository<Lab, Long> {
 	public Page<Lab> findByIsApprovedAndIsDeleted(boolean b, PageRequest page, boolean c);
 
 	public Optional<Lab> findByEmail(String email);
+
+	public Lab findByUserId(Long userId);
 }
