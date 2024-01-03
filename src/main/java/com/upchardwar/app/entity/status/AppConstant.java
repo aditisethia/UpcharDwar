@@ -140,4 +140,12 @@ public class AppConstant {
 
 	public static final String LAB_TEST = "LABTEST :";
 
+
+
+	public static final Object DOCTOR_FOUND = "Doctor Found with userId";
+
+
+
+	public static final String DOCTOR = "doctor";
+
 }

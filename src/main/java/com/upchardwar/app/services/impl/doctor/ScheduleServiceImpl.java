@@ -154,4 +154,8 @@ public class ScheduleServiceImpl implements IScheduleService {
 		return modelMapper.map(schedule1, ScheduleResponse.class);
 	}
 
+    public List<Schedule> getSchedulesByDoctorId(Long doctorId) {
+        return repository.findByDoctorId(doctorId);
+    }
+
 }

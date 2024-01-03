@@ -1,36 +1,25 @@
 package com.upchardwar.app.entity.patient;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.logging.log4j.message.Message;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.upchardwar.app.entity.Conversation;
-import com.upchardwar.app.entity.Location;
 import com.upchardwar.app.entity.Messages;
 import com.upchardwar.app.entity.doctor.Appointment;
 import com.upchardwar.app.entity.doctor.DoctorInvoice;
 import com.upchardwar.app.entity.doctor.DoctorReviewRating;
 import com.upchardwar.app.entity.doctor.PatientAppointmentFile;
 import com.upchardwar.app.entity.doctor.Prescription;
-import com.upchardwar.app.entity.lab.LabDocument;
+import com.upchardwar.app.entity.lab.Booking;
 import com.upchardwar.app.entity.lab.LabInvoice;
 import com.upchardwar.app.entity.lab.LabPayment;
 import com.upchardwar.app.entity.lab.LabReport;
-
-import com.upchardwar.app.entity.lab.Booking;
-
-
-
 import com.upchardwar.app.entity.lab.LabReviewRating;
-import com.upchardwar.app.entity.lab.LabTest;
 import com.upchardwar.app.entity.pharma.PharmaRequest;
 import com.upchardwar.app.entity.pharma.PharmaReviewRating;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -38,7 +27,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

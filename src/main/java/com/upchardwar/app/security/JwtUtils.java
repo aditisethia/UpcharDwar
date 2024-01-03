@@ -47,7 +47,7 @@ public class JwtUtils {
     		 .setSubject(subject)
     		 .setIssuer("aditi")
     		 .setIssuedAt(new Date(System.currentTimeMillis()))
-    		 .setExpiration(new Date(System.currentTimeMillis()+TimeUnit.SECONDS.toMillis(10000)))
+    		 .setExpiration(new Date(System.currentTimeMillis()+TimeUnit.SECONDS.toMillis(3*24*60*60*1000)))
     		 .signWith(SignatureAlgorithm.HS256, secret.getBytes()).compact();
     }
     

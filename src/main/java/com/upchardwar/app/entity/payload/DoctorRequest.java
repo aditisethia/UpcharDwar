@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.upchardwar.app.entity.doctor.DoctorDocument;
 import com.upchardwar.app.entity.doctor.DoctorQualification;
+import com.upchardwar.app.entity.doctor.DoctorReviewRating;
 import com.upchardwar.app.entity.doctor.Speciality;
 import com.upchardwar.app.entity.status.AppConstant;
 
@@ -26,6 +28,7 @@ public class DoctorRequest {
 
 	private String name;
 
+	@JsonFormat(pattern = "dd-MM-yyyy")
 	private LocalDate DOB;
 
 	private String gender;
@@ -60,7 +63,12 @@ public class DoctorRequest {
 	
 	public String documentType;
 	
+	private Long userid;
+    
+	private List<DoctorReviewRating> doctorReviewRatings;
+	
 
+	
 	private Set<String> awards;
 
 	private Speciality speciality;

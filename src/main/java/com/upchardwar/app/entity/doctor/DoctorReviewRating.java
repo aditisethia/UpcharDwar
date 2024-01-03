@@ -1,5 +1,6 @@
 package com.upchardwar.app.entity.doctor;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.upchardwar.app.entity.patient.Patient;
 
 import jakarta.persistence.Entity;
@@ -25,9 +26,11 @@ public class DoctorReviewRating {
 
 	@ManyToOne
 	@JoinColumn(name = "patient_id")
+	@JsonIgnore
 	private Patient patient;
 
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name = "doctor_id")
 	private Doctor doctor;
 

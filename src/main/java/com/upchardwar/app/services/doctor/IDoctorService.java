@@ -1,6 +1,7 @@
 package com.upchardwar.app.services.doctor;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -9,10 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.upchardwar.app.entity.doctor.Doctor;
 import com.upchardwar.app.entity.payload.DoctorRequest;
 import com.upchardwar.app.entity.payload.DoctorResponse;
-
-import com.upchardwar.app.entity.payload.PatientRequest;
-import com.upchardwar.app.entity.payload.SpecialityRequest;
-import com.upchardwar.app.entity.payload.SpecialityResponse;
 
 
 public interface IDoctorService {
@@ -35,4 +32,5 @@ public interface IDoctorService {
 	
 	public ResponseEntity<?> addDoctor(DoctorRequest request,MultipartFile file,List<MultipartFile> multipartFiles);
 
+	public ResponseEntity<?> getDoctorByUserId(Long userId);
 }
