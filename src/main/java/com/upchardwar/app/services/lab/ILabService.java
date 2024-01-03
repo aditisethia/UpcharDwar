@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.multipart.MultipartFile;
 
-
+import com.upchardwar.app.dto.PageLabDto;
 import com.upchardwar.app.entity.payload.DoctorRequest;
 import com.upchardwar.app.entity.payload.LabRequest;
 import com.upchardwar.app.entity.payload.LabResponse;
@@ -21,10 +21,14 @@ public interface ILabService {
 
 public ResponseEntity<?> deleteLabById(Long id);
 
- public Page<LabResponse> getAllLab(Integer pageNo, Integer pageSize);
  
  public ResponseEntity<?> addLab(LabRequest request,MultipartFile file,List<MultipartFile> multipartFiles);
  
  public ResponseEntity<?> findLabByUserId(Long userId);
+ 
+ 
+ public PageLabDto viewAllLab(int pageNo, int pageSize, String sortBy);
+ 
+
 
 }

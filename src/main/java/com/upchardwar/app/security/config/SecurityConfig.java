@@ -39,7 +39,7 @@ public class SecurityConfig {
 			"/upchardwar/auth/sendemail", "/upchardwar/auth/generate-otp", "/upchardwar/auth/verify",
 			"upchardwar/auth/current-user", "upchardwar/speciality/all", "/upchardwar/schedule/",
 			"/upchardwar/appointment/book-appointment", "/upchardwar/appointment/notify" ,
-			"/api/getImageApi/{imgName}","upchardwar/lab/save1"};
+			"/api/getImageApi/{imgName}","upchardwar/lab/save1","upchardwar/labBooking/"};
 
 	private String[] accessByAdmin = { "/user/admin" ,"upchardwar/lab/delete/{id}"};
 
@@ -58,7 +58,7 @@ public class SecurityConfig {
 
 			"/upchardwar/appointment/countTodaysPetient", "/upchardwar/appointment/countUpcomingAppointments" ,"/upchardwar/schedule/create"};
 
-    private String[] accessByLabPatientAdmin = {"upchardwar/labTest/all/{pageNo}/{pageSize}/{sortBy}/{labId}"};
+    private String[] accessByLabPatientAdmin = {"upchardwar/labTest/all/{pageNo}/{pageSize}/{sortBy}/{labId}","upchardwar/labTest/get/{labTestId}","upchardwar/lab/all/{pageNo}/{pageSize}/{sortBy}"};
 	
 
 
@@ -66,6 +66,8 @@ public class SecurityConfig {
 	private String[] accessByPatient = { "upchardwar/reviewrating/", "/upchardwar/patient/save1" , "/upchardwar/appointment/all/patient/{pageNo}/{pageSize}/{sortBy}" };
 	
 	private String[] accessByLab = {"upchardwar/labTest/save","upchardwar/lab/user/{userId}"};
+	
+	private String[] accessByLabAdmin= {"upchardwar/labTest/delete/{labTestId}","upchardwar/labTest/update/{labTestId}"};
 
 	@Autowired
 	private AuthenticationEntryPoint authenticationEntryPoint;

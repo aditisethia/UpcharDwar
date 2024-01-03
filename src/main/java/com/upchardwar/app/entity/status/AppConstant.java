@@ -148,4 +148,32 @@ public class AppConstant {
 
 	public static final String LAB_TEST_WITH_EMAIL_NOT_EXIST = "labTest doesn't exist";
 
+
+
+	public static final Object LABTEST_DELETED = "LabTest Deleted Successfully";
+
+
+
+	public static final Object LABTEST_NOT_FOUND = "LabTest Not Found";
+
+
+
+	public static final Object LAB_TEST_UPDATED = "LabTest updated";
+
+
+
+	public static final Object LAB_TEST_NOT_FOUND = "LabTest not Found";
+
+
+
+	public static final Object LAB_TEST_FOUND = "LabTestFound successfully";
+
+
+
+	public static final Object LAB_TEST_BOOKED = "LabTest Booked Successfully";
+
+
+
+	public static final String BOOKING_RESPONSE = "booking_id";
+
 }

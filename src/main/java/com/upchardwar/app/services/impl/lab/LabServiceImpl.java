@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -29,7 +30,7 @@ import org.springframework.data.domain.PageRequest;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -37,7 +38,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-
+import com.upchardwar.app.dto.PageLabDto;
 import com.upchardwar.app.entity.Location;
 import com.upchardwar.app.entity.Role;
 import com.upchardwar.app.entity.User;
@@ -47,6 +48,7 @@ import com.upchardwar.app.entity.doctor.DoctorDocument;
 import com.upchardwar.app.entity.doctor.DoctorQualification;
 import com.upchardwar.app.entity.lab.Lab;
 import com.upchardwar.app.entity.lab.LabDocument;
+import com.upchardwar.app.entity.lab.LabTest;
 import com.upchardwar.app.entity.patient.Patient;
 import com.upchardwar.app.entity.payload.DoctorRequest;
 import com.upchardwar.app.entity.payload.DoctorResponse;
@@ -55,6 +57,7 @@ import com.upchardwar.app.entity.lab.Lab;
 
 import com.upchardwar.app.entity.payload.LabRequest;
 import com.upchardwar.app.entity.payload.LabResponse;
+import com.upchardwar.app.entity.payload.LabTestResponse;
 import com.upchardwar.app.entity.status.AppConstant;
 
 import com.upchardwar.app.exception.BadRequestException;
@@ -186,12 +189,32 @@ public class LabServiceImpl implements ILabService {
 	}
 
 //
-	@Override
-	public Page<LabResponse> getAllLab(Integer pageNo, Integer pageSize) {
-		PageRequest page = PageRequest.of(pageNo, pageSize);
-		Page<Lab> pag = this.labRepository.findByIsApprovedAndIsDeleted(true, page, false);
-		return pag.map(u -> this.labToLabResponse(u));
-	}
+	//View all lab which is not deleted
+		public PageLabDto viewAllLab(int pageNo, int pageSize, String sortBy) {
+			// Create Pageable object with pagination and sorting
+			System.out.println("inside a method");
+			Pageable pageable = PageRequest.of(pageNo, pageSize, Direction.ASC, sortBy);
+			// Query the database directly based on doctorId
+			Page<Lab> findAllLab = labRepository.findByIsDeleted(pageable,false);
+
+			// Convert the Page of Appointment entities to a Page of AppointmentDto
+			Page<LabResponse> map = findAllLab.map(this::labToLabResponse);
+
+			// Reverse the order of content if needed
+			List<LabResponse> content = map.getContent();
+			List<LabResponse> newList = null;
+			if (content != null && !content.isEmpty()) {
+				newList = new ArrayList<>(content);
+				Collections.reverse(newList);
+			}
+
+			// Create and return the result DTO
+			PageLabDto prr = new PageLabDto();
+			prr.setContents(newList);
+			prr.setTotalElements(findAllLab.getTotalElements());
+
+			return prr;
+		}
 //
 //	@Override
 //	public List<LabResponse> searchLab(Integer pageNo, Integer pageSize, LabRequest labRequest,
@@ -303,6 +326,8 @@ public class LabServiceImpl implements ILabService {
 	    	System.out.println(response);
 	    	return new ResponseEntity<>(response, HttpStatus.OK);
 	}
+
+	
 
 
 

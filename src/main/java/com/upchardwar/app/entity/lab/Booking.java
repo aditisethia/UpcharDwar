@@ -29,7 +29,7 @@ public class Booking {
 	    private Long bookingId;
 
 	    @ManyToOne
-	    @JoinColumn(name = "user_id")
+	    @JoinColumn(name = "patient_id")
 	    private Patient patient;
 
 	    @ManyToOne

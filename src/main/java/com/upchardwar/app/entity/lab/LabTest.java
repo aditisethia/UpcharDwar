@@ -38,7 +38,7 @@ public class LabTest {
     
     private String description;
     
-    private String status=AppConstant.LAB_TEST_STATUS;
+    private Boolean isDelete=false;
 	
 	private Long rates; 
 	
