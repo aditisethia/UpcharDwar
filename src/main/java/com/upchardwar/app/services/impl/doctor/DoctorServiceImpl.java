@@ -48,11 +48,14 @@ public class DoctorServiceImpl implements IDoctorService {
 	@Autowired
 	private DoctorRepository doctorRepository;
 
+	@SuppressWarnings("unused")
 	@Autowired
 	private UserRepository userRepository;
 
 	@Autowired
 	private ModelMapper modelMapper;
+	
+	@SuppressWarnings("unused")
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
@@ -179,6 +182,7 @@ public class DoctorServiceImpl implements IDoctorService {
 
 	
 
+	@SuppressWarnings("unused")
 	public ResponseEntity<?> addDoctor(DoctorRequest request, MultipartFile file , List<MultipartFile> multipartFiles) {
 		Map<String,Object> response =new HashMap<>();
 		
@@ -244,6 +248,16 @@ Optional<Doctor> s = this.doctorRepository.findByEmail(request.getEmail());
 
 		return new ResponseEntity<>(response,HttpStatus.CREATED);
 		
+	}
+	
+	
+	public ResponseEntity<?> getDoctorByUserId(Long userId){
+		Map<String, Object> response=new HashMap<>();
+		Doctor doc=this.doctorRepository.findByUserid(userId);
+		DoctorResponse drRes=doctorToDoctorResponse(doc);
+		response.put(AppConstant.MESSAGE, AppConstant.DOCTOR_FOUND);
+		response.put(AppConstant.DOCTOR, drRes);
+		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
 
 }

@@ -176,4 +176,12 @@ public class AppConstant {
 
 	public static final String BOOKING_RESPONSE = "booking_id";
 
+
+
+	public static final Object DOCTOR_FOUND = "Doctor Found with userId";
+
+
+
+	public static final String DOCTOR = "doctor";
+
 }

@@ -3,8 +3,6 @@ package com.upchardwar.app.entity.doctor;
 import java.sql.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,14 +29,13 @@ public class Schedule {
 
 	private Date selectedDate;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "schedule")
-	@JsonIgnore
 	private List<TimeSlote> timeSlots;
 
 	private Boolean isActive;
 
 	private Boolean isDeleted;
 	@ManyToOne
-	@JoinColumn()
+	@JoinColumn(name = "doctor_id")
 	private Doctor doctor;
 
 }

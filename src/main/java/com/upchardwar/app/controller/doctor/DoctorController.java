@@ -71,14 +71,17 @@ public class DoctorController {
 
 		return new ResponseEntity<DoctorResponse>(this.doctorService.updateDoctor(request), HttpStatus.OK);
 	}
-	
 
 	@PostMapping(path = "/save1", consumes = { "multipart/form-data", "application/octet-stream" })
-	public ResponseEntity<?> addDoctor2(@RequestPart("data") DoctorRequest request,@RequestPart("files") List<MultipartFile> multipartFiles) {
-
+	public ResponseEntity<?> addDoctor2(@RequestPart("data") DoctorRequest request,
+			@RequestPart("files") List<MultipartFile> multipartFiles) {
 		return doctorService.addDoctor(request, multipartFiles.get(0), multipartFiles);
-
 		// Adjust the response based on your use case
+	}
+
+	@GetMapping("userid/{userId}")
+	public ResponseEntity<?> getDoctorByUser(@PathVariable("userId") Long userId) {
+		return doctorService.getDoctorByUserId(userId);
 	}
 
 }

@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.upchardwar.app.entity.Conversation;
 import com.upchardwar.app.entity.Messages;
-import com.upchardwar.app.entity.lab.LabReviewRating;
+import com.upchardwar.app.entity.User;
 import com.upchardwar.app.entity.pharma.PharmaReviewRating;
 import com.upchardwar.app.entity.status.AppConstant;
 
@@ -24,6 +25,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,12 +42,11 @@ public class Doctor {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	
-	
 	private String userName;
 
 	private String name;
 
+	@JsonFormat(pattern = "dd-MM-yyyy")
 	private LocalDate DOB;
 
 	private String gender;
@@ -77,18 +78,25 @@ public class Doctor {
 	private LocalDate expierenceFrom;
 
 	private LocalDate expierenceTo;
-	
+
 	private String imageName;
-	
+
 	private String documentType;
+
+	@Column(unique = true)
+	private Long userid;
+
+	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<DoctorReviewRating> doctorReviewRatings;
 
 	@ElementCollection
 	@CollectionTable(name = "doctor_awards", joinColumns = @JoinColumn(name = "doctor_id"))
 	@Column(name = "award")
 	private Set<String> awards;
 
-	@ManyToOne
-	@JsonIgnoreProperties(value = "doctors")
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "speciality_id", unique = true)
 	private Speciality speciality;
 
 	@JsonIgnore
@@ -124,7 +132,6 @@ public class Doctor {
 	@JsonIgnore
 	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
 	private List<PharmaReviewRating> pharmaReviewRatings;
-  
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
@@ -134,5 +141,4 @@ public class Doctor {
 	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
 	private List<Conversation> conversations;
 
-	
 }

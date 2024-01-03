@@ -28,7 +28,7 @@ public class SecurityConfig {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-	private String[] pAll = { "/upchardwar/auth/login", "/upchardwar/doctor/save", "/upchardwar/speciality/"
+	private String[] pAll = {"/upchardwar/schedule/{id}", "/upchardwar/appointment/book","upchardwar/schedule/doctor/{doctorId}","upchardwar/reviewrating/","/upchardwar/doctor/userid/{userId}","/upchardwar/auth/login", "/upchardwar/doctor/save", "/upchardwar/speciality/"
 
 			,"/upchardwar/patient/save", "/upchardwar/lab/save","/upchardwar/lab/all", "/upchardwar/pharmacy/save",
 			"/upchardwar/auth/sendemail", "/upchardwar/auth/generate-otp", "/upchardwar/auth/verify",
@@ -38,6 +38,9 @@ public class SecurityConfig {
 			"/upchardwar/patient/save", "/upchardwar/lab/save", "/upchardwar/pharmacy/save",
 			"/upchardwar/auth/sendemail", "/upchardwar/auth/generate-otp", "/upchardwar/auth/verify",
 			"upchardwar/auth/current-user", "upchardwar/speciality/all", "/upchardwar/schedule/",
+
+			"/upchardwar/appointment/book-appointment", "/upchardwar/appointment/notify" ,"/upchardwar/doctor/userid/{id}","/upchardwar/doctor/{pageNo}/{pageSize}"};
+
 			"/upchardwar/appointment/book-appointment", "/upchardwar/appointment/notify" ,
 			"/api/getImageApi/{imgName}","upchardwar/lab/save1","upchardwar/labBooking/"};
 
@@ -51,19 +54,19 @@ public class SecurityConfig {
 			"/upchardwar/appointment/all/{pageNo}/{pageSize}/{sortBy}" };
 
 
-	private String[] accessByDoctor = { "/upchardwar/appointment/createSchedule",
+	private String[] accessByDoctor = {"/upchardwar/schedule/create", "/upchardwar/appointment/createSchedule",
 			"/upchardwar/appointment/createTimeSlote", "/upchardwar/appointment/todaysAppointments",
 			"/upchardwar/appointment/cancelAppointment/{id}", "/upchardwar/appointment/countPatient",
+			
 
-
-			"/upchardwar/appointment/countTodaysPetient", "/upchardwar/appointment/countUpcomingAppointments" ,"/upchardwar/schedule/create"};
+			"/upchardwar/appointment/countTodaysPetient", "/upchardwar/appointment/countUpcomingAppointments" };
 
     private String[] accessByLabPatientAdmin = {"upchardwar/labTest/all/{pageNo}/{pageSize}/{sortBy}/{labId}","upchardwar/labTest/get/{labTestId}","upchardwar/lab/all/{pageNo}/{pageSize}/{sortBy}"};
 	
 
 
 	
-	private String[] accessByPatient = { "upchardwar/reviewrating/", "/upchardwar/patient/save1" , "/upchardwar/appointment/all/patient/{pageNo}/{pageSize}/{sortBy}" };
+	private String[] accessByPatient = {  "/upchardwar/patient/save1" , "/upchardwar/appointment/all/patient/{pageNo}/{pageSize}/{sortBy}" };
 	
 	private String[] accessByLab = {"upchardwar/labTest/save","upchardwar/lab/user/{userId}"};
 	

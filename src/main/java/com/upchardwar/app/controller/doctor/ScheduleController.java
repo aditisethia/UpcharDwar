@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.upchardwar.app.entity.doctor.Schedule;
 import com.upchardwar.app.entity.payload.ScheduleRequest;
 import com.upchardwar.app.entity.payload.ScheduleResponse;
 import com.upchardwar.app.services.doctor.IScheduleService;
@@ -33,10 +34,10 @@ public class ScheduleController {
 		return service.getAllSchedules();
 	}
 
-//    @PostMapping("/create")
-//    public ScheduleResponse createSchedule(@RequestBody ScheduleRequest createScheduleRequest) {
-//        return service.createSchedule(createScheduleRequest);
-//    }
+	@GetMapping("/doctor/{doctorId}")
+	public ResponseEntity<List<Schedule>> getSchedulebydoctorid(@PathVariable Long doctorId) {
+		return new ResponseEntity<List<Schedule>>(this.service.getSchedulesByDoctorId(doctorId), HttpStatus.OK);
+	}
 
 	@PostMapping("/create")
 	public ResponseEntity<ScheduleResponse> createSchedule(@RequestBody ScheduleRequest createScheduleRequest) {
@@ -56,7 +57,7 @@ public class ScheduleController {
 		return new ResponseEntity<String>(this.service.deleteScheduleById(id), HttpStatus.OK);
 	}
 
-	// get all schedule
+	// get all schedul
 	@GetMapping("/{pageNo}/{pageSize}")
 	public ResponseEntity<Page<ScheduleResponse>> getAllSchedule(@PathVariable("pageNo") Integer pageNo,
 			@PathVariable("pageSize") Integer pageSize) {
@@ -78,4 +79,5 @@ public class ScheduleController {
 	public ResponseEntity<ScheduleResponse> update(@RequestBody ScheduleRequest request) {
 		return new ResponseEntity<ScheduleResponse>(this.service.updateSchedule(request), HttpStatus.OK);
 	}
+
 }

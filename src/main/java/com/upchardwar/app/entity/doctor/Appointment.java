@@ -1,16 +1,19 @@
 package com.upchardwar.app.entity.doctor;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.upchardwar.app.entity.patient.Patient;
+import com.upchardwar.app.entity.status.AppointmentStatus;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
@@ -24,34 +27,34 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Appointment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-    
-    private LocalDate appointmentDate;
-    
-    private LocalTime appointmentTime;
-    
-    private String status;
-    
-    private String purpose;
-    
 
-    private Float paidAmount; 
-    
-    @ManyToOne
-    
-    private Patient patient;
-    
-    @ManyToOne
-    private Doctor doctor;
-    
-    @OneToOne(cascade = CascadeType.ALL)
-    @JsonIgnoreProperties(value = {"appointment"})
-    private DoctorInvoice doctorInvoice;
-    
-    @ManyToOne
-    private PatientAppointmentFile patientAppointmentFile;
- 
-    
+	private LocalDate appointmentDate;
+
+//	private LocalTime appointmentTime;
+
+	@Enumerated(EnumType.STRING)
+	private AppointmentStatus status;
+
+	private String purpose;
+
+	@OneToOne(cascade = CascadeType.MERGE)
+	private TimeSlote timeslote;
+
+	@ManyToOne
+	private Patient patient;
+
+	@ManyToOne
+	private Doctor doctor;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JsonIgnoreProperties(value = { "appointment" })
+	private DoctorInvoice doctorInvoice;
+
+	@ManyToOne
+	private PatientAppointmentFile patientAppointmentFile;
+
 }
