@@ -10,16 +10,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class CreateLabTestRequest {
-	 private Long id;
+	
 		
 	 private String testName;
 	
 	 private String description;
 	 
-	 
 	 private Long rates; 
 	 
 	 private Boolean availability;
 	 
-	 private Lab lab;
+	 private Long labId;
 }

@@ -38,13 +38,17 @@ public class LabTest {
     
     private String description;
     
-    private String status=AppConstant.LAB_TEST_STATUS;
+    private Boolean isDelete=false;
 	
 	private Long rates; 
 	
 	private Boolean availability;
 	
 	
+	@ManyToOne
+    @JoinColumn(name = "lab_id")
+    private Lab lab;
+
 
 	@JsonIgnore
     @OneToMany(mappedBy = "labTest", cascade = CascadeType.ALL)

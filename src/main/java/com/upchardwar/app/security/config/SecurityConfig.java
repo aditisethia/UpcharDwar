@@ -38,7 +38,11 @@ public class SecurityConfig {
 			"/upchardwar/patient/save", "/upchardwar/lab/save", "/upchardwar/pharmacy/save",
 			"/upchardwar/auth/sendemail", "/upchardwar/auth/generate-otp", "/upchardwar/auth/verify",
 			"upchardwar/auth/current-user", "upchardwar/speciality/all", "/upchardwar/schedule/",
+
 			"/upchardwar/appointment/book-appointment", "/upchardwar/appointment/notify" ,"/upchardwar/doctor/userid/{id}","/upchardwar/doctor/{pageNo}/{pageSize}"};
+
+			"/upchardwar/appointment/book-appointment", "/upchardwar/appointment/notify" ,
+			"/api/getImageApi/{imgName}","upchardwar/lab/save1","upchardwar/labBooking/"};
 
 	private String[] accessByAdmin = { "/user/admin" ,"upchardwar/lab/delete/{id}"};
 
@@ -57,14 +61,16 @@ public class SecurityConfig {
 
 			"/upchardwar/appointment/countTodaysPetient", "/upchardwar/appointment/countUpcomingAppointments" };
 
-
+    private String[] accessByLabPatientAdmin = {"upchardwar/labTest/all/{pageNo}/{pageSize}/{sortBy}/{labId}","upchardwar/labTest/get/{labTestId}","upchardwar/lab/all/{pageNo}/{pageSize}/{sortBy}"};
 	
 
 
 	
 	private String[] accessByPatient = {  "/upchardwar/patient/save1" , "/upchardwar/appointment/all/patient/{pageNo}/{pageSize}/{sortBy}" };
 	
-	private String[] accessByLab = {"upchardwar/labTest/save"};
+	private String[] accessByLab = {"upchardwar/labTest/save","upchardwar/lab/user/{userId}"};
+	
+	private String[] accessByLabAdmin= {"upchardwar/labTest/delete/{labTestId}","upchardwar/labTest/update/{labTestId}"};
 
 	@Autowired
 	private AuthenticationEntryPoint authenticationEntryPoint;
@@ -88,8 +94,9 @@ public class SecurityConfig {
 	/** For authorization */
 	@Bean
 	public SecurityFilterChain configurePaths(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().requestMatchers(pAll).permitAll().requestMatchers("upchardwar/lab/save1").permitAll().requestMatchers(accessByAdmin)
+		http.csrf().disable().authorizeRequests().requestMatchers(pAll).permitAll().requestMatchers(accessByAdmin)
 				.hasAuthority("ADMIN").requestMatchers(accessByAdminDoctor).hasAnyAuthority("ADMIN", "DOCTOR")
+				.requestMatchers("accessByLabPatientAdmin").hasAnyAuthority("ADMIN", "PATIENT","ADMIN")
 
 				.requestMatchers(accessByDoctor).hasAuthority("DOCTOR")
 				.requestMatchers(accessByPatient).hasAuthority("PATIENT")

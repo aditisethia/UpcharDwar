@@ -17,7 +17,7 @@ public class FileUtils {
 		try {
 				return new FileInputStream(AppConstant.DIRECTORY+fileName);
 		} catch (FileNotFoundException e) {
-			
+			e.printStackTrace();
 		}
 		return null;
 	}

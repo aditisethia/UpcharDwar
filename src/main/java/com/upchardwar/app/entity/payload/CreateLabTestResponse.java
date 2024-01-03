@@ -20,5 +20,5 @@ public class CreateLabTestResponse {
 	 
 	 private Boolean availability;
 	 
-	 private Lab lab;
+	 private Long labId;
 }
