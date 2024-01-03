@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,13 +100,15 @@ public class LabTestServiceImpl implements ILabTestService {
 	    }
 	}
 
-
+       
+	
+	//View all labtest which is not deleted
 	public PageLabDto viewAllLabTest(int pageNo, int pageSize, String sortBy, Long labId) {
 		// Create Pageable object with pagination and sorting
 		System.out.println("inside a method");
 		Pageable pageable = PageRequest.of(pageNo, pageSize, Direction.ASC, sortBy);
 		// Query the database directly based on doctorId
-		Page<LabTest> findAllLabTest = labTestRepo.findByLabId(labId, pageable);
+		Page<LabTest> findAllLabTest = labTestRepo.findByLabIdAndIsDelete(labId, pageable,false);
 
 		// Convert the Page of Appointment entities to a Page of AppointmentDto
 		Page<LabTestResponse> map = findAllLabTest.map(this::ltToLabTestResponse);
@@ -127,4 +130,89 @@ public class LabTestServiceImpl implements ILabTestService {
 	}
 	
 	
+	
+	//soft deletetion of labTest
+	public ResponseEntity<?> deleteLabTest(Long labTestId){
+		Map<String, Object> response =new HashMap<>();
+	Optional<LabTest> labTest=	this.labTestRepo.findById(labTestId);
+		if(labTest.isPresent()) {
+			LabTest lt=labTest.get();
+			lt.setIsDelete(true);
+			labTestRepo.save(lt);
+			response.put(AppConstant.MESSAGE, AppConstant.LABTEST_DELETED);
+			return new ResponseEntity<>(response,HttpStatus.OK);
+			
+		}
+		
+			response.put(AppConstant.MESSAGE,AppConstant.LABTEST_NOT_FOUND);
+            return new ResponseEntity<>(response,HttpStatus.OK);
+		
+	}
+	
+
+	public ResponseEntity<?> updateLabTest( LabTestRequest labTestRequest){
+		
+		return null;
+	}
+	
+	
+	//to update labTest
+	
+	public ResponseEntity<?> updateLabTest(Long labTestId,LabTestRequest request) {
+	    Map<String, Object> response = new HashMap<>();
+
+	   
+	    Optional<LabTest> labTestOptional = labTestRepo.findByIdAndIsDelete(labTestId,false);
+
+	    if (labTestOptional.isPresent()) {
+	        LabTest existingLabTest = labTestOptional.get();
+
+	
+	        existingLabTest.setTestName(request.getTestName());
+	        existingLabTest.setDescription(request.getDescription());
+	        existingLabTest.setAvailability(request.getAvailability());
+	        existingLabTest.setRates(request.getRates());
+	        
+	        
+	        LabTest updatedLabTest = labTestRepo.save(existingLabTest);
+
+	       
+	        CreateLabTestResponse labTestResponse = this.labTestToLabTestResponse(updatedLabTest);
+
+	        response.put(AppConstant.MESSAGE, AppConstant.LAB_TEST_UPDATED);
+	        response.put(AppConstant.LAB_TEST, labTestResponse);
+
+	        return new ResponseEntity<>(response, HttpStatus.OK);
+	    } else {
+	        response.put(AppConstant.MESSAGE, AppConstant.LAB_TEST_NOT_FOUND);
+	        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+	    }
+	}
+	
+	
+	//to get LabTest by Id
+	
+	public ResponseEntity<?> getLabTestById(Long labTestId){
+		 Map<String, Object> response = new HashMap<>();
+
+		   
+		    Optional<LabTest> labTestOptional = labTestRepo.findByIdAndIsDelete(labTestId,false);
+
+		    if (labTestOptional.isPresent()) {
+		        LabTest existingLabTest = labTestOptional.get();
+		        CreateLabTestResponse labTestResponse = this.labTestToLabTestResponse(existingLabTest);
+
+		        response.put(AppConstant.MESSAGE, AppConstant.LAB_TEST_FOUND);
+		        response.put(AppConstant.LAB_TEST, labTestResponse);
+		        return new ResponseEntity<>(response, HttpStatus.OK);
+		    }
+		    else 
+		    {
+		        response.put(AppConstant.MESSAGE, AppConstant.LAB_TEST_NOT_FOUND);
+		        return new ResponseEntity<>(response, HttpStatus.OK);
+		    
+	      }
+	}
+	
+
 }
