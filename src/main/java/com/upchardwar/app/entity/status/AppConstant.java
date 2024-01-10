@@ -46,7 +46,7 @@ public class AppConstant {
 	public static final String DOCTORS_UPCOMING_APPOINTMENT_COUNT = "doctors total upcoming appointment";
 	public static final String TOTAL_UPCOMING_APPOINTMENT = "TOTALUPCOMINGAPPOINTMENTS";
 	public static final String DOCTOR_REVIEW_RATING = "REVIEWRATINGTODOCTOR";
-	
+	public static final String PAYMENT_SUCCESS_DONE_STRING ="PAYMENT_SUCCESS_DONE_STRING";
 	
 
 	public static final String USER_ALREADY_REGISTERED_WITH_EMAIL = "user already exist with this email";
@@ -186,6 +186,10 @@ public class AppConstant {
 
 
 
+
 	public static final String LAB_REVIEW_RATING = "LabReviewRating";
+
+	public static final String PATIENT_NOT_FOUND = "";
+
 
 }
