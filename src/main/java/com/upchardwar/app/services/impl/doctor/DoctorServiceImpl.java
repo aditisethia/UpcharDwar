@@ -54,18 +54,12 @@ public class DoctorServiceImpl implements IDoctorService {
 
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	@SuppressWarnings("unused")
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
-	
-	
-    
-	public static final String DIRECTORY=System.getProperty("user.dir")+"../src/main/resources/static/images";
-	
-
-
+	public static final String DIRECTORY = System.getProperty("user.dir") + "../src/main/resources/static/images";
 
 	public DoctorResponse doctorToDoctorResponse(Doctor doctor) {
 		return this.modelMapper.map(doctor, DoctorResponse.class);
@@ -115,7 +109,7 @@ public class DoctorServiceImpl implements IDoctorService {
 			qualifications.add(qualification);
 		}
 		dr.setQualifications(qualifications);
-		dr.setDoctorDocuments(doctorDocuments);		
+		dr.setDoctorDocuments(doctorDocuments);
 		Doctor dr1 = this.doctorRepository.save(dr);
 
 		response.put(AppConstant.MESSAGE, AppConstant.DOCTOR_CREATED_MESSAGE);
@@ -180,84 +174,79 @@ public class DoctorServiceImpl implements IDoctorService {
 		return this.doctorToDoctorResponse(doc);
 	}
 
-	
-
 	@SuppressWarnings("unused")
-	public ResponseEntity<?> addDoctor(DoctorRequest request, MultipartFile file , List<MultipartFile> multipartFiles) {
-		Map<String,Object> response =new HashMap<>();
-		
-Optional<Doctor> s = this.doctorRepository.findByEmail(request.getEmail());
+	public ResponseEntity<?> addDoctor(DoctorRequest request, MultipartFile file, List<MultipartFile> multipartFiles) {
+		Map<String, Object> response = new HashMap<>();
+
+		Optional<Doctor> s = this.doctorRepository.findByEmail(request.getEmail());
 		if (s.isPresent())
 			throw new ResourceAlreadyExistException(AppConstant.DOCTOR_WITH_EMAIL_ALREADY_EXIST);
 
-		Doctor d =this.doctorRequestToDoctor(request);
-		   String imageName = UUID.randomUUID().toString()+file.getOriginalFilename();
-		   d.setImageName(imageName);
-		   
+		Doctor d = this.doctorRequestToDoctor(request);
+		String imageName = UUID.randomUUID().toString() + file.getOriginalFilename();
+		d.setImageName(imageName);
 
-		
-		if(file!=null) {
-		
-			String filename=StringUtils.cleanPath(imageName);
+		if (file != null) {
+
+			String filename = StringUtils.cleanPath(imageName);
 			d.setDocumentType(file.getContentType());
-		      
-			Path fileStorage=  Paths.get(AppConstant.DIRECTORY, filename).toAbsolutePath().normalize();
-			
+
+			Path fileStorage = Paths.get(AppConstant.DIRECTORY, filename).toAbsolutePath().normalize();
+
 			try {
-				Files.copy(file.getInputStream(),fileStorage,StandardCopyOption.REPLACE_EXISTING);
+				Files.copy(file.getInputStream(), fileStorage, StandardCopyOption.REPLACE_EXISTING);
 			} catch (IOException e) {
-				
+
 			}
 		}
-		List<DoctorDocument> doctorDocuments= new ArrayList<>();
-		if(multipartFiles!=null) {
-			for(MultipartFile file1: multipartFiles) {
-				DoctorDocument d1=new DoctorDocument();
+		List<DoctorDocument> doctorDocuments = new ArrayList<>();
+		if (multipartFiles != null) {
+			for (MultipartFile file1 : multipartFiles) {
+				DoctorDocument d1 = new DoctorDocument();
 				d1.setDocumentName(file.getOriginalFilename());
 				d1.setDocumentType(file.getContentType());
-				String filename= StringUtils.cleanPath(file.getOriginalFilename());
+				String filename = StringUtils.cleanPath(file.getOriginalFilename());
 				d1.setFileName(filename);
 				d1.setUploadDate(LocalDate.now());
-				Path fileStorage = Paths.get(DIRECTORY,filename).toAbsolutePath().normalize();
+				Path fileStorage = Paths.get(DIRECTORY, filename).toAbsolutePath().normalize();
 				try {
-					Files.copy(file.getInputStream(), fileStorage,StandardCopyOption.REPLACE_EXISTING);
-					
-				}catch (Exception e) {
-					
+					Files.copy(file.getInputStream(), fileStorage, StandardCopyOption.REPLACE_EXISTING);
+
+				} catch (Exception e) {
+
 				}
 				doctorDocuments.add(d1);
 			}
 		}
-		
-		List<DoctorQualification> qualifications = new ArrayList<>();
-        for (DoctorQualification qualificationRequest : request.getQualifications()) {
-            DoctorQualification qualification = new DoctorQualification();
-            qualification.setDegree(qualificationRequest.getDegree());
-            qualification.setCollege(qualificationRequest.getCollege());
-            qualification.setCompletionYear(qualificationRequest.getCompletionYear());
-            qualification.setDoctor(d);
-            qualifications.add(qualification);
-        }
-        d.setQualifications(qualifications);
-          d.setDoctorDocuments(doctorDocuments);
-//		
-       Doctor dr1=   this.doctorRepository.save(d);
-          
-          response.put(AppConstant.MESSAGE, AppConstant.DOCTOR_CREATED_MESSAGE);
-          response.put(AppConstant.DOCTOR_CREATED , dr1);
 
-		return new ResponseEntity<>(response,HttpStatus.CREATED);
-		
+		List<DoctorQualification> qualifications = new ArrayList<>();
+		for (DoctorQualification qualificationRequest : request.getQualifications()) {
+			DoctorQualification qualification = new DoctorQualification();
+			qualification.setDegree(qualificationRequest.getDegree());
+			qualification.setCollege(qualificationRequest.getCollege());
+			qualification.setCompletionYear(qualificationRequest.getCompletionYear());
+			qualification.setDoctor(d);
+			qualifications.add(qualification);
+		}
+		d.setQualifications(qualifications);
+		d.setDoctorDocuments(doctorDocuments);
+//		
+		Doctor dr1 = this.doctorRepository.save(d);
+
+		response.put(AppConstant.MESSAGE, AppConstant.DOCTOR_CREATED_MESSAGE);
+		response.put(AppConstant.DOCTOR_CREATED, dr1);
+
+		return new ResponseEntity<>(response, HttpStatus.CREATED);
+
 	}
-	
-	
-	public ResponseEntity<?> getDoctorByUserId(Long userId){
-		Map<String, Object> response=new HashMap<>();
-		Doctor doc=this.doctorRepository.findByUserid(userId);
-		DoctorResponse drRes=doctorToDoctorResponse(doc);
+
+	public ResponseEntity<?> getDoctorByUserId(Long userId) {
+		Map<String, Object> response = new HashMap<>();
+		Doctor doc = this.doctorRepository.findByUserid(userId);
+		DoctorResponse drRes = doctorToDoctorResponse(doc);
 		response.put(AppConstant.MESSAGE, AppConstant.DOCTOR_FOUND);
 		response.put(AppConstant.DOCTOR, drRes);
-		return new ResponseEntity<>(response,HttpStatus.OK);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 }
