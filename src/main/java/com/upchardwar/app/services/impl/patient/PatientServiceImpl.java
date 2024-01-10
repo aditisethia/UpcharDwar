@@ -6,11 +6,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
@@ -23,11 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.upchardwar.app.entity.Location;
-import com.upchardwar.app.entity.Role;
 import com.upchardwar.app.entity.User;
-import com.upchardwar.app.entity.UserRole;
-
 import com.upchardwar.app.entity.patient.Patient;
 import com.upchardwar.app.entity.payload.PatientRequest;
 import com.upchardwar.app.entity.payload.PatientResponse;
@@ -38,20 +32,18 @@ import com.upchardwar.app.repository.PatientRepository;
 import com.upchardwar.app.repository.UserRepository;
 import com.upchardwar.app.services.IPatientService;
 
-
 @Service
 public class PatientServiceImpl implements IPatientService {
-    @Autowired
+	@Autowired
 	private PatientRepository patientRepository;
-    
-    @Autowired
+
+	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private ModelMapper modelMapper;
 	@Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-	
+	private BCryptPasswordEncoder passwordEncoder;
 
 	public PatientResponse patientToPatientResponse(Patient patient) {
 		return this.modelMapper.map(patient, PatientResponse.class);
@@ -68,8 +60,8 @@ public class PatientServiceImpl implements IPatientService {
 		if (s.isPresent())
 			throw new ResourceAlreadyExistException(AppConstant.THIS_PATIENT_ALREADY_EXIST);
 
-		Patient p =this.patientRequestToPatient(request);
-		
+		Patient p = this.patientRequestToPatient(request);
+
 //		User user=new User();
 //		user.setName(p.getPatientName());
 //		user.setEmail(p.getEmail());
@@ -87,55 +79,56 @@ public class PatientServiceImpl implements IPatientService {
 //     
 //       
 //        this.userRepository.save(user);
-      		
-		
 
 		return this.patientToPatientResponse(this.patientRepository.save(p));
-		
+
 	}
-
-
 
 	@Override
 	public ResponseEntity<?> addPatient(PatientRequest request, MultipartFile file) {
-		Optional<User> u= this.userRepository.findByEmail(request.getEmail());
-		if(u.isPresent())
+		Optional<User> u = this.userRepository.findByEmail(request.getEmail());
+		if (u.isPresent())
 			u.get().setStatus(AppConstant.User_verified);
-		
+
 		else
 			throw new ResourceNotFoundException(AppConstant.USER_NOT_FOUND);
 		System.out.println("hvs");
-	   Map<String,Object> response =new HashMap<>();
-		Patient p =this.patientRequestToPatient(request);
-		   String imageName = UUID.randomUUID().toString()+file.getOriginalFilename();
-		   p.setImageName(imageName);
+		Map<String, Object> response = new HashMap<>();
+		Patient p = this.patientRequestToPatient(request);
+		String imageName = UUID.randomUUID().toString() + file.getOriginalFilename();
+		p.setImageName(imageName);
 
-		
-		if(file!=null) {
-		
-			String filename=StringUtils.cleanPath(imageName);
+		if (file != null) {
+
+			String filename = StringUtils.cleanPath(imageName);
 			p.setDocumentType(file.getContentType());
-		      
-			Path fileStorage=  Paths.get(AppConstant.DIRECTORY, filename).toAbsolutePath().normalize();
-			
+
+			Path fileStorage = Paths.get(AppConstant.DIRECTORY, filename).toAbsolutePath().normalize();
+
 			try {
-				Files.copy(file.getInputStream(),fileStorage,StandardCopyOption.REPLACE_EXISTING);
+				Files.copy(file.getInputStream(), fileStorage, StandardCopyOption.REPLACE_EXISTING);
 			} catch (IOException e) {
-				
+
 			}
 		}
-			
-			response.put(AppConstant.MESSAGE,AppConstant.PATIENT_CREATED);
-		PatientResponse res=this .patientToPatientResponse(this.patientRepository.save(p));
-			response.put(AppConstant.PATIENT,res );
-			return new ResponseEntity<>(response,HttpStatus.OK);
-		}
-	
+		response.put(AppConstant.MESSAGE, AppConstant.PATIENT_CREATED);
+		PatientResponse res = this.patientToPatientResponse(this.patientRepository.save(p));
+		response.put(AppConstant.PATIENT, res);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
 
 	@Override
-	public PatientResponse getPatientById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public PatientResponse getPatientByemail(String email) {
+		Optional<Patient> s = this.patientRepository.findByEmail(email);
+
+	     
+	    if (s.isPresent()) {
+            Patient patient = s.get();
+            return patientToPatientResponse(patient);
+        } else {
+            throw new ResourceNotFoundException(AppConstant.PATIENT_NOT_FOUND);
+        }
+
 	}
 
 	@Override
@@ -163,5 +156,4 @@ public class PatientServiceImpl implements IPatientService {
 		return null;
 	}
 
-	
 }

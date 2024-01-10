@@ -13,7 +13,7 @@ import com.upchardwar.app.entity.payload.PatientResponse;
 public interface IPatientService {
 	public PatientResponse createPatient(PatientRequest request);
 
-	public PatientResponse getPatientById(Long id);
+	public PatientResponse getPatientByemail(String email);
 
 	public String deletePatientById(Long id);
 

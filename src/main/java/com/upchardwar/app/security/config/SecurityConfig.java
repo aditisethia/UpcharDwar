@@ -28,7 +28,7 @@ public class SecurityConfig {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-	private String[] pAll = {"/upchardwar/schedule/{id}", "/upchardwar/appointment/book","upchardwar/schedule/doctor/{doctorId}","upchardwar/reviewrating/","/upchardwar/doctor/userid/{userId}","/upchardwar/auth/login", "/upchardwar/doctor/save", "/upchardwar/speciality/"
+	private String[] pAll = {"/upchardwar/timeslote/get/{id}","/upchardwar/patient/by-email/{email}","/upchardwar/timeslote/update/isbooked/{timeSlotId}","/upchardwar/schedule/{id}", "/upchardwar/appointment/book","upchardwar/schedule/doctor/{doctorId}","upchardwar/reviewrating/","/upchardwar/doctor/userid/{userId}","/upchardwar/auth/login", "/upchardwar/doctor/save", "/upchardwar/speciality/"
 
 			,"/upchardwar/patient/save", "/upchardwar/lab/save","/upchardwar/lab/all", "/upchardwar/pharmacy/save",
 			"/upchardwar/auth/sendemail", "/upchardwar/auth/generate-otp", "/upchardwar/auth/verify",
@@ -39,7 +39,7 @@ public class SecurityConfig {
 			"/upchardwar/auth/sendemail", "/upchardwar/auth/generate-otp", "/upchardwar/auth/verify",
 			"upchardwar/auth/current-user", "upchardwar/speciality/all", "/upchardwar/schedule/",
 
-			"/upchardwar/appointment/book-appointment", "/upchardwar/appointment/notify" ,"/upchardwar/doctor/userid/{id}","/upchardwar/doctor/{pageNo}/{pageSize}"};
+			"/upchardwar/appointment/book-appointment", "/upchardwar/appointment/notify" ,"/upchardwar/doctor/userid/{id}","/upchardwar/doctor/{pageNo}/{pageSize}",
 
 			"/upchardwar/appointment/book-appointment", "/upchardwar/appointment/notify" ,
 			"/api/getImageApi/{imgName}","upchardwar/lab/save1","upchardwar/labBooking/"};
