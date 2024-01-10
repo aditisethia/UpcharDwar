@@ -25,6 +25,8 @@ import java.util.Map;
 import org.apache.catalina.connector.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -38,6 +40,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.upchardwar.app.dto.PageLabDto;
 import com.upchardwar.app.entity.Location;
 import com.upchardwar.app.entity.Role;
@@ -48,11 +51,13 @@ import com.upchardwar.app.entity.doctor.DoctorDocument;
 import com.upchardwar.app.entity.doctor.DoctorQualification;
 import com.upchardwar.app.entity.lab.Lab;
 import com.upchardwar.app.entity.lab.LabDocument;
+import com.upchardwar.app.entity.lab.LabReviewRating;
 import com.upchardwar.app.entity.lab.LabTest;
 import com.upchardwar.app.entity.patient.Patient;
 import com.upchardwar.app.entity.payload.DoctorRequest;
 import com.upchardwar.app.entity.payload.DoctorResponse;
-
+import com.upchardwar.app.entity.payload.GetLabRequest;
+import com.upchardwar.app.entity.payload.GetLabResponse;
 import com.upchardwar.app.entity.lab.Lab;
 
 import com.upchardwar.app.entity.payload.LabRequest;
@@ -69,6 +74,11 @@ import com.upchardwar.app.repository.LabRepository;
 import com.upchardwar.app.repository.LocationRepository;
 import com.upchardwar.app.repository.UserRepository;
 import com.upchardwar.app.services.lab.ILabService;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Service
 public class LabServiceImpl implements ILabService {
@@ -92,10 +102,18 @@ public class LabServiceImpl implements ILabService {
 		return this.modelMapper.map(lab, LabResponse.class);
 	}
 
+	public Lab GetlabRequestToLab(GetLabRequest getlabRequest) {
+		return this.modelMapper.map(getlabRequest, Lab.class);
+	}
+
+
+	public GetLabResponse labToGetLabResponse(Lab lab) {
+		return this.modelMapper.map(lab, GetLabResponse.class);
+	}
+
 	public Lab labRequestToLab(LabRequest labRequest) {
 		return this.modelMapper.map(labRequest, Lab.class);
 	}
-
 
 	public ResponseEntity<?> registerLab(LabRequest labRequest) {
 		Map<String, Object> response = new HashMap<>();
@@ -114,15 +132,76 @@ public class LabServiceImpl implements ILabService {
 		return null;
 	}
 
-	@Override
-	public List<LabResponse> searchLab(Integer pageNo, Integer pageSize, LabRequest labRequest, String sortBy) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
 	
-
+	//for searching a lab....
+	@Override
+	public Page<GetLabResponse> searchLab(Integer pageNo, Integer pageSize, GetLabRequest labRequest, String sortBy) {
+		  Lab lab=this.GetlabRequestToLab(labRequest);
+		  lab.setId(null);
+		  lab.setIsApproved(null);
+		  lab.setLabReviewRatings(null);
+		  lab.setIsDeleted(null);
+		  lab.getLocation().setId(null);
+		
+		//labRequest.setLocation(null);
+		System.out.println(labRequest);
+		
+		
+ 
+//		     // Create an ExampleMatcher with desired matching options
+	        ExampleMatcher exampleMatcher = ExampleMatcher.matching().withIgnoreNullValues()
+	                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING) // Match anywhere in the string
+	                .withIgnoreCase() // Ignore case when matching strings
+	                .withMatcher("id", match->match.transform(value->value.map(id -> (id.equals(0L))?null:id)));
+	               
+	        
+	        // Create an Example using the Product class and the ExampleMatcher
+	     
+	        
+	        Example<Lab> example = Example.of(lab,exampleMatcher);
+            System.err.println(example);
+	        // Create a PageRequest for pagination
+	        Pageable pageable = PageRequest.of(pageNo, pageSize,Sort.Direction.ASC,sortBy);
+            System.err.println(pageable);
+	        // Perform the search with pagination
+	    	Page<Lab> findAllLab = labRepository.findAll(example, pageable);
+	    	
+	    	System.err.println(findAllLab.get().toList());
+	    	return findAllLab.map(s->this.labToGetLabResponse(s));
+		
+	}
+	
+//	
+//	private void clearUnnecessaryFields(GetLabRequest labRequest) {
+//
+//		labRequest.setBiography(null);
+//		labRequest.setDocumentType(null);
+//		labRequest.setLabReviewRatings(null);
+//		labRequest.setEmail(null);
+//		labRequest.setImageName(null);
+//		labRequest.setIsApproved(null);
+//		labRequest.setIsDeleted(null);
+//		labRequest.setPhone(null);
+//		labRequest.setPassword(null);
+//		
+//	    if (labRequest.getLabName() == null) {
+//	        labRequest.setLabName(null);
+//	    }else if(labRequest.getLocation()==null) {
+//	    	labRequest.setLocation(null);
+//	    }
+//	    
+//	    if (labRequest.getLocation() != null ) {
+//	    	if(labRequest.getLocation().getPinCode()!=null)
+//	        if (labRequest.getLocation().getArea() == null) {
+//	            labRequest.getLocation().setArea(null);
+//	        }
+//	        else {
+//	        	labRequest.getLocation().setPinCode(null);
+//	        }
+//	        // Repeat similar checks for other location properties (addressLine, city, country, pinCode, id)
+//	    }
+//	}
+//
   
 	
 
@@ -191,18 +270,20 @@ public class LabServiceImpl implements ILabService {
 //
 	//View all lab which is not deleted
 		public PageLabDto viewAllLab(int pageNo, int pageSize, String sortBy) {
+			
+			
 			// Create Pageable object with pagination and sorting
 			System.out.println("inside a method");
 			Pageable pageable = PageRequest.of(pageNo, pageSize, Direction.ASC, sortBy);
 			// Query the database directly based on doctorId
-			Page<Lab> findAllLab = labRepository.findByIsDeleted(pageable,false);
+			Page<Lab> findAllLab = labRepository.findByIsDeletedAndIsApproved(pageable,false,true);
 
 			// Convert the Page of Appointment entities to a Page of AppointmentDto
-			Page<LabResponse> map = findAllLab.map(this::labToLabResponse);
+			Page<GetLabResponse> map = findAllLab.map(this::labToGetLabResponse);
 
 			// Reverse the order of content if needed
-			List<LabResponse> content = map.getContent();
-			List<LabResponse> newList = null;
+			List<GetLabResponse> content = map.getContent();
+			List<GetLabResponse> newList = null;
 			if (content != null && !content.isEmpty()) {
 				newList = new ArrayList<>(content);
 				Collections.reverse(newList);
@@ -215,21 +296,7 @@ public class LabServiceImpl implements ILabService {
 
 			return prr;
 		}
-//
-//	@Override
-//	public List<LabResponse> searchLab(Integer pageNo, Integer pageSize, LabRequest labRequest,
-//			String sortBy) {
-//		ExampleMatcher exampleMatcher = ExampleMatcher.matching().withIgnoreNullValues()
-//				.withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING) // Match anywhere in the string
-//				.withIgnoreCase() // Ignore case when matching strings
-//				.withMatcher("id", match -> match.transform(value -> value.map(id -> ((Integer) id == 0) ? null : id)));
-//       
-//		Example<Lab> example = Example.of(labRequestToLab(labRequest), exampleMatcher);
-//		Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.Direction.ASC, sortBy);
-//		Page<Lab> findAllLab = this.labRepository.findAll(example, pageable);
-//		return findAllLab.getContent().stream().map(s -> labToLabResponse(s)).collect(Collectors.toList());
-//
-//	}
+
 //
 //	@Override
 //	public LabResponse updateLab(LabRequest request) {
@@ -288,7 +355,7 @@ public class LabServiceImpl implements ILabService {
 //		
 		Lab lb = this.labRepository.save(l);
 		Location location = request.getLocation();
-		location.setLab(lb);
+		location.setId(lb.getId());
 		location = this.locationRepository.save(location);
 		response.put(AppConstant.MESSAGE, AppConstant.LAB_CREATED_MESSAGE);
 		

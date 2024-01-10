@@ -184,4 +184,8 @@ public class AppConstant {
 
 	public static final String DOCTOR = "doctor";
 
+
+
+	public static final String LAB_REVIEW_RATING = "LabReviewRating";
+
 }

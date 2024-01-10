@@ -3,6 +3,7 @@ package com.upchardwar.app.controller.lab;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.upchardwar.app.dto.PageLabDto;
+import com.upchardwar.app.entity.payload.GetLabRequest;
+import com.upchardwar.app.entity.payload.GetLabResponse;
 import com.upchardwar.app.entity.payload.LabRequest;
 import com.upchardwar.app.entity.payload.LabResponse;
 
@@ -87,5 +90,15 @@ public class LabController {
 	PageLabDto plto= this.labService.viewAllLab(pageNo, pageSize, sortBy);
 	return new ResponseEntity<PageLabDto>(plto, HttpStatus.OK);
 	}
+	
+	
+	//search Lab On the basis of different different filter
+	 @PostMapping("/search/{pn}/{ps}/{sortBy}")
+	    public Page<GetLabResponse> findPaginated(@PathVariable("pn") int pn,@PathVariable("ps") int ps,@RequestBody GetLabRequest request,@PathVariable("sortBy") String sortBy ) {
+	          
+	    	
+	    	Page<GetLabResponse> page=labService.searchLab(pn, ps,request,sortBy);
+	    	return page ;
+	    }
 
 }

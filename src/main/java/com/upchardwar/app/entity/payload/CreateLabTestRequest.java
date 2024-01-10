@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class CreateLabTestRequest {
 	
-		
+	private Long id;
+	
 	 private String testName;
 	
 	 private String description;
