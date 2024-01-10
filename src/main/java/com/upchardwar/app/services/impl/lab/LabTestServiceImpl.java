@@ -75,7 +75,7 @@ public class LabTestServiceImpl implements ILabTestService {
 	public ResponseEntity<?> createLabTest(CreateLabTestRequest request) {
 	    Map<String, Object> response = new HashMap<>();
 	    
-	
+	    System.err.println(request.getId());
 	    LabTest labTest = this.creatLabTestRequestToLabTest(request);
 	    
 	    
@@ -105,11 +105,12 @@ public class LabTestServiceImpl implements ILabTestService {
 	//View all labtest which is not deleted
 	public PageLabDto viewAllLabTest(int pageNo, int pageSize, String sortBy, Long labId) {
 		// Create Pageable object with pagination and sorting
-		System.out.println("inside a method");
+		System.err.println("inside a method");
 		Pageable pageable = PageRequest.of(pageNo, pageSize, Direction.ASC, sortBy);
 		// Query the database directly based on doctorId
 		Page<LabTest> findAllLabTest = labTestRepo.findByLabIdAndIsDelete(labId, pageable,false);
 
+		System.err.println(findAllLabTest.getTotalElements());
 		// Convert the Page of Appointment entities to a Page of AppointmentDto
 		Page<LabTestResponse> map = findAllLabTest.map(this::ltToLabTestResponse);
 
@@ -125,7 +126,7 @@ public class LabTestServiceImpl implements ILabTestService {
 		PageLabDto prr = new PageLabDto();
 		prr.setContents(newList);
 		prr.setTotalElements(findAllLabTest.getTotalElements());
-
+    
 		return prr;
 	}
 	
@@ -161,7 +162,8 @@ public class LabTestServiceImpl implements ILabTestService {
 	public ResponseEntity<?> updateLabTest(Long labTestId,LabTestRequest request) {
 	    Map<String, Object> response = new HashMap<>();
 
-	   
+	   System.err.println(request);
+	    
 	    Optional<LabTest> labTestOptional = labTestRepo.findByIdAndIsDelete(labTestId,false);
 
 	    if (labTestOptional.isPresent()) {

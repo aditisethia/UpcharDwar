@@ -3,10 +3,14 @@ package com.upchardwar.app.entity.lab;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.upchardwar.app.entity.Location;
 import com.upchardwar.app.entity.User;
+import com.upchardwar.app.entity.doctor.DoctorReviewRating;
+import com.upchardwar.app.entity.doctor.Speciality;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,10 +33,6 @@ public class Lab {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	
-	
-
-
 	private String labName;
 
 	private String email;
@@ -51,7 +51,11 @@ public class Lab {
 
 	private Boolean isDeleted = false;
 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "location_id", unique = true)
+	private Location location;
 
+	
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "lab_id")
@@ -62,10 +66,10 @@ public class Lab {
 	@JoinColumn(name = "lab_id")
 	private List<LabTest> labTests;
 
-	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "lab_id")
+	
+	@OneToMany(mappedBy = "lab", cascade = CascadeType.ALL)
 	private List<LabReviewRating> labReviewRatings;
+
 	
 	@OneToOne
 	@JoinColumn(name="user_id")

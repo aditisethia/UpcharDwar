@@ -31,4 +31,6 @@ public interface LabRepository extends JpaRepository<Lab, Long> {
 	
 
 	public Page<Lab> findByIsDeleted(Pageable pageable, boolean b);
+
+	public Page<Lab> findByIsDeletedAndIsApproved(Pageable pageable, boolean b, boolean c);
 }

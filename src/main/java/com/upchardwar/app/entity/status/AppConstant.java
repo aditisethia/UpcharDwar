@@ -186,6 +186,10 @@ public class AppConstant {
 
 
 
+
+	public static final String LAB_REVIEW_RATING = "LabReviewRating";
+
 	public static final String PATIENT_NOT_FOUND = "";
+
 
 }

@@ -31,8 +31,8 @@ public class LabTestController {
 	private ILabTestService labTestService;
 	
 	@PostMapping("/save")
-	public ResponseEntity<?> addDoctor(@RequestBody CreateLabTestRequest labTestRequest) {
-	     System.out.println(labTestRequest.getTestName());
+	public ResponseEntity<?> addLab(@RequestBody CreateLabTestRequest labTestRequest) {
+	    
 	    
 		return this.labTestService.createLabTest(labTestRequest);
 	}

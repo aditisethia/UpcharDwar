@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.upchardwar.app.entity.Location;
 import com.upchardwar.app.entity.lab.LabDocument;
+import com.upchardwar.app.entity.lab.LabReviewRating;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,6 +37,8 @@ public class LabResponse {
 	private String biography;
 	
 	private Boolean isDeleted=false;
+	
+	private List<LabReviewRating> labReviewRatings;
 	
 	private List<LabDocument> labDocuments=new ArrayList<>();
 	
