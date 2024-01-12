@@ -2,6 +2,7 @@ package com.upchardwar.app.entity.doctor;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.upchardwar.app.entity.patient.Patient;
 import com.upchardwar.app.entity.status.AppointmentStatus;
@@ -40,7 +41,8 @@ public class Appointment {
 
 	private String purpose;
 
-	@OneToOne(cascade = CascadeType.MERGE)
+	@OneToOne()
+	@JsonIgnore
 	private TimeSlote timeslote;
 
 	@ManyToOne
@@ -54,6 +56,7 @@ public class Appointment {
 	private DoctorInvoice doctorInvoice;
 
 	@ManyToOne
+	@JsonIgnore
 	private PatientAppointmentFile patientAppointmentFile;
 
 }

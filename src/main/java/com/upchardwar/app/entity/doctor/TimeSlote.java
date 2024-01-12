@@ -1,7 +1,9 @@
 package com.upchardwar.app.entity.doctor;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,9 +35,9 @@ public class TimeSlote {
 
 	private Boolean isDeleted = false;
 
-	@ManyToOne
-	@JoinColumn(name = "schedule_id")
-	@JsonIgnore
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="schedule_id")
+	@JsonIgnoreProperties(value= {"timeSlots"})
 	private Schedule schedule;
 
 	@OneToOne(mappedBy = "timeslote")
