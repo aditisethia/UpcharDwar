@@ -16,6 +16,7 @@ import com.upchardwar.app.entity.lab.LabInvoice;
 import com.upchardwar.app.entity.lab.LabPayment;
 import com.upchardwar.app.entity.lab.LabReport;
 import com.upchardwar.app.entity.lab.LabReviewRating;
+import com.upchardwar.app.entity.orders.payments;
 import com.upchardwar.app.entity.pharma.PharmaRequest;
 import com.upchardwar.app.entity.pharma.PharmaReviewRating;
 
@@ -72,8 +73,11 @@ public class Patient {
 	public String imageName;
 	
 	
-	 @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
-	    private List<Booking> bookings;
+    @OneToMany(mappedBy = "patient",cascade = CascadeType.ALL)
+    private List<payments> payments;
+	
+	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Booking> bookings;
 	
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name="patient_id")

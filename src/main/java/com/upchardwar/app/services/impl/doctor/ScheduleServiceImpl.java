@@ -1,8 +1,6 @@
 package com.upchardwar.app.services.impl.doctor;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -21,22 +19,28 @@ import com.upchardwar.app.entity.doctor.Schedule;
 import com.upchardwar.app.entity.doctor.TimeSlote;
 import com.upchardwar.app.entity.payload.ScheduleRequest;
 import com.upchardwar.app.entity.payload.ScheduleResponse;
-import com.upchardwar.app.entity.status.AppConstant;
 import com.upchardwar.app.exception.ResourceNotFoundException;
+import com.upchardwar.app.repository.AppointmentRepository;
 import com.upchardwar.app.repository.DoctorRepository;
 import com.upchardwar.app.repository.ScheduleRepository;
+import com.upchardwar.app.repository.TimeSlotRepository;
 import com.upchardwar.app.services.doctor.IScheduleService;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class ScheduleServiceImpl implements IScheduleService {
 	@Autowired
 	private ScheduleRepository repository;
-
+    @Autowired
+	private TimeSlotRepository treopo;
 	@Autowired
 	private DoctorRepository doctorRepository;
-
 	@Autowired
 	private ModelMapper modelMapper;
+	@Autowired
+	private AppointmentRepository appointmentRepository;
 
 	public ScheduleResponse scheduleToScheduleResponse(Schedule schedule) {
 		return this.modelMapper.map(schedule, ScheduleResponse.class);
@@ -56,16 +60,47 @@ public class ScheduleServiceImpl implements IScheduleService {
 	}
 
 	@Override
+	@Transactional
 	public String deleteScheduleById(Long id) {
 		Optional<Schedule> s = this.repository.findById(id);
+		
+			if (s.isEmpty()) {
+				throw new ResourceNotFoundException("schedule with this id not exist");
+			}
+			else {
+				System.err.println("Inside Else");
+				List<TimeSlote> listOfTimesSlots = this.treopo.getAllTimeSlotsBySechdule(id);
+				for(TimeSlote timeSlote: listOfTimesSlots)
+				{
+					if(java.util.Objects.nonNull(timeSlote.getAppointment()))
+					appointmentRepository.deleteById(timeSlote.getAppointment().getId());
+				}
+				treopo.deleteByScheduleId(id);
+				this.repository.deleteById(id);
+			List<TimeSlote> listOfTimesSlotsq = this.treopo.getAllTimeSlotsBySechdule(id);
+			}
+		
+//		 TimeSlote timeSlote = treopo.findById(timeSloteId)
+//		            .orElseThrow(() -> new EntityNotFoundException("TimeSlote not found with id: " + timeSloteId));
 
-		if (s.isEmpty()) {
-			throw new ResourceNotFoundException("schedule with this id not exist");
+//		    // Manually delete associated Appointment entities
+//		    for (Appointment appointment : timeSlote.getAppointments()) {
+//		        appointmentRepository.delete(appointment);
+//		    }
+//
+//		    // Delete the TimeSlote
+//		    treopo.delete(timeSlote);
+////		Optional<Schedule> s = this.repository.findById(id);
+////
+////		if (s.isEmpty()) {
+////			throw new ResourceNotFoundException("schedule with this id not exist");
+////		}
+////		else {
+////		this.repository.delete(s.get());
+////		return "deleted successfully";
+////		}
+			return "deleted successfully";
 		}
-		this.repository.delete(s.get());
-		return "deleted successfully";
-
-	}
 
 	@Override
 	public Page<ScheduleResponse> getAllSchdule(Integer pageNo, Integer pageSize) {
@@ -130,18 +165,22 @@ public class ScheduleServiceImpl implements IScheduleService {
 
 	@Override
 	public ScheduleResponse createSchedule(ScheduleRequest scheduleRequest) {
+		System.err.println("service");
 		Schedule schedule = convertToEntity(scheduleRequest);
 
 		Doctor doctor = scheduleRequest.getDoctor();
-
+         schedule.setTimeSlots(null);
 		schedule.setDoctor(doctor);
-
-		List<TimeSlote> timeSlots = schedule.getTimeSlots();
-		for (TimeSlote ts : timeSlots) {
-			ts.setSchedule(schedule);
-		}
-
+        
+//		List<TimeSlote> timeSlots = schedule.getTimeSlots();
+		
 		Schedule savedSchedule = repository.save(schedule);
+		List<TimeSlote> timeSlots = scheduleRequest.getTimeSlots();
+		for (TimeSlote ts : timeSlots) {
+			ts.setSchedule(savedSchedule);
+			this.treopo.save(ts);
+		}
+    
 		return convertToResponseDto(savedSchedule);
 	}
 
@@ -159,3 +198,28 @@ public class ScheduleServiceImpl implements IScheduleService {
     }
 
 }
+//
+//@Override
+//public String deleteScheduleById(Long id) {
+//	Optional<Schedule> s = this.repository.findById(id);
+//
+//	if (s.isEmpty()) {
+//		throw new ResourceNotFoundException("schedule with this id not exist");
+//	}
+//	else {
+//		System.err.println("Inside Else");
+//	List<TimeSlote> listOfTimesSlots = this.treopo.getAllTimeSlotsBySechdule(id);
+//	
+//	for(int i=0;i<listOfTimesSlots.size();i++) 
+//	{
+//	
+//		
+//		Appointment p = this.aRepo.findAllAppointmentByTimeSlotId(listOfTimesSlots.get(i).getId());
+//		this.aRepo.delete(p);
+//	}
+//	this.treopo.deleteTimeSlotsBySchduleId(id);
+//	this.repository.delete(s.get());
+//	return "deleted successfully";
+//	}
+//
+//}
