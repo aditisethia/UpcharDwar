@@ -3,6 +3,7 @@ package com.upchardwar.app.entity.payload;
 import java.util.List;
 
 import com.upchardwar.app.entity.doctor.Doctor;
+import com.upchardwar.app.entity.doctor.TimeSlote;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +22,7 @@ public class ScheduleRequest {
 
 	private String selectedDate;
 	
-	private List<TimeSlotRequest> timeSlots;
+	private List<TimeSlote> timeSlots;
 	
 	private Boolean isActive;
 
