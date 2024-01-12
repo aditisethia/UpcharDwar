@@ -2,6 +2,7 @@ package com.upchardwar.app.entity.lab;
 
 import java.time.LocalDateTime;
 
+import com.upchardwar.app.entity.doctor.PatientAppointmentFile;
 import com.upchardwar.app.entity.patient.Patient;
 
 import jakarta.persistence.CascadeType;
@@ -48,5 +49,7 @@ public class Booking {
 
 	    @OneToOne(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
 	    private LabInvoice invoice;
+	    
+
 	
 }
