@@ -30,7 +30,5 @@ public ResponseEntity<?> deleteLabById(Long id);
  
  public PageLabDto viewAllLab(int pageNo, int pageSize, String sortBy);
  
-
-// public ResponseEntity<?> getLocationBy
-
+public ResponseEntity<?> getLabById(Long Id);
 }

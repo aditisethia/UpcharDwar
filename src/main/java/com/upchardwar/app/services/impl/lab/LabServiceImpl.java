@@ -394,6 +394,22 @@ public class LabServiceImpl implements ILabService {
 	    	return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
+	@Override
+	public ResponseEntity<?> getLabById(Long Id) {
+	    Map<String, Object> response = new HashMap<>();
+	  
+	    Optional<Lab> l =labRepository.findById(Id);
+	    if(l.isEmpty()) {
+	    	throw new ResourceNotFoundException(AppConstant.LAB_NOT_FOUND);
+	    }
+	    Lab lab=l.get();
+	   System.err.println(lab.getBiography());
+	    LabResponse lr=this.labToLabResponse(lab);
+	    response.put(AppConstant.LAB, lr);
+	    
+		return new ResponseEntity<>(response,HttpStatus.OK);
+	}
+
 	
 
 

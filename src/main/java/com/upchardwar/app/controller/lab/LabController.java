@@ -91,5 +91,12 @@ public class LabController {
 	    	Page<GetLabResponse> page=labService.searchLab(pn, ps,request,sortBy);
 	    	return page ;
 	    }
-
+   
+	 //get Lab by id
+	 
+	 @GetMapping("/getLab/{id}")
+	 public ResponseEntity<?> getLabById(@PathVariable("id") Long id){
+		 return this.labService.getLabById(id);
+	 }
+	 
 }
