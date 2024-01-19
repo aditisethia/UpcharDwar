@@ -167,22 +167,21 @@ public class ScheduleServiceImpl implements IScheduleService {
 	public ScheduleResponse createSchedule(ScheduleRequest scheduleRequest) {
 		System.err.println("service");
 		Schedule schedule = convertToEntity(scheduleRequest);
-
 		Doctor doctor = scheduleRequest.getDoctor();
-         schedule.setTimeSlots(null);
+        schedule.setTimeSlots(null);
 		schedule.setDoctor(doctor);
-        
-//		List<TimeSlote> timeSlots = schedule.getTimeSlots();
-		
-		Schedule savedSchedule = repository.save(schedule);
+		Schedule savedSchedule = repository.save(schedule);		   
 		List<TimeSlote> timeSlots = scheduleRequest.getTimeSlots();
-		for (TimeSlote ts : timeSlots) {
+		for (TimeSlote ts : timeSlots)
+		{
 			ts.setSchedule(savedSchedule);
 			this.treopo.save(ts);
 		}
-    
 		return convertToResponseDto(savedSchedule);
 	}
+	
+	
+	
 
 	private Schedule convertToEntity(ScheduleRequest scheduleRequest) {
 		// TODO Auto-generated method stub
@@ -194,7 +193,9 @@ public class ScheduleServiceImpl implements IScheduleService {
 	}
 
     public List<Schedule> getSchedulesByDoctorId(Long doctorId) {
-        return repository.findByDoctorId(doctorId);
+    
+    	  List<Schedule> schedules = repository.findByDoctorId(doctorId);
+          return schedules.isEmpty() ? null : schedules;
     }
 
 }
