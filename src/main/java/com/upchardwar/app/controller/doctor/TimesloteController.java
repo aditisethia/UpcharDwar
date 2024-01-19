@@ -59,8 +59,8 @@ public class TimesloteController {
 
         	   System.out.println(order);
         	   Map<String, String> response = new HashMap<>();
-               response.put("orderId",MOCK_ORDER_ID);
-//               response.put("orderId",);
+//               response.put("orderId",MOCK_ORDER_ID);
+               response.put("orderId", order.get("id"));
                response.put("order",order.toString());
            
         	    return new ResponseEntity<>(response, HttpStatus.OK);

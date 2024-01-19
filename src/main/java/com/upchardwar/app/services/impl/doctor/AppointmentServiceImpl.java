@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.upchardwar.app.dto.AppointmentDto;
 import com.upchardwar.app.dto.PageAppointmentDto;
 import com.upchardwar.app.entity.doctor.Appointment;
+import com.upchardwar.app.entity.status.AppointmentStatus;
 import com.upchardwar.app.repository.AppointmentRepository;
 import com.upchardwar.app.services.doctor.IAppointmentService;
 
@@ -18,12 +19,15 @@ public class AppointmentServiceImpl implements IAppointmentService {
 	@Autowired
 	private AppointmentRepository appointmentRepository;
 
+	
 	@Override
 	public Map<String, Object> bookAppointment(Appointment appointment) {
 
 		// Save the appointment
 		Appointment savedAppointment = appointmentRepository.save(appointment);
-
+       
+		Appointment app=new Appointment();
+		app.setStatus(AppointmentStatus.SCHEDULED);
 		// Create a response map
 		Map<String, Object> response = new HashMap<>();
 		response.put("message", "Appointment booked successfully");
