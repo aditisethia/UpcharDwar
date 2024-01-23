@@ -98,7 +98,7 @@ public class AuthController {
 		public UserResponse getCurrentUser(Principal p) {
 			System.out.println("fghgj");
 			if(p != null)
-			return this.uservice.getUserByName(p.getName());
+			  return this.uservice.getUserByName(p.getName());
 			else
 				System.out.println("p is null");
 				return null;

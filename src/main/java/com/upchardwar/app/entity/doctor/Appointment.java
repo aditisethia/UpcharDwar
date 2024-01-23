@@ -31,6 +31,8 @@ public class Appointment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	private LocalDate bookingdate;
+	
 	private LocalDate appointmentDate;
 
 //	private LocalTime appointmentTime;

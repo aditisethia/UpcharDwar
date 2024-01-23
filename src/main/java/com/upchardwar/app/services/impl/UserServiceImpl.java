@@ -1,7 +1,9 @@
 package com.upchardwar.app.services.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -21,6 +23,9 @@ import com.upchardwar.app.entity.payload.UserResponse;
 import com.upchardwar.app.entity.status.AppConstant;
 import com.upchardwar.app.exception.ResourceAlreadyExistException;
 import com.upchardwar.app.exception.ResourceNotFoundException;
+import com.upchardwar.app.repository.DoctorRepository;
+import com.upchardwar.app.repository.LabRepository;
+import com.upchardwar.app.repository.PharmaRepository;
 import com.upchardwar.app.repository.RoleRepository;
 import com.upchardwar.app.repository.UserRepository;
 import com.upchardwar.app.services.IUserService;
@@ -40,6 +45,16 @@ public class UserServiceImpl implements IUserService {
 	@Autowired
 	private ModelMapper modelMapper;
 
+    @Autowired
+    private DoctorRepository doctorRepository;
+
+    @Autowired
+    private LabRepository labRepository;
+
+    @Autowired
+    private PharmaRepository pharmacyRepository;
+
+    
 	public UserResponse userToUserResponse(User user) {
 		return this.modelMapper.map(user, UserResponse.class);
 	}
@@ -106,5 +121,16 @@ public class UserServiceImpl implements IUserService {
 		else
 			throw new ResourceNotFoundException(AppConstant.USER_NOT_FOUND);
 	}
+
+    public Map<String, Object> search(String searchTerm) {
+    	Map<String, Object> response = new HashMap<>();
+        List<Object> results = new ArrayList<>(); 
+
+    
+        response.put("doctor",doctorRepository.searchDoctors(searchTerm) );
+        response.put("lab",labRepository.searchLabs(searchTerm) );
+        response.put("pharmacy",pharmacyRepository.searchPharmacies(searchTerm) );
+        return response;
+    }
 
 }

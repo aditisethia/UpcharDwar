@@ -3,14 +3,19 @@ package com.upchardwar.app.controller.doctor;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upchardwar.app.entity.doctor.Appointment;
+import com.upchardwar.app.entity.payload.AppointmentRequest;
 import com.upchardwar.app.services.doctor.IAppointmentService;
 
 @RestController
@@ -27,6 +32,21 @@ public class Appointmentcontroller {
 		return ResponseEntity.ok(response);
 	}
 
+	
+    @GetMapping("/doctor/{doctorId}")
+    public ResponseEntity<Page<AppointmentRequest>> getAppointmentsByDoctorId(
+            @PathVariable Long doctorId, Pageable pageable) {
+        Page<AppointmentRequest> appointments = appointmentService.getAppointmentsByDoctorId(doctorId, pageable);
+        return ResponseEntity.ok(appointments);
+    }
+
+    
+    @GetMapping("/patient/{patientId}")
+    public ResponseEntity<Page<AppointmentRequest>> getAppointmentsByPatientId(
+            @PathVariable Long patientId, Pageable pageable) {
+        Page<AppointmentRequest> appointments = appointmentService.getAppointmentsByPatientId(patientId, pageable);
+        return ResponseEntity.ok(appointments);
+    }
 }
 
 
