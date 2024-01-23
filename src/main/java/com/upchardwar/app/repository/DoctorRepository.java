@@ -1,5 +1,6 @@
 package com.upchardwar.app.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -33,4 +34,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 //    public DoctorResponse findByUserid(Long userid);
 
 	Doctor findByUserid(Long userid);
+	
+    @Query("SELECT d FROM Doctor d WHERE d.name LIKE %:searchTerm% OR d.speciality LIKE %:searchTerm% OR d.city LIKE %:searchTerm%")
+    List<Doctor> searchDoctors(@Param("searchTerm") String searchTerm);
 }

@@ -32,18 +32,18 @@ public class SecurityConfig {
 
 			,"/upchardwar/patient/save", "/upchardwar/lab/save","/upchardwar/lab/all", "/upchardwar/pharmacy/save",
 			"/upchardwar/auth/sendemail", "/upchardwar/auth/generate-otp", "/upchardwar/auth/verify",
-			"upchardwar/auth/current-user", "upchardwar/speciality/all", "/upchardwar/schedule/",
+			 "upchardwar/speciality/all", "/upchardwar/schedule/",
 			"/upchardwar/appointment/book-appointment", "/upchardwar/appointment/notify" ,"upchardwar/labrequest/save",
 
 			"/upchardwar/patient/save", "/upchardwar/lab/save", "/upchardwar/pharmacy/save",
 			"/upchardwar/auth/sendemail", "/upchardwar/auth/generate-otp", "/upchardwar/auth/verify",
-			"upchardwar/auth/current-user", "upchardwar/speciality/all", "/upchardwar/schedule/",
+			"upchardwar/speciality/all", "/upchardwar/schedule/",
 
 			"/upchardwar/appointment/book-appointment", "/upchardwar/appointment/notify" ,"/upchardwar/doctor/userid/{id}","/upchardwar/doctor/{pageNo}/{pageSize}",
 
 			"/upchardwar/appointment/book-appointment", "/upchardwar/appointment/notify" ,
 			"/api/getImageApi/{imgName}","upchardwar/lab/save1","upchardwar/labBooking/",
-			"upchardwar/lab/getLab/{id}"};
+			"upchardwar/lab/getLab/{id}","/upchardwar/appointment/doctor/{doctorId}","/upchardwar/appointment/patient/{patientId}","/upchardwar/user/search"};
 
 	private String[] accessByAdmin = { "/user/admin" ,"upchardwar/lab/delete/{id}"};
 
