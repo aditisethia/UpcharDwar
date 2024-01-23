@@ -50,6 +50,8 @@ public class Lab {
 	private String biography;
 
 	private Boolean isDeleted = false;
+	
+	private Boolean isFavorite = false;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "location_id", unique = true)
@@ -74,7 +76,10 @@ public class Lab {
 	@OneToOne
 	@JoinColumn(name="user_id")
 	private User user;
-
 	
+	
+	 @OneToMany(cascade = CascadeType.ALL)
+	    @JoinColumn(name = "lab_id")
+	 private List<PatientFavoriteLab> favoriteLabs;
 
 }
