@@ -16,6 +16,7 @@ import com.upchardwar.app.entity.lab.LabInvoice;
 import com.upchardwar.app.entity.lab.LabPayment;
 import com.upchardwar.app.entity.lab.LabReport;
 import com.upchardwar.app.entity.lab.LabReviewRating;
+import com.upchardwar.app.entity.lab.PatientFavoriteLab;
 import com.upchardwar.app.entity.orders.payments;
 import com.upchardwar.app.entity.pharma.PharmaRequest;
 import com.upchardwar.app.entity.pharma.PharmaReviewRating;
@@ -124,5 +125,9 @@ public class Patient {
     @OneToMany(mappedBy = "patient" ,cascade = CascadeType.ALL)
     private List<Conversation> conversations;
     
+    
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "patient_id")
+ private List<PatientFavoriteLab> favoriteLabs;
     
 }
