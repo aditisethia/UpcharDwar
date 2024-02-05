@@ -67,7 +67,7 @@ public class SecurityConfig {
 
 
 	
-	private String[] accessByPatient = {  "/upchardwar/patient/save1" , "/upchardwar/appointment/all/patient/{pageNo}/{pageSize}/{sortBy}" ,"upchardwar/labreviewrating/","upchardwar/labBooking/createTransaction/{amount}"};
+	private String[] accessByPatient = {  "/upchardwar/patient/save1" , "/upchardwar/appointment/all/patient/{pageNo}/{pageSize}/{sortBy}" ,"upchardwar/labreviewrating/","upchardwar/labBooking/createTransaction/{amount}","upchardwar/lab/{labId}/favorite/{patientId}","upchardwar/lab/favorites/{patientId}/{pageNo}/{pageSize}/{sortBy}","upchardwar/lab/{labId}/remove/{patientId}"};
 	
 	private String[] accessByLab = {"upchardwar/labTest/save","upchardwar/lab/user/{userId}"};
 	

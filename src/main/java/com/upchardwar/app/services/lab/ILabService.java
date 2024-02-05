@@ -13,19 +13,27 @@ import com.upchardwar.app.entity.payload.LabRequest;
 import com.upchardwar.app.entity.payload.LabResponse;
 
 public interface ILabService {
-	public ResponseEntity<?> registerLab(LabRequest labRequest);
 
-	public LabResponse updateLab(LabRequest request);
+  public ResponseEntity<?> registerLab(LabRequest labRequest);
 
-	public Page<GetLabResponse> searchLab(Integer pageNo, Integer pageSize, GetLabRequest labRequest, String sortBy);
+ public LabResponse updateLab(LabRequest request);
 
-	public ResponseEntity<?> deleteLabById(Long id);
+ public Page<GetLabResponse> searchLab(Integer pageNo, Integer pageSize, GetLabRequest labRequest, String sortBy);
+ 
+ public ResponseEntity<?> deleteLabById(Long id);
 
-	public ResponseEntity<?> addLab(LabRequest request, MultipartFile file, List<MultipartFile> multipartFiles);
+ 
+ public ResponseEntity<?> addLab(LabRequest request,MultipartFile file,List<MultipartFile> multipartFiles);
+ 
+ public ResponseEntity<?> findLabByUserId(Long userId);
+ 
+ 
+ public PageLabDto viewAllLab(int pageNo, int pageSize, String sortBy);
+ 
+public ResponseEntity<?> getLabById(Long Id);
 
-	public ResponseEntity<?> findLabByUserId(Long userId);
+public ResponseEntity<?> makeLabFav(Long userId, Long labId);
+//public void makeLabFavorite(Long labId, Long patientId);
 
-	public PageLabDto viewAllLab(int pageNo, int pageSize, String sortBy);
 
-	public ResponseEntity<?> getLabById(Long Id);
 }

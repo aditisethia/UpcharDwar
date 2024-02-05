@@ -189,7 +189,12 @@ public class AppConstant {
 
 	public static final String LAB_REVIEW_RATING = "LabReviewRating";
 
-	public static final String PATIENT_NOT_FOUND = "";
+
+	public static final Object LAB_REMOVED_FROM_FAV = "Lab Removed from Favorite Successfully";
+
+
+
+	public static final Object LAB_NOT_REMOVED = "Lab not Removed From Favroite";
 
 
 }
