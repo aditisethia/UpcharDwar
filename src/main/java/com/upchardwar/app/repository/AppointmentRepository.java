@@ -2,6 +2,7 @@ package com.upchardwar.app.repository;
 
 
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -22,6 +23,13 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     
     List<Appointment> findByPatientId(Long patientId);
     Page<Appointment> findByPatientId(Long patientId, Pageable pageable);
+
+
+    List<Appointment> findByDoctorIdAndAppointmentDate(Long doctorId, LocalDate appointmentDate);
+  
+    @Query("SELECT a FROM Appointment a WHERE a.doctor.id = :doctorId AND a.appointmentDate >= :startDate")
+    List<Appointment> findByDoctorIdAndAppointmentDateAfter(Long doctorId, LocalDate startDate);
+
 }
 
 

@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.upchardwar.app.entity.doctor.Doctor;
 import com.upchardwar.app.entity.payload.DoctorRequest;
 import com.upchardwar.app.entity.payload.DoctorResponse;
 import com.upchardwar.app.services.doctor.IDoctorService;
@@ -84,4 +86,8 @@ public class DoctorController {
 		return doctorService.getDoctorByUserId(userId);
 	}
 
+    @GetMapping("/doctors/by-keyword")
+    public List<Doctor> filterDoctors(@RequestParam String keyword) {
+        return doctorService.filterDoctorsByKeyword(keyword);
+    }
 }

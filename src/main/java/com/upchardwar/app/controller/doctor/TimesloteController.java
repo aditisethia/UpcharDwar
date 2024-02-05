@@ -47,7 +47,10 @@ public class TimesloteController {
 
         	   JSONObject ob = new JSONObject();
 
-        	   ob.put("amount", 300*100); // amount in the smallest currency unit
+        	   Integer amount = (Integer) data.get("amount");
+
+               
+        	   ob.put("amount", amount/100); // amount in the smallest currency unit
 
         	   ob.put("currency", "INR");
 
