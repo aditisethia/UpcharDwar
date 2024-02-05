@@ -37,4 +37,11 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 	
     @Query("SELECT d FROM Doctor d WHERE d.name LIKE %:searchTerm% OR d.speciality LIKE %:searchTerm% OR d.city LIKE %:searchTerm%")
     List<Doctor> searchDoctors(@Param("searchTerm") String searchTerm);
+    
+    @Query("SELECT d FROM Doctor d " +
+            "WHERE d.speciality.spName LIKE %:keyword% " +
+            "OR d.name LIKE %:keyword% " +
+            "OR d.address LIKE %:keyword% " +
+            "OR d.city LIKE %:keyword%")
+     public List<Doctor> filterDoctorsByKeyword(@Param("keyword")String keyword);
 }

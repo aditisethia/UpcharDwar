@@ -33,4 +33,6 @@ public interface IDoctorService {
 	public ResponseEntity<?> addDoctor(DoctorRequest request,MultipartFile file,List<MultipartFile> multipartFiles);
 
 	public ResponseEntity<?> getDoctorByUserId(Long userId);
+
+	List<Doctor> filterDoctorsByKeyword(String keyword);
 }

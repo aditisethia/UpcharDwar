@@ -3,6 +3,7 @@ package com.upchardwar.app.entity.payload;
 import java.time.LocalDate;
 
 import com.upchardwar.app.entity.doctor.Doctor;
+import com.upchardwar.app.entity.patient.Patient;
 import com.upchardwar.app.entity.status.AppointmentStatus;
 
 import lombok.AllArgsConstructor;
@@ -19,7 +20,7 @@ public class AppointmentRequest {
 	private LocalDate bookingdate;
 	private String purpose;
 	private Long timeslotId; // Assuming you associate the appointment with a timeslot
-	private Long patientId;
+	private Patient patient;
 	private Doctor doctor;
 
 }

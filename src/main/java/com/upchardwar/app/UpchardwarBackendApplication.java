@@ -1,6 +1,7 @@
 package com.upchardwar.app;
 
 import org.modelmapper.ModelMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,8 +16,9 @@ import jakarta.annotation.PostConstruct;
 public class UpchardwarBackendApplication {
 
 	
-    @Autowired
-    private RoleRepository roleRepository;
+    
+   @Autowired
+   private RoleRepository roleRepository;
 
     @PostConstruct
     public void init() {

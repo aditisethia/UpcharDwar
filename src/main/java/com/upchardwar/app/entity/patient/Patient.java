@@ -3,6 +3,7 @@ package com.upchardwar.app.entity.patient;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.upchardwar.app.entity.Conversation;
 import com.upchardwar.app.entity.Messages;
@@ -16,7 +17,6 @@ import com.upchardwar.app.entity.lab.LabInvoice;
 import com.upchardwar.app.entity.lab.LabPayment;
 import com.upchardwar.app.entity.lab.LabReport;
 import com.upchardwar.app.entity.lab.LabReviewRating;
-import com.upchardwar.app.entity.lab.PatientFavoriteLab;
 import com.upchardwar.app.entity.orders.payments;
 import com.upchardwar.app.entity.pharma.PharmaRequest;
 import com.upchardwar.app.entity.pharma.PharmaReviewRating;
@@ -94,9 +94,11 @@ public class Patient {
 	 @JsonIgnoreProperties(value = {"patient"})
 	private List<DoctorInvoice> doctorInvoices;
 	
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "patient")
 	private List<Appointment> appointments;
 	
+
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "patient")
 	private List<PatientAppointmentFile> appointmentFiles;
 	
@@ -125,9 +127,5 @@ public class Patient {
     @OneToMany(mappedBy = "patient" ,cascade = CascadeType.ALL)
     private List<Conversation> conversations;
     
-    
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "patient_id")
- private List<PatientFavoriteLab> favoriteLabs;
     
 }

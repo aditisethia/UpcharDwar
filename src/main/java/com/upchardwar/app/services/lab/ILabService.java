@@ -4,17 +4,16 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import com.upchardwar.app.dto.PageLabDto;
-import com.upchardwar.app.entity.payload.DoctorRequest;
 import com.upchardwar.app.entity.payload.GetLabRequest;
 import com.upchardwar.app.entity.payload.GetLabResponse;
 import com.upchardwar.app.entity.payload.LabRequest;
 import com.upchardwar.app.entity.payload.LabResponse;
 
 public interface ILabService {
+
   public ResponseEntity<?> registerLab(LabRequest labRequest);
 
  public LabResponse updateLab(LabRequest request);
@@ -35,5 +34,6 @@ public ResponseEntity<?> getLabById(Long Id);
 
 public ResponseEntity<?> makeLabFav(Long userId, Long labId);
 //public void makeLabFavorite(Long labId, Long patientId);
+
 
 }
