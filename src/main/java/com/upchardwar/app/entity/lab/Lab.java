@@ -79,8 +79,6 @@ public class Lab {
 	private User user;
 	
 	
-	 @OneToMany(cascade = CascadeType.ALL)
-	    @JoinColumn(name = "lab_id")
-	 private List<PatientFavoriteLab> favoriteLabs;
+
 
 }
