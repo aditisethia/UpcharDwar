@@ -168,13 +168,14 @@ public class ScheduleServiceImpl implements IScheduleService {
 		System.err.println("service");
 		Schedule schedule = convertToEntity(scheduleRequest);
 		Doctor doctor = scheduleRequest.getDoctor();
+//	doctor.setId(2L);
         schedule.setTimeSlots(null);
 		schedule.setDoctor(doctor);
 		Schedule savedSchedule = repository.save(schedule);		   
 		List<TimeSlote> timeSlots = scheduleRequest.getTimeSlots();
-		for (TimeSlote ts : timeSlots)
-		{
-			ts.setSchedule(savedSchedule);
+	for (TimeSlote ts : timeSlots)
+	{
+		ts.setSchedule(savedSchedule);
 			this.treopo.save(ts);
 		}
 		return convertToResponseDto(savedSchedule);

@@ -27,7 +27,7 @@ public class LabBookingController {
 	
 	@PostMapping("/")
 	public ResponseEntity<?> booking(@RequestBody BookingRequest request){
-		 
+ System.err.println(request);
 		return this.bookingService.BookingLabTest(request);
 	}
 	

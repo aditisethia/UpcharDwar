@@ -98,7 +98,7 @@ public class DoctorServiceImpl implements IDoctorService {
 				doctorDocuments.add(d);
 			}
 		}
-
+ 
 		List<DoctorQualification> qualifications = new ArrayList<>();
 		for (DoctorQualification qualificationRequest : request.getQualifications()) {
 			DoctorQualification qualification = new DoctorQualification();
@@ -248,5 +248,10 @@ public class DoctorServiceImpl implements IDoctorService {
 		response.put(AppConstant.DOCTOR, drRes);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
+
+	@Override
+    public List<Doctor> filterDoctorsByKeyword(String keyword) {
+        return doctorRepository.filterDoctorsByKeyword(keyword);
+    }
 
 }

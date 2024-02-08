@@ -1,5 +1,7 @@
 package com.upchardwar.app.controller.doctor;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,38 @@ public class Appointmentcontroller {
         Page<AppointmentRequest> appointments = appointmentService.getAppointmentsByPatientId(patientId, pageable);
         return ResponseEntity.ok(appointments);
     }
+
+    
+    //todays appointment for doctor
+    
+    @GetMapping("/doctor/today/{doctorId}")
+    public ResponseEntity<List<Appointment>> gettodaysAppointmentsByDoctorAndDate(
+            @PathVariable Long doctorId) {
+    	
+    	LocalDate today = LocalDate.now();
+        
+        List<Appointment> appointments = appointmentService.findAppointmentsByDoctorIdAndDate(doctorId, today);
+
+        return ResponseEntity.ok(appointments);
+    }
+    
+    //upcoming appointment for doctor
+    
+
+    @GetMapping("/doctor/{doctorId}/upcoming-appointments")
+    public ResponseEntity<List<Appointment>> getUpcomingAppointmentsByDoctor(
+            @PathVariable Long doctorId) {
+        
+        // Get tomorrow's date
+        LocalDate tomorrow = LocalDate.now().plusDays(1);
+
+        System.out.println(tomorrow);
+        // Find upcoming appointments starting from tomorrow
+        List<Appointment> upcomingAppointments = appointmentService.findUpcomingAppointmentsByDoctorId(doctorId, tomorrow);
+
+        return ResponseEntity.ok(upcomingAppointments);
+    }
+    
 }
 
 

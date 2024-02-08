@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.upchardwar.app.entity.Conversation;
 import com.upchardwar.app.entity.Messages;
-import com.upchardwar.app.entity.User;
 import com.upchardwar.app.entity.pharma.PharmaReviewRating;
 import com.upchardwar.app.entity.status.AppConstant;
 
@@ -23,7 +22,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
@@ -109,7 +107,7 @@ public class Doctor {
 	private List<DoctorDocument> doctorDocuments = new ArrayList<>();
 
 	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "doctor")
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "doctor")
 	private List<Schedule> schedules;
 
 	@JsonIgnore

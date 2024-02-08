@@ -42,7 +42,7 @@ public class LabInvoice {
 	    @JoinColumn(name = "lab_test_id")
 	    private LabTest labTest;
 
-	    private double totalAmount;
+	    private Long totalAmount;
 	    
 	    private LocalDateTime issueTime;
 	    

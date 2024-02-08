@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import org.json.HTTP;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import com.upchardwar.app.entity.Role;
 import com.upchardwar.app.entity.User;
 import com.upchardwar.app.entity.UserRole;
+import com.upchardwar.app.entity.payload.ChangePasswordRequest;
 import com.upchardwar.app.entity.payload.UserRequest;
 import com.upchardwar.app.entity.payload.UserResponse;
 import com.upchardwar.app.entity.status.AppConstant;
@@ -91,6 +93,9 @@ public class UserServiceImpl implements IUserService {
 		return this.userToUserResponse(this.urepo.save(user));
 
 	}
+	
+	
+	
 
 	public ResponseEntity<?> changeStatus(Long id, String status) {
 		Map<String, Object> response = new HashMap<>();
@@ -112,6 +117,7 @@ public class UserServiceImpl implements IUserService {
 
 	}
 
+
 	public UserResponse getUserByName(String name) {
 
 		Optional<User> local = this.urepo.findByEmail(name);
@@ -132,5 +138,27 @@ public class UserServiceImpl implements IUserService {
         response.put("pharmacy",pharmacyRepository.searchPharmacies(searchTerm) );
         return response;
     }
+
+	@Override
+	public ResponseEntity<?> changePassword(ChangePasswordRequest changePasswordRequest) {
+		Map<String, Object> response = new HashMap<>();
+Optional<User> userOptional	=	urepo.findByEmail(changePasswordRequest.getEmail());
+		if(userOptional.isPresent()) {
+			User user= userOptional.get();
+			if(passwordEncoder.matches(changePasswordRequest.getOldPassword(), user.getPassword())) {
+				user.setPassword(this.passwordEncoder.encode(changePasswordRequest.getNewPassword()));
+				
+				urepo.save(user);
+				response.put(AppConstant.MESSAGE, AppConstant.CHANGE_PASSWORD_SUCCESS);
+				return new ResponseEntity<>(response,HttpStatus.OK);
+			}else {
+				response.put(AppConstant.MESSAGE, AppConstant.PASSWORD_NOT_MATCHED);
+				 return new ResponseEntity<>(response,HttpStatus.OK);
+			}
+		}
+		
+	   response.put(AppConstant.MESSAGE, AppConstant.USER_NOT_FOUND);
+	   return new ResponseEntity<>(response,HttpStatus.OK);
+	}
 
 }

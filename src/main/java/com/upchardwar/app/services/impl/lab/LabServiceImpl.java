@@ -9,27 +9,17 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-
-import org.apache.catalina.connector.Response;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -40,47 +30,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.upchardwar.app.dto.PageLabDto;
 import com.upchardwar.app.entity.Location;
-import com.upchardwar.app.entity.Role;
-import com.upchardwar.app.entity.User;
-import com.upchardwar.app.entity.UserRole;
-import com.upchardwar.app.entity.doctor.Doctor;
-import com.upchardwar.app.entity.doctor.DoctorDocument;
-import com.upchardwar.app.entity.doctor.DoctorQualification;
 import com.upchardwar.app.entity.lab.Lab;
 import com.upchardwar.app.entity.lab.LabDocument;
-import com.upchardwar.app.entity.lab.LabReviewRating;
-import com.upchardwar.app.entity.lab.LabTest;
 import com.upchardwar.app.entity.lab.PatientFavoriteLab;
 import com.upchardwar.app.entity.patient.Patient;
-import com.upchardwar.app.entity.payload.DoctorRequest;
-import com.upchardwar.app.entity.payload.DoctorResponse;
 import com.upchardwar.app.entity.payload.GetLabRequest;
 import com.upchardwar.app.entity.payload.GetLabResponse;
-import com.upchardwar.app.entity.lab.Lab;
-
 import com.upchardwar.app.entity.payload.LabRequest;
 import com.upchardwar.app.entity.payload.LabResponse;
-import com.upchardwar.app.entity.payload.LabTestResponse;
 import com.upchardwar.app.entity.status.AppConstant;
-
 import com.upchardwar.app.exception.BadRequestException;
 import com.upchardwar.app.exception.ResourceAlreadyExistException;
-import com.upchardwar.app.exception.ResourceNotApprovedException;
 import com.upchardwar.app.exception.ResourceNotFoundException;
-
 import com.upchardwar.app.repository.LabRepository;
 import com.upchardwar.app.repository.LocationRepository;
 import com.upchardwar.app.repository.PatientRepository;
 import com.upchardwar.app.repository.UserRepository;
 import com.upchardwar.app.services.lab.ILabService;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 
 @Service
 public class LabServiceImpl implements ILabService {
@@ -147,12 +115,8 @@ public class LabServiceImpl implements ILabService {
 		  lab.setLabReviewRatings(null);
 		  lab.setIsDeleted(null);
 		  lab.getLocation().setId(null);
-		
 		//labRequest.setLocation(null);
 		System.out.println(labRequest);
-		
-		
- 
 //		     // Create an ExampleMatcher with desired matching options
 	        ExampleMatcher exampleMatcher = ExampleMatcher.matching().withIgnoreNullValues()
 	                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING) // Match anywhere in the string
@@ -376,6 +340,7 @@ public class LabServiceImpl implements ILabService {
 		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
 
+
 	
 	
 	
@@ -440,6 +405,7 @@ public class LabServiceImpl implements ILabService {
 	
 
 	
+
 
 
 
