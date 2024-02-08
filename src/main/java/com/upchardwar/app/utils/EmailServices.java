@@ -21,7 +21,7 @@ public class EmailServices {
 	
 	public String generateOtp() {
 		Random r=new Random();
-		int rn=r.nextInt(10000);
+		int rn = r.nextInt(9000)+1000;
 		
 		return String.valueOf(rn);
 	}

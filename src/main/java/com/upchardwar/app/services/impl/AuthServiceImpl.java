@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.saml2.Saml2RelyingPartyProperties.AssertingParty.Verification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,6 +24,7 @@ import com.upchardwar.app.entity.Role;
 import com.upchardwar.app.entity.User;
 import com.upchardwar.app.entity.UserRole;
 import com.upchardwar.app.entity.Varification;
+import com.upchardwar.app.entity.payload.PasswordResetRequest;
 import com.upchardwar.app.entity.payload.VarificationRequest;
 import com.upchardwar.app.entity.status.AppConstant;
 import com.upchardwar.app.exception.ResourceNotFoundException;
@@ -63,6 +65,8 @@ public class AuthServiceImpl implements IAuthService, UserDetailsService {
 		return new org.springframework.security.core.userdetails.User(email, user.get().getPassword(), list);
 	}
 
+	
+	
 	public ResponseEntity<?> EmailVarification(Varification var) {
 		Map<String, Object> response = new HashMap<>();
 //		  
@@ -177,6 +181,22 @@ public class AuthServiceImpl implements IAuthService, UserDetailsService {
 
 	}
 
+
+
+	@Override
+	public ResponseEntity<?> forgetPassword(PasswordResetRequest passwordResetRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
+	
+	
+
+
+		
+
+		
+		
 	
 }

@@ -107,7 +107,7 @@ public class Doctor {
 	private List<DoctorDocument> doctorDocuments = new ArrayList<>();
 
 	@JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "doctor")
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "doctor")
 	private List<Schedule> schedules;
 
 	@JsonIgnore

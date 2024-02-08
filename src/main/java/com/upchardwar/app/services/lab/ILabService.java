@@ -17,15 +17,22 @@ public interface ILabService {
 
 	public LabResponse updateLab(LabRequest request);
 
-	public Page<GetLabResponse> searchLab(Integer pageNo, Integer pageSize, GetLabRequest labRequest, String sortBy);
+ public Page<GetLabResponse> searchLab(Integer pageNo, Integer pageSize, GetLabRequest labRequest, String sortBy);
+ 
+ public ResponseEntity<?> deleteLabById(Long id);
 
-	public ResponseEntity<?> deleteLabById(Long id);
+ 
+ public ResponseEntity<?> addLab(LabRequest request,MultipartFile file,List<MultipartFile> multipartFiles);
+ 
+ public ResponseEntity<?> findLabByUserId(Long userId);
+ 
+ 
+ public PageLabDto viewAllLab(int pageNo, int pageSize, String sortBy);
+ 
+public ResponseEntity<?> getLabById(Long Id);
 
-	public ResponseEntity<?> addLab(LabRequest request, MultipartFile file, List<MultipartFile> multipartFiles);
+public ResponseEntity<?> makeLabFav(Long userId, Long labId);
+//public void makeLabFavorite(Long labId, Long patientId);
 
-	public ResponseEntity<?> findLabByUserId(Long userId);
 
-	public PageLabDto viewAllLab(int pageNo, int pageSize, String sortBy);
-
-	public ResponseEntity<?> getLabById(Long Id);
 }

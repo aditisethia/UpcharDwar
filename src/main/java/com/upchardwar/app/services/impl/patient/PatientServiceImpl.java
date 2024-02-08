@@ -126,7 +126,7 @@ public class PatientServiceImpl implements IPatientService {
             Patient patient = s.get();
             return patientToPatientResponse(patient);
         } else {
-            throw new ResourceNotFoundException(AppConstant.PATIENT_NOT_FOUND);
+            throw new ResourceNotFoundException(AppConstant.PAITENT_NOT_FOUND);
         }
 
 	}

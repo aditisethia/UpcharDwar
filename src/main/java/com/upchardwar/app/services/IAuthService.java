@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.upchardwar.app.entity.User;
 import com.upchardwar.app.entity.Varification;
+import com.upchardwar.app.entity.payload.PasswordResetRequest;
 import com.upchardwar.app.entity.payload.UserRequest;
 import com.upchardwar.app.entity.payload.VarificationRequest;
 
@@ -17,4 +18,6 @@ public interface IAuthService {
 
 
 	public ResponseEntity<?> verifyUser(VarificationRequest request);
+	
+	public ResponseEntity<?> forgetPassword(PasswordResetRequest passwordResetRequest);
 }

@@ -60,9 +60,9 @@ public class AppConstant {
 	public static final Object INVALID_OTP = "invalid";
 	public static final Object LINK_EXPIRED = "link expired";
 	public static final Object USER_VERIFICATION_SUCCESS = "successfully varified user";
+	public static final Object RESET_PASSWORD_SUCCESS = "Password Reset Successfully";
 
-
-
+	public static final Object CHANGE_PASSWORD_SUCCESS = "Password Change Successfully";
 	public static final String LAB_CREATION = "created lab";
 	public static final String DOCTOR_CREATED = "DOCTOR :";
 
@@ -189,7 +189,16 @@ public class AppConstant {
 
 	public static final String LAB_REVIEW_RATING = "LabReviewRating";
 
-	public static final String PATIENT_NOT_FOUND = "";
+
+	public static final Object LAB_REMOVED_FROM_FAV = "Lab Removed from Favorite Successfully";
+
+
+
+	public static final Object LAB_NOT_REMOVED = "Lab not Removed From Favroite";
+
+
+
+	public static final Object PASSWORD_NOT_MATCHED = "Password not matched";
 
 
 }

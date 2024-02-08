@@ -22,6 +22,7 @@ import com.upchardwar.app.entity.payload.GetLabRequest;
 import com.upchardwar.app.entity.payload.GetLabResponse;
 import com.upchardwar.app.entity.payload.LabRequest;
 import com.upchardwar.app.services.lab.ILabService;
+import com.upchardwar.app.services.lab.IPatientFavLabService;
 
 @RestController
 @RequestMapping("upchardwar/lab")
@@ -30,6 +31,9 @@ public class LabController {
 
 	@Autowired
 	private ILabService labService;
+	
+	@Autowired
+	private IPatientFavLabService favLabService;
 
 
 	@PostMapping("/save")
@@ -93,10 +97,42 @@ public class LabController {
 	    }
    
 	 //get Lab by id
-	 
 	 @GetMapping("/getLab/{id}")
 	 public ResponseEntity<?> getLabById(@PathVariable("id") Long id){
 		 return this.labService.getLabById(id);
 	 }
+	 
+	 
+	 
+	 
+	 //To mark a Lab Favorite
+	 @PostMapping("/{labId}/favorite/{patientId}")
+	    public ResponseEntity<?> makeLabFavorite(@PathVariable Long labId, @PathVariable Long patientId) {
+	      
+	         return   labService.makeLabFav(labId, patientId);
+      
+	    }
+	 
+	 
+	 
+	 
+	 
+	 //getting all the favorite lab of perticular patient
+	 @GetMapping("/favorites/{patientId}/{pageNo}/{pageSize}/{sortBy}")
+	 public PageLabDto getAllFavLabs(@PathVariable Long patientId,@PathVariable ("pageNo") Integer pageNo, @PathVariable("pageSize") Integer pageSize,
+		@PathVariable("sortBy") String sortBy){
+		 return favLabService.getFavoriteLabsByPatientId(patientId,pageNo,pageSize,sortBy);
+	 }
+	 
+	 
+	 
+	 
+	//remove lab from Favorite
+	 @DeleteMapping("{labId}/remove/{patientId}")
+	 public ResponseEntity<?> removeFromFav(@PathVariable Long patientId , @PathVariable Long labId){
+		 return favLabService.removeLabFromFav(patientId, labId);
+	 }
+	 
+	 
 	 
 }

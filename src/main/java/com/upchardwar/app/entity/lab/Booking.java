@@ -37,9 +37,12 @@ public class Booking {
 	    @JoinColumn(name = "test_id")
 	    private LabTest labTest;
 
-	    private LocalDateTime bookingTime;
+	    private LocalDateTime bookingDate;
 	    
-	    private boolean confirmed;
+	    private Long amount;
+	    
+	    private String purpose;
+	    
 
 	    @OneToOne(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
 	    private LabReport labTestReport;
