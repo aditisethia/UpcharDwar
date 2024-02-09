@@ -30,8 +30,6 @@ public class UpchardwarBackendApplication {
             Role role3 = new Role(3L, "PATIENT");
             Role role4 = new Role(4L, "LAB");
             Role role5 = new Role(5L, "CHEMIST");
-            
-
             roleRepository.save(role1);
             roleRepository.save(role2);
             roleRepository.save(role3);
