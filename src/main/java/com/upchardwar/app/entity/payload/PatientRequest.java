@@ -15,6 +15,7 @@ public class PatientRequest {
 	
 	private String password;
 	
+	private String imageName;
 	
 	private String address;
 	

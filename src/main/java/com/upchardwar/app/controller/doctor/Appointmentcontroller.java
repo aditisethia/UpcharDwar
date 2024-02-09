@@ -38,8 +38,10 @@ public class Appointmentcontroller {
     @GetMapping("/doctor/{doctorId}")
     public ResponseEntity<Page<AppointmentRequest>> getAppointmentsByDoctorId(
             @PathVariable Long doctorId, Pageable pageable) {
+    	  System.err.println("1"+pageable);
         Page<AppointmentRequest> appointments = appointmentService.getAppointmentsByDoctorId(doctorId, pageable);
-        return ResponseEntity.ok(appointments);
+        System.err.println("2");
+        return  ResponseEntity.ok(appointments);
     }
 
     

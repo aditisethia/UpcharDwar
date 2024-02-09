@@ -1,5 +1,7 @@
 package com.upchardwar.app.controller.doctor;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upchardwar.app.entity.doctor.DoctorInvoice;
+import com.upchardwar.app.entity.payload.DoctorInvoiceRequest;
+import com.upchardwar.app.entity.payload.DoctorInvoiceResponse;
 import com.upchardwar.app.services.doctor.IDoctorInvoiceService;
 
 @RestController
@@ -24,15 +28,22 @@ public class DoctorInvoiceController {
 	private IDoctorInvoiceService  doctorInvoiceService;
 
     @PostMapping("/create")
-    public ResponseEntity<DoctorInvoice> createDoctorInvoice(@RequestBody DoctorInvoice doctorInvoice) {
-        DoctorInvoice createdInvoice = doctorInvoiceService.createDoctorInvoice(doctorInvoice);
-        return ResponseEntity.ok(createdInvoice);
+    public DoctorInvoiceRequest createDoctorInvoice(@RequestBody DoctorInvoiceRequest doctorInvoiceRequest) {
+        doctorInvoiceRequest.setInvoiceGenerateDate(LocalDate.now());
+        System.out.println(doctorInvoiceRequest+"atcghjchvkwvedghdscwvkhv");
+     	DoctorInvoiceRequest createdInvoiceRequest = doctorInvoiceService.createDoctorInvoice(doctorInvoiceRequest);
+//        System.out.println(doctorInvoice+"atcghjchvkwvedghdscwvkhv");
+//        System.out.println(createdInvoice);
+        
+        return createdInvoiceRequest;
+//        return ResponseEntity.ok(createdInvoice);
     }
     
     @GetMapping("/get/doctor/{doctorId}")
-    public ResponseEntity<Page<DoctorInvoice>> getAppointmentsByDoctorId(
+    public ResponseEntity<Page<DoctorInvoiceResponse>> getAppointmentsByDoctorId(
             @PathVariable Long doctorId, Pageable pageable) {
-        Page<DoctorInvoice> doctorinvoice = doctorInvoiceService.getInvoiceByDoctorId(doctorId, pageable);
+    	System.err.println("1");
+        Page<DoctorInvoiceResponse> doctorinvoice = doctorInvoiceService.getInvoiceByDoctorId(doctorId, pageable);
         return ResponseEntity.ok(doctorinvoice);
     }
 	

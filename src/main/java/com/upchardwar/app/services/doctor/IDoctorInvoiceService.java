@@ -3,12 +3,13 @@ package com.upchardwar.app.services.doctor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.upchardwar.app.entity.doctor.DoctorInvoice;
+import com.upchardwar.app.entity.payload.DoctorInvoiceRequest;
+import com.upchardwar.app.entity.payload.DoctorInvoiceResponse;
 
 
 public interface IDoctorInvoiceService {
 
-	    public DoctorInvoice createDoctorInvoice(DoctorInvoice doctorInvoice) ;
+	    public DoctorInvoiceRequest createDoctorInvoice(DoctorInvoiceRequest doctorInvoiceRequest) ;
 	    
-	    Page<DoctorInvoice> getInvoiceByDoctorId(Long doctorId, Pageable pageable);
+	    Page<DoctorInvoiceResponse> getInvoiceByDoctorId(Long doctorId, Pageable pageable);
 }

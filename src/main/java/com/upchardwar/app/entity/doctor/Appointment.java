@@ -2,6 +2,7 @@ package com.upchardwar.app.entity.doctor;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.upchardwar.app.entity.patient.Patient;
 import com.upchardwar.app.entity.status.AppointmentStatus;
@@ -19,6 +20,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @AllArgsConstructor
@@ -42,7 +44,8 @@ public class Appointment {
 
 	private String purpose;
 
-	@OneToOne()
+	@OneToOne
+
 	private TimeSlote timeslote;
 
 	@ManyToOne
@@ -51,11 +54,8 @@ public class Appointment {
 	@ManyToOne
 	private Doctor doctor;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JsonIgnoreProperties(value = { "appointment" })
-	private DoctorInvoice doctorInvoice;
-
 	@ManyToOne
+	@JsonIgnore
 	private PatientAppointmentFile patientAppointmentFile;
 
 }
