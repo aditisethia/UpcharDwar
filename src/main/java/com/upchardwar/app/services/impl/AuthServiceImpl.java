@@ -137,6 +137,9 @@ public class AuthServiceImpl implements IAuthService, UserDetailsService {
 		Optional<Varification> userRegistered = this.varRepository.findByEmailAndOtp(request.getEmail(),
 				request.getOtp());
 		System.err.println(userRegistered.isPresent());
+		System.out.println("test------------>>>>>>>>>>>>>>>>>>>>>");
+		System.out.println(request.getEmail());
+		System.out.println(request.getOtp());
 		Map<String, Object> response = new HashMap<>();
 		if (userRegistered.isEmpty()) {
 			response.put(AppConstant.MESSAGE, AppConstant.INVALID_OTP);
