@@ -1,5 +1,6 @@
 package com.upchardwar.app.services.impl.lab;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,20 +49,22 @@ public class BookingServiceImpl implements IBookingService {
 	public ResponseEntity<?> BookingLabTest(BookingRequest request) {
 		
 		Map<String,Object> response =new HashMap<>();
-		
-		Patient patient = patientRepository.findById(request.getPatientId())
+		 System.out.println(request.getPatient());
+		 System.out.println(request.getLabTest());
+		Patient patient = patientRepository.findById(request.getPatient().getId())
                 .orElseThrow(() -> new ResourceNotFoundException(AppConstant.PAITENT_NOT_FOUND));
 
-        LabTest labTest = labTestRepository.findById(request.getLabTestId())
+        LabTest labTest = labTestRepository.findById(request.getLabTest().getId())
                 .orElseThrow(() -> new ResourceNotFoundException(AppConstant.LAB_NOT_FOUND));
         
 
-
+        System.err.println((request.getBookingDate()));
         Booking booking = new Booking();
         booking.setPatient(patient);
         booking.setLabTest(labTest);
-        booking.setBookingTime(request.getBookingTime());
-        booking.setConfirmed(false);
+        booking.setAmount(request.getAmount());
+        booking.setPurpose(request.getPurpose());
+       booking.setBookingDate(LocalDateTime.now());
 
         // Other booking details can be set here
 

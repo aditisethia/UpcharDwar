@@ -34,6 +34,8 @@ import com.upchardwar.app.dto.PageLabDto;
 import com.upchardwar.app.entity.Location;
 import com.upchardwar.app.entity.lab.Lab;
 import com.upchardwar.app.entity.lab.LabDocument;
+import com.upchardwar.app.entity.lab.PatientFavoriteLab;
+import com.upchardwar.app.entity.patient.Patient;
 import com.upchardwar.app.entity.payload.GetLabRequest;
 import com.upchardwar.app.entity.payload.GetLabResponse;
 import com.upchardwar.app.entity.payload.LabRequest;
@@ -44,6 +46,7 @@ import com.upchardwar.app.exception.ResourceAlreadyExistException;
 import com.upchardwar.app.exception.ResourceNotFoundException;
 import com.upchardwar.app.repository.LabRepository;
 import com.upchardwar.app.repository.LocationRepository;
+import com.upchardwar.app.repository.PatientRepository;
 import com.upchardwar.app.repository.UserRepository;
 import com.upchardwar.app.services.lab.ILabService;
 
@@ -55,6 +58,9 @@ public class LabServiceImpl implements ILabService {
 
 	@Autowired
 	private LabRepository labRepository;
+	
+	@Autowired
+	private PatientRepository patientRepository;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -134,37 +140,7 @@ public class LabServiceImpl implements ILabService {
 		
 	}
 	
-//	
-//	private void clearUnnecessaryFields(GetLabRequest labRequest) {
-//
-//		labRequest.setBiography(null);
-//		labRequest.setDocumentType(null);
-//		labRequest.setLabReviewRatings(null);
-//		labRequest.setEmail(null);
-//		labRequest.setImageName(null);
-//		labRequest.setIsApproved(null);
-//		labRequest.setIsDeleted(null);
-//		labRequest.setPhone(null);
-//		labRequest.setPassword(null);
-//		
-//	    if (labRequest.getLabName() == null) {
-//	        labRequest.setLabName(null);
-//	    }else if(labRequest.getLocation()==null) {
-//	    	labRequest.setLocation(null);
-//	    }
-//	    
-//	    if (labRequest.getLocation() != null ) {
-//	    	if(labRequest.getLocation().getPinCode()!=null)
-//	        if (labRequest.getLocation().getArea() == null) {
-//	            labRequest.getLocation().setArea(null);
-//	        }
-//	        else {
-//	        	labRequest.getLocation().setPinCode(null);
-//	        }
-//	        // Repeat similar checks for other location properties (addressLine, city, country, pinCode, id)
-//	    }
-//	}
-//
+
   
 	
 
@@ -260,16 +236,7 @@ public class LabServiceImpl implements ILabService {
 			return prr;
 		}
 
-//
-//	@Override
-//	public LabResponse updateLab(LabRequest request) {
-//
-//		if (!request.getIsApproved()) {
-//			throw new ResourceNotApprovedException(AppConstant.LAB_NOT_APPROVED);
-//		}
-//		Lab lab = this.labRepository.save(this.labRequestToLab(request));
-//		return this.labToLabResponse(lab);
-//	}
+
 
 	@Override
 	public ResponseEntity<?> addLab(LabRequest request, MultipartFile file, List<MultipartFile> multipartFiles) {
@@ -372,4 +339,74 @@ public class LabServiceImpl implements ILabService {
 	    
 		return new ResponseEntity<>(response,HttpStatus.OK);
 	}
+
+
+	
+	
+	
+	
+	//To make lab favorite
+
+	public ResponseEntity<?> makeLabFav( Long labId,Long userId) {
+	    Map<String, Object> response = new HashMap<>();
+
+	    // Find the lab by ID
+	    Optional<Lab> labOptional = labRepository.findById(labId);
+	    if (labOptional.isEmpty()) {
+	        throw new ResourceNotFoundException(AppConstant.LAB_NOT_FOUND);
+	    }
+	    Lab lab = labOptional.get();
+
+	    Optional<Patient> patientOptional = patientRepository.findById(userId);
+	    if (patientOptional.isEmpty()) {
+	        throw new ResourceNotFoundException(AppConstant.PAITENT_NOT_FOUND);
+	    }
+	    Patient patient = patientOptional.get();
+
+	    // Check if the lab is already a favorite for the patient
+	    if (isLabFavoriteForPatient(lab, patient)) {
+	       
+	        response.put(AppConstant.MESSAGE, "Lab is already added as a favorite for this patient");
+	        return new ResponseEntity<>(response, HttpStatus.OK);
+	    }
+
+	    // Proceed with making the lab a favorite
+	    makeLabFavoriteForPatient(lab, patient);
+    
+	    response.put(AppConstant.MESSAGE, "success");
+	  
+	    LabResponse labResponse = this.labToLabResponse(lab);
+
+	   
+	    response.put(AppConstant.LAB, labResponse);
+
+	    return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
+	// already favorite ko check krane ke liye
+	private boolean isLabFavoriteForPatient(Lab lab, Patient patient) {
+	    
+	    return patient.getFavoriteLabs().stream().anyMatch(favLab -> favLab.getLab().getId().equals(lab.getId()));
+	}
+
+	
+	// this is for make lab fav
+	private void makeLabFavoriteForPatient(Lab lab, Patient patient) {
+	    // Create a new PatientFavoriteLab entity and add it to the patient's favorite labs list
+	    PatientFavoriteLab patientFavoriteLab = new PatientFavoriteLab();
+	    patientFavoriteLab.setLab(lab);
+	    patientFavoriteLab.setPatient(patient);
+	    patient.getFavoriteLabs().add(patientFavoriteLab);
+
+	    // Save the changes to update the patient's favorite labs list
+	    patientRepository.save(patient);
+	}
+
+	
+
+	
+
+
+
+
 }
