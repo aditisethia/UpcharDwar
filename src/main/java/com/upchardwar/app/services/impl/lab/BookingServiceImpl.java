@@ -49,8 +49,6 @@ public class BookingServiceImpl implements IBookingService {
 	public ResponseEntity<?> BookingLabTest(BookingRequest request) {
 		
 		Map<String,Object> response =new HashMap<>();
-		 System.out.println(request.getPatient());
-		 System.out.println(request.getLabTest());
 		Patient patient = patientRepository.findById(request.getPatient().getId())
                 .orElseThrow(() -> new ResourceNotFoundException(AppConstant.PAITENT_NOT_FOUND));
 
