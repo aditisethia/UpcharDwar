@@ -201,7 +201,7 @@ public class LabServiceImpl implements ILabService {
 			throw new ResourceNotFoundException(AppConstant.LAB_WITH_ID_NOT_EXIST);
 		}
 
-		response.put(AppConstant.MESSAGE, "deleted successfully");
+		response.put(AppConstant.MESSAGE, AppConstant.LAB_DELETE_SUCCESS);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 
 	}
@@ -323,6 +323,14 @@ public class LabServiceImpl implements ILabService {
 	    	System.out.println(response);
 	    	return new ResponseEntity<>(response, HttpStatus.OK);
 	}
+	
+	
+	
+
+	
+	
+	
+	
 
 	@Override
 	public ResponseEntity<?> getLabById(Long Id) {

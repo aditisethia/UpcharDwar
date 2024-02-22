@@ -96,6 +96,9 @@ public class LabController {
 	    	return page ;
 	    }
    
+	 
+	 
+	 
 	 //get Lab by id
 	 @GetMapping("/getLab/{id}")
 	 public ResponseEntity<?> getLabById(@PathVariable("id") Long id){

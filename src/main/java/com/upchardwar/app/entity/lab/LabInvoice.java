@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.upchardwar.app.entity.doctor.Appointment;
 import com.upchardwar.app.entity.patient.Patient;
 import com.upchardwar.app.entity.status.InvoiceStatus;
 import com.upchardwar.app.entity.status.LabStatus;
@@ -44,11 +46,18 @@ public class LabInvoice {
 
 	    private Long totalAmount;
 	    
-	    private LocalDateTime issueTime;
+	    private LocalDateTime invoiceGenerateDate;
+	    
+	    private String paymentMethod;
+	    
+	    private Long labId;
 	    
 	    @ManyToOne
 	    @JoinColumn(name="patient_id")
 		@JsonIgnoreProperties(value="labInvoices")
 	    private Patient patient;
+	    
+	    
+	   
 	    
 }

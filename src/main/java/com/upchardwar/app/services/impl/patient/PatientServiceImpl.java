@@ -87,11 +87,10 @@ public class PatientServiceImpl implements IPatientService {
 	@Override
 	public ResponseEntity<?> addPatient(PatientRequest request, MultipartFile file) {
 		Optional<User> u = this.userRepository.findByEmail(request.getEmail());
-		if (u.isPresent())
-			u.get().setStatus(AppConstant.User_verified);
-
-		else
-			throw new ResourceNotFoundException(AppConstant.USER_NOT_FOUND);
+//		if (u.isPresent())
+//			u.get().setStatus(AppConstant.User_verified);
+//		else
+//			throw new ResourceNotFoundException(AppConstant.USER_NOT_FOUND);
 		System.out.println("hvs");
 		Map<String, Object> response = new HashMap<>();
 		Patient p = this.patientRequestToPatient(request);

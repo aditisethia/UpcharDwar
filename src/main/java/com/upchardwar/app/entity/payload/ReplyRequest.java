@@ -7,10 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LabReviewRatingRequest {
-     Long labReviewId;
-	Integer rating;
-	Long labId;
-	Long  patientId;
-	String description;
+public class ReplyRequest {
+	 private Long reviewId;
+	    private String content;
 }

@@ -76,7 +76,6 @@ public class Patient {
 	
 	public String imageName;
 	
-	
     @OneToMany(mappedBy = "patient",cascade = CascadeType.ALL)
     private List<payments> payments;
 	
@@ -117,13 +116,14 @@ public class Patient {
 	private List<LabPayment> labPayments;
 	
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "patient")
+	@JsonIgnore
 	private List<PharmaRequest>  pharma_requests;
     
     @OneToMany(mappedBy = "patient" ,cascade = CascadeType.ALL)
 	private List<PharmaReviewRating> pharmaReviewRatings;
     
-    @OneToMany(mappedBy = "patient",cascade = CascadeType.ALL)
-    private List<LabReviewRating> labReviewRatings;
+//    @OneToMany(mappedBy = "patient",cascade = CascadeType.ALL)
+//    private List<LabReviewRating> labReviewRatings;
     
     @OneToMany(mappedBy = "patient",cascade = CascadeType.ALL)
     private List<DoctorReviewRating> doctorReviewRatings;
