@@ -2,6 +2,7 @@ package com.upchardwar.app.controller.lab;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -56,17 +57,10 @@ public class LabController {
 
     }
 	
-	
-	
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteLab(@PathVariable("id") Long id){
 		return this.labService.deleteLabById(id);
 	}
-	
-
-
-	
-	
 	
 	//Find Lab By User Id
 	@GetMapping("/user/{userId}")

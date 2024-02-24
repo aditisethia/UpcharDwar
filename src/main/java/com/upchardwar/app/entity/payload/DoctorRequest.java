@@ -67,7 +67,7 @@ public class DoctorRequest {
     
 	private List<DoctorReviewRating> doctorReviewRatings;
 	
-
+	private String imageName;
 	
 	private Set<String> awards;
 

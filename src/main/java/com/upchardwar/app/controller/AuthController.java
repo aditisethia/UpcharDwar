@@ -67,7 +67,6 @@ public class AuthController {
 		System.out.println("hello");
 		System.out.println(token);
 		return ResponseEntity.ok(new UserResponseS(token, "getenared By aditi"));
-
 	}
 	
 	//to send email

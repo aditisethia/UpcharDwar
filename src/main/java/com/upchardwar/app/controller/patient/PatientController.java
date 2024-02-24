@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.upchardwar.app.entity.payload.PatientRequest;
 import com.upchardwar.app.entity.payload.PatientResponse;
-import com.upchardwar.app.exception.ResourceNotFoundException;
 import com.upchardwar.app.services.IPatientService;
 
 @RestController   
@@ -43,16 +42,14 @@ public class PatientController {
 
 	}
 
-	@PostMapping(path = "/save1", consumes = { "multipart/form-data", "application/octet-stream" })
 	// @RequestMapping(method = RequestMethod.POST, consumes =
 	// {MediaType.MULTIPART_FORM_DATA_VALUE,
 	// MediaType.APPLICATION_OCTET_STREAM_VALUE},
 	// produces = MediaType.APPLICATION_JSON_VALUE)
-
+	@PostMapping(path = "/save1", consumes = { "multipart/form-data", "application/octet-stream" })
 	public ResponseEntity<?> addPatient(@RequestPart("data") PatientRequest request,
 			@RequestPart(value = "files", required = false) MultipartFile multipartFile) {
 		System.out.println("345678");
-
 		return this.patientService.addPatient(request, multipartFile);
 	}
 

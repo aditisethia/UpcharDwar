@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.upchardwar.app.entity.doctor.Appointment;
 import com.upchardwar.app.entity.payload.AppointmentRequest;
+import com.upchardwar.app.entity.status.AppointmentStatus;
 
 public interface IAppointmentService {
 	// public Map<String, Object> bookAppointment(Doctor doctor, Patient patient,
@@ -25,5 +26,7 @@ public interface IAppointmentService {
 
 	 
 	List<Appointment> findUpcomingAppointmentsByDoctorId(Long doctorId, LocalDate startDate);
+
+	public List<Appointment> findAppointmentsByDoctorIdAndstatus(Long doctorId, AppointmentStatus status);
 
 }

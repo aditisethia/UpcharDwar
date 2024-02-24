@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.upchardwar.app.entity.doctor.Appointment;
 import com.upchardwar.app.entity.payload.AppointmentRequest;
+import com.upchardwar.app.entity.status.AppointmentStatus;
 import com.upchardwar.app.services.doctor.IAppointmentService;
 
 @RestController
@@ -81,6 +82,20 @@ public class Appointmentcontroller {
         List<Appointment> upcomingAppointments = appointmentService.findUpcomingAppointmentsByDoctorId(doctorId, tomorrow);
 
         return ResponseEntity.ok(upcomingAppointments);
+    }
+    
+    
+//    get appointment by doctor id and status SHEDULED
+    
+    @GetMapping("/doctor/status/{doctorId}")
+    public ResponseEntity<List<Appointment>> gettodaysAppointmentsByDoctorAndstatus(
+            @PathVariable Long doctorId) {
+    	
+    	AppointmentStatus status =AppointmentStatus.SCHEDULED;
+        
+        List<Appointment> appointments = appointmentService.findAppointmentsByDoctorIdAndstatus(doctorId, status);
+
+        return ResponseEntity.ok(appointments);
     }
     
 }
