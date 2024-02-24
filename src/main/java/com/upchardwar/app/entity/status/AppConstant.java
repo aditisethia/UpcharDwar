@@ -225,4 +225,24 @@ public class AppConstant {
 	public static final Object LAB_REVIEW_STATUS = "This review is not given by you ";
 
 
+
+	public static final Object LAB_REPLY_STATUS = "This reply cann't be deleted";
+
+
+
+	public static final String LAB_DIR = "lab_dir";
+
+
+
+	public static final String LAB_DOC_DIR = "lab_doc_dir";
+
+
+
+	public static final Object INVALID_ROLE = "Invalid Role";
+
+
+
+	public static final Object PATIENT_NOT_FOUND = "Patient not found";
+
+
 }

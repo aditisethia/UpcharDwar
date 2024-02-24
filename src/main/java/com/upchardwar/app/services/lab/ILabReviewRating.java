@@ -21,4 +21,9 @@ public interface ILabReviewRating {
 	public ResponseEntity<?> getAllRatingOfLab(long labId);
 	
 	public ResponseEntity<?> deleteReview(Long id, String email);
+	
+	public ResponseEntity<?> deleteReply(Long id , String email, Long reviewId);
+	public ResponseEntity<?> deleteReview1(Long id, String email);
+	
+	public ResponseEntity<?> deleteReply1(Long id, String email, Long reviewRatingId);
 }

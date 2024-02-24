@@ -28,4 +28,5 @@ public class GetLabResponse {
     private Boolean isDeleted;
     private Location location;
     private List<LabReviewRating> labReviewRatings;
+    private Double rating;
 }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class LabReviewReplayRequest {
 
 	
-	
+	Long replyId;
 	Long  patientId;
 	String description;
 	Long reviewRatingId;

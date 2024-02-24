@@ -43,5 +43,7 @@ public class LabResponse {
 	private List<LabDocument> labDocuments=new ArrayList<>();
 	
 	private Long userId;
+	
+	private Double rating;
 
 }
