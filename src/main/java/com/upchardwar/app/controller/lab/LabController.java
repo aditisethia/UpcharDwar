@@ -56,17 +56,10 @@ public class LabController {
 
     }
 	
-	
-	
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteLab(@PathVariable("id") Long id){
 		return this.labService.deleteLabById(id);
 	}
-	
-
-
-	
-	
 	
 	//Find Lab By User Id
 	@GetMapping("/user/{userId}")

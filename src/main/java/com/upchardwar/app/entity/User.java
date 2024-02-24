@@ -33,7 +33,6 @@ public class User {
 	private String email;
 	private String password;
 
-	
 	@OneToOne(mappedBy = "user")
 	private Lab lab;
 
@@ -41,7 +40,6 @@ public class User {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
 	@JsonIgnoreProperties(value = { "user" })
-//	@JsonIgnore
 	private Set<UserRole> userRole = new HashSet<>();
 
 }

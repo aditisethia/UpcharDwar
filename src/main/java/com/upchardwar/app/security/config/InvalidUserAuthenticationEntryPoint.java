@@ -20,8 +20,7 @@ public class InvalidUserAuthenticationEntryPoint implements AuthenticationEntryP
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
 		// TODO Auto-generated method stub
-		response.sendError(Response.SC_UNAUTHORIZED, "Authorizationfailed");
-		
+		response.sendError(Response.SC_UNAUTHORIZED, "Authorizationfailed");	
 	}
 
 }

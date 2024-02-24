@@ -79,5 +79,14 @@ public class AppointmentServiceImpl implements IAppointmentService {
 
         return appointmentRepository.findByDoctorIdAndAppointmentDateAfter(doctorId, startDate);
     }
+
+
+	@Override
+	public List<Appointment> findAppointmentsByDoctorIdAndstatus(Long doctorId, AppointmentStatus status) {
+		// TODO Auto-generated method stub
+		return appointmentRepository.findByDoctorIdAndAppointmentStatus(doctorId, status);
+	}
+	
+	  
 	
 }

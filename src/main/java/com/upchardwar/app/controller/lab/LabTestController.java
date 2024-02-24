@@ -13,12 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.upchardwar.app.dto.AppointmentDto;
-import com.upchardwar.app.dto.PageAppointmentDto;
 import com.upchardwar.app.dto.PageLabDto;
 import com.upchardwar.app.entity.payload.CreateLabTestRequest;
-import com.upchardwar.app.entity.payload.LabRequest;
-import com.upchardwar.app.entity.payload.LabResponse;
 import com.upchardwar.app.entity.payload.LabTestRequest;
 import com.upchardwar.app.services.lab.ILabTestService;
 

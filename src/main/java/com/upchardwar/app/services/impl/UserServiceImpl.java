@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
-import org.json.HTTP;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -159,6 +159,28 @@ Optional<User> userOptional	=	urepo.findByEmail(changePasswordRequest.getEmail()
 		
 	   response.put(AppConstant.MESSAGE, AppConstant.USER_NOT_FOUND);
 	   return new ResponseEntity<>(response,HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<?> getallusers() {
+		// TODO Auto-generated method stub
+		Map<String, Object> response = new HashMap<>();
+		response.put("users",this.urepo.findAll() );
+		response.put("message","Users Founds");
+		if(Objects.nonNull(response))
+		return new ResponseEntity<>(response,HttpStatus.OK);
+		return null;
+	}
+
+	@Override
+	public List<User> getUsersByEmails(List<String> emails) {
+        return urepo.findByEmailIn(emails);
+    }
+
+	@Override
+	public Optional<User> getUserByEmail(String email) {
+		// TODO Auto-generated method stub
+		return this.urepo.findByEmail(email);
 	}
 
 }
