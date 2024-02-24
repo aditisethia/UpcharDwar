@@ -51,6 +51,8 @@ public class Lab {
 
 	private Boolean isDeleted = false;
 	
+	private Double rating;
+	
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "location_id", unique = true)

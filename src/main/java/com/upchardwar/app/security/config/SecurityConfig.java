@@ -50,6 +50,7 @@ public class SecurityConfig {
 			"/upchardwar/appointment/book-appointment", "/upchardwar/appointment/notify",
 			"/upchardwar/doctor/userid/{id}", "/upchardwar/doctor/{pageNo}/{pageSize}",
 
+
 			"/upchardwar/appointment/book-appointment", "/upchardwar/appointment/notify", "/api/getImageApi/{imgName}",
 			"upchardwar/lab/save1", "upchardwar/labBooking/", "upchardwar/lab/getLab/{id}",
 			"/upchardwar/appointment/doctor/{doctorId}",
@@ -57,6 +58,7 @@ public class SecurityConfig {
 			"/upchardwar/appointment/doctor/today/{doctorId}", "/upchardwar/appointment/patient/{patientId}",
 			"/upchardwar/user/search", "/upchardwar/auth/reset", "/upchardwar/forgetpassword/*",
 			"/upchardwar/auth/change-password", "/upchardwar/labBooking/", "/socket/**" };
+
 
 	private String[] accessByAdmin = { "/user/admin", "upchardwar/lab/delete/{id}" };
 
@@ -72,6 +74,7 @@ public class SecurityConfig {
 			"/upchardwar/appointment/cancelAppointment/{id}", "/upchardwar/appointment/countPatient",
 
 			"/upchardwar/appointment/countTodaysPetient", "/upchardwar/appointment/countUpcomingAppointments" };
+
 
 	private String[] accessByLabPatientAdmin = { "upchardwar/labTest/all/{pageNo}/{pageSize}/{sortBy}/{labId}",
 			"upchardwar/labTest/get/{labTestId}", "upchardwar/lab/all/{pageNo}/{pageSize}/{sortBy}",
@@ -112,7 +115,9 @@ public class SecurityConfig {
 	public SecurityFilterChain configurePaths(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests().requestMatchers(pAll).permitAll().requestMatchers(accessByAdmin)
 				.hasAuthority("ADMIN").requestMatchers(accessByAdminDoctor).hasAnyAuthority("ADMIN", "DOCTOR")
+
 				.requestMatchers("accessByLabPatientAdmin").hasAnyAuthority("ADMIN", "PATIENT", "ADMIN")
+
 
 				.requestMatchers(accessByDoctor).hasAuthority("DOCTOR").requestMatchers(accessByPatient)
 				.hasAuthority("PATIENT").requestMatchers(accessByLab).hasAuthority("LAB").anyRequest().authenticated()

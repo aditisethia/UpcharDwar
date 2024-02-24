@@ -2,7 +2,6 @@ package com.upchardwar.app.controller.lab;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -90,6 +89,9 @@ public class LabController {
 	    	return page ;
 	    }
    
+	 
+	 
+	 
 	 //get Lab by id
 	 @GetMapping("/getLab/{id}")
 	 public ResponseEntity<?> getLabById(@PathVariable("id") Long id){

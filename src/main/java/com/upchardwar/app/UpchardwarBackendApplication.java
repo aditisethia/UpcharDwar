@@ -1,14 +1,19 @@
 package com.upchardwar.app;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import com.cloudinary.Cloudinary;
+
 
 @SpringBootApplication
 public class UpchardwarBackendApplication {
 
 	
+
 //    
 //   @Autowired
 //   private RoleRepository roleRepository;
@@ -33,7 +38,22 @@ public class UpchardwarBackendApplication {
 //            
 //        }
 //    }
+
+    @Value("${cloud.name}")
+	private String cloudName;
+	@Value("${cloud.api-key}")
+	private String cloudApiKey;
+	@Value("${cloud.secret-key}")
+	private String apiSecretKey;
+
 	
+	@Bean
+	public Cloudinary cloudinary() {
+		return new Cloudinary(String.format("cloudinary://%s:%s@%s",cloudApiKey,apiSecretKey,cloudName ));
+	
+	}
+    
+    
 	public static void main(String[] args) {
 		SpringApplication.run(UpchardwarBackendApplication.class, args);
 		

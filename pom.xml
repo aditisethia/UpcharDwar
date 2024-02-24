@@ -73,7 +73,7 @@
 </dependency>
 
 		
-		<dependency>
+<dependency>
     <groupId>org.modelmapper</groupId>
     <artifactId>modelmapper</artifactId>
     <version>3.2.0</version>
@@ -91,10 +91,18 @@
     <version>0.9.0</version>
 </dependency>
 
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
+
+<dependency>
+    <groupId>com.cloudinary</groupId>
+    <artifactId>cloudinary-http44</artifactId>
+    <version>1.37.0</version>
+</dependency>
+
 	</dependencies>
 
 	<build>

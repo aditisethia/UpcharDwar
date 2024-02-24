@@ -23,4 +23,9 @@ private Long id;
 	private Integer rating;
 	
 	private String review;
+	
+	
+	private String patientName;
+	
+	private String imageName;
 }

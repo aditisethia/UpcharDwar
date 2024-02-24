@@ -32,7 +32,9 @@ public interface ILabService {
 public ResponseEntity<?> getLabById(Long Id);
 
 public ResponseEntity<?> makeLabFav(Long userId, Long labId);
-//public void makeLabFavorite(Long labId, Long patientId);
+
+
+ 
 
 
 }

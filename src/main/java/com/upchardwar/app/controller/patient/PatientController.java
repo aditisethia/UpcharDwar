@@ -35,6 +35,7 @@ public class PatientController {
             return ResponseEntity.ok(patientResponse);
         } 
 
+
 	@PostMapping("/save")
 	public ResponseEntity<PatientResponse> registerPatient(@RequestBody PatientRequest patientRequest) {
 		System.out.println("hy");
@@ -46,11 +47,25 @@ public class PatientController {
 	// {MediaType.MULTIPART_FORM_DATA_VALUE,
 	// MediaType.APPLICATION_OCTET_STREAM_VALUE},
 	// produces = MediaType.APPLICATION_JSON_VALUE)
-	@PostMapping(path = "/save1", consumes = { "multipart/form-data", "application/octet-stream" })
+//	@PostMapping(path = "/save1", consumes = { "multipart/form-data", "application/octet-stream" })
+
+//	@PostMapping("/save")
+//	public ResponseEntity<PatientResponse> registerPatient(@RequestBody PatientRequest patientRequest) {
+//		System.out.println("hy");
+//		return new ResponseEntity<PatientResponse>(this.patientService.createPatient(patientRequest), HttpStatus.OK);
+//
+//	}
+
+	@PostMapping(path = "/save1", consumes = { "multipart/form-data", "application/octet-stream" ,"application/json" })
+
 	public ResponseEntity<?> addPatient(@RequestPart("data") PatientRequest request,
-			@RequestPart(value = "files", required = false) MultipartFile multipartFile) {
+			@RequestPart(value = "files", required = false) MultipartFile files) {
 		System.out.println("345678");
-		return this.patientService.addPatient(request, multipartFile);
+
+
+
+	return this.patientService.addPatient(request, files);
+
 	}
 
 }

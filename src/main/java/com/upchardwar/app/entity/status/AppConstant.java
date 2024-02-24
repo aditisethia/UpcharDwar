@@ -201,4 +201,48 @@ public class AppConstant {
 	public static final Object PASSWORD_NOT_MATCHED = "Password not matched";
 
 
+
+	public static final Object INVOICE_CREATE_SUCCESS = "LabInvoice Created Successfully";
+
+
+
+	public static final String LAB_INVOICE = "labInvoice";
+
+
+
+	public static final Object BOOKING_NOT_PROVIDED = "Booking not provided";
+
+
+
+	public static final Object LAB_DELETE_SUCCESS = "Lab Deleted Successfully";
+
+
+
+	public static final String RATINGS = "ReviewRating";
+
+
+
+	public static final Object LAB_REVIEW_STATUS = "This review is not given by you ";
+
+
+
+	public static final Object LAB_REPLY_STATUS = "This reply cann't be deleted";
+
+
+
+	public static final String LAB_DIR = "lab_dir";
+
+
+
+	public static final String LAB_DOC_DIR = "lab_doc_dir";
+
+
+
+	public static final Object INVALID_ROLE = "Invalid Role";
+
+
+
+	public static final Object PATIENT_NOT_FOUND = "Patient not found";
+
+
 }

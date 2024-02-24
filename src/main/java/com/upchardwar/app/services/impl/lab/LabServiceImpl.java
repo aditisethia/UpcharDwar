@@ -48,10 +48,13 @@ import com.upchardwar.app.repository.LabRepository;
 import com.upchardwar.app.repository.LocationRepository;
 import com.upchardwar.app.repository.PatientRepository;
 import com.upchardwar.app.repository.UserRepository;
+import com.upchardwar.app.services.IFileService;
 import com.upchardwar.app.services.lab.ILabService;
 
 @Service
 public class LabServiceImpl implements ILabService {
+
+	
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -67,9 +70,15 @@ public class LabServiceImpl implements ILabService {
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private IFileService fileService;
 
 	@Autowired
 	private LocationRepository locationRepository;
+	
+	@Autowired
+	private LabReviewRatingServiceImpl impl;
 
 	public LabResponse labToLabResponse(Lab lab) {
 		return this.modelMapper.map(lab, LabResponse.class);
@@ -136,7 +145,7 @@ public class LabServiceImpl implements ILabService {
 	    	Page<Lab> findAllLab = labRepository.findAll(example, pageable);
 	    	
 	    	System.err.println(findAllLab.get().toList());
-	    	return findAllLab.map(s->this.labToGetLabResponse(s));
+	    	return findAllLab.map(this::labToGetLabResponse);
 		
 	}
 	
@@ -201,7 +210,7 @@ public class LabServiceImpl implements ILabService {
 			throw new ResourceNotFoundException(AppConstant.LAB_WITH_ID_NOT_EXIST);
 		}
 
-		response.put(AppConstant.MESSAGE, "deleted successfully");
+		response.put(AppConstant.MESSAGE, AppConstant.LAB_DELETE_SUCCESS);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 
 	}
@@ -247,21 +256,28 @@ public class LabServiceImpl implements ILabService {
 			throw new ResourceAlreadyExistException(AppConstant.LAB_ALREADY_EXIST);
 		Lab l = this.labRequestToLab(request);
 		String imageName = UUID.randomUUID().toString() + file.getOriginalFilename();
-		l.setImageName(imageName);
+		//l.setImageName(imageName);
 
-		if (file != null) {
-
-			String filename = StringUtils.cleanPath(imageName);
-			l.setDocumentType(file.getContentType());
-
-			Path fileStorage = Paths.get(AppConstant.DIRECTORY, filename).toAbsolutePath().normalize();
-
-			try {
-				Files.copy(file.getInputStream(), fileStorage, StandardCopyOption.REPLACE_EXISTING);
-			} catch (IOException e) {
-
-			}
-		}
+//		if (file != null) {
+//
+//			String filename = StringUtils.cleanPath(imageName);
+//			l.setDocumentType(file.getContentType());
+//
+//			Path fileStorage = Paths.get(AppConstant.DIRECTORY, filename).toAbsolutePath().normalize();
+//
+//			try {
+//				Files.copy(file.getInputStream(), fileStorage, StandardCopyOption.REPLACE_EXISTING);
+//			} catch (IOException e) {
+//
+//			}
+			
+			
+			  if (file != null) {
+					String profileName= fileService.uploadFileInFolder(file, AppConstant.LAB_DIR);
+					//System.err.println("IMAGE :: "+profileName);
+					 l.setImageName(profileName);
+				}
+		
 		List<LabDocument> labDocuments = new ArrayList<>();
 		if (multipartFiles != null) {
 			for (MultipartFile file1 : multipartFiles) {
@@ -269,16 +285,24 @@ public class LabServiceImpl implements ILabService {
 				l1.setDocumentName(file.getOriginalFilename());
 				l1.setDocType(file.getContentType());
 				String filename = StringUtils.cleanPath(file.getOriginalFilename());
+//				l1.setFileName(filename);
+//				Path fileStorage = Paths.get(AppConstant.DIRECTORY, filename).toAbsolutePath().normalize();
+//				try {
+//					Files.copy(file.getInputStream(), fileStorage, StandardCopyOption.REPLACE_EXISTING);
+//
+//				} catch (Exception e) {
+//
+//				}
+//				labDocuments.add(l1);
+//			}
+				StringUtils.cleanPath(file.getOriginalFilename());
 				l1.setFileName(filename);
-				Path fileStorage = Paths.get(AppConstant.DIRECTORY, filename).toAbsolutePath().normalize();
-				try {
-					Files.copy(file.getInputStream(), fileStorage, StandardCopyOption.REPLACE_EXISTING);
-
-				} catch (Exception e) {
-
-				}
+				String documentImageName= fileService.uploadFileInFolder(file, AppConstant.LAB_DOC_DIR);
+				l1.setFileName(documentImageName);
 				labDocuments.add(l1);
+
 			}
+				
 		}
 
 		l.setLabDocument(labDocuments);
@@ -323,6 +347,14 @@ public class LabServiceImpl implements ILabService {
 	    	System.out.println(response);
 	    	return new ResponseEntity<>(response, HttpStatus.OK);
 	}
+	
+	
+	
+
+	
+	
+	
+	
 
 	@Override
 	public ResponseEntity<?> getLabById(Long Id) {
