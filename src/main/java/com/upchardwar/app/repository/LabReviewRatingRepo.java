@@ -17,4 +17,8 @@ public interface LabReviewRatingRepo extends JpaRepository<LabReviewRating, Long
 
 Optional<LabReviewRating> findByIdAndPatientId(Long id, Long id2);
 
+Optional<LabReviewRating> findByIdAndLabId(Long id, Long id2);
+
+List<LabReviewRating> findAllByLabId(Long labId);
+
 }

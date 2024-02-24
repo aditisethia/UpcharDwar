@@ -61,7 +61,14 @@ public class LabReviewRatingController {
     
     @DeleteMapping("/{reviewId}")
     public ResponseEntity<?> deleteLabReviewRating(@PathVariable Long reviewId,Principal p){
-    	return service.deleteReview(reviewId, p.getName());
+    	 System.err.println(reviewId);
+    	return service.deleteReview1(reviewId, p.getName());
     }
 	
+    @DeleteMapping("/{reviewId}/{replyId}")
+    public ResponseEntity<?> deleteReply(@PathVariable Long reviewId,Principal p ,@PathVariable Long replyId){
+    System.err.println(reviewId);
+    System.err.println(replyId);
+    	return service.deleteReply1(replyId, p.getName(),reviewId);
+    }
 }

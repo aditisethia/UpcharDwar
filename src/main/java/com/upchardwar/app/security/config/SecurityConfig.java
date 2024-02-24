@@ -62,12 +62,13 @@ public class SecurityConfig {
 
 			"/upchardwar/appointment/countTodaysPetient", "/upchardwar/appointment/countUpcomingAppointments" };
 
-    private String[] accessByLabPatientAdmin = {"upchardwar/labTest/all/{pageNo}/{pageSize}/{sortBy}/{labId}","upchardwar/labTest/get/{labTestId}","upchardwar/lab/all/{pageNo}/{pageSize}/{sortBy}","upchardwar/lab/search/{pn}/{ps}/{sortBy}","upchardwar/invoice/lab/create","upchardwar/invoice/get/lab/{labId}"};
+    private String[] accessByLabPatientAdmin = {"upchardwar/labTest/all/{pageNo}/{pageSize}/{sortBy}/{labId}","upchardwar/labTest/get/{labTestId}","upchardwar/lab/all/{pageNo}/{pageSize}/{sortBy}","upchardwar/lab/search/{pn}/{ps}/{sortBy}","upchardwar/invoice/lab/create","upchardwar/invoice/get/lab/{labId}"
+    		,"/upchardwar/labreviewrating/*"};
 	
 
 
 	
-	private String[] accessByPatient = {  "/upchardwar/patient/save1" , "/upchardwar/appointment/all/patient/{pageNo}/{pageSize}/{sortBy}" ,"upchardwar/labreviewrating/","upchardwar/labBooking/createTransaction/{amount}","upchardwar/lab/{labId}/favorite/{patientId}","upchardwar/lab/favorites/{patientId}/{pageNo}/{pageSize}/{sortBy}","upchardwar/lab/{labId}/remove/{patientId}","/upchardwar/labreviewrating/{reviewId}"};
+	private String[] accessByPatient = {  "/upchardwar/patient/save1" , "/upchardwar/appointment/all/patient/{pageNo}/{pageSize}/{sortBy}" ,"upchardwar/labreviewrating/","upchardwar/labBooking/createTransaction/{amount}","upchardwar/lab/{labId}/favorite/{patientId}","upchardwar/lab/favorites/{patientId}/{pageNo}/{pageSize}/{sortBy}","upchardwar/lab/{labId}/remove/{patientId}"};
 	
 	private String[] accessByLab = {"upchardwar/labTest/save","upchardwar/lab/user/{userId}"};
 	
@@ -97,7 +98,7 @@ public class SecurityConfig {
 	public SecurityFilterChain configurePaths(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests().requestMatchers(pAll).permitAll().requestMatchers(accessByAdmin)
 				.hasAuthority("ADMIN").requestMatchers(accessByAdminDoctor).hasAnyAuthority("ADMIN", "DOCTOR")
-				.requestMatchers("accessByLabPatientAdmin").hasAnyAuthority("ADMIN", "PATIENT","ADMIN")
+				.requestMatchers("accessByLabPatientAdmin").hasAnyAuthority("ADMIN", "PATIENT","LAB")
 
 				.requestMatchers(accessByDoctor).hasAuthority("DOCTOR")
 				.requestMatchers(accessByPatient).hasAuthority("PATIENT")
