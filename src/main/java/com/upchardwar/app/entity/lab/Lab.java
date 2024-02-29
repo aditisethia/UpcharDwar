@@ -69,7 +69,7 @@ public class Lab {
 	@JoinColumn(name = "lab_id")
 	private List<LabTest> labTests;
 
-	
+	@JsonIgnore
 	@OneToMany(mappedBy = "lab", cascade = CascadeType.ALL)
 	private List<LabReviewRating> labReviewRatings;
 

@@ -104,7 +104,7 @@ public class LabInvoiceServiceImpl implements ILabInvoiceService {
 		response.setPatientName(doctorInvoice.getPatient().getPatientName());
 		response.setTestName(doctorInvoice.getLabTest().getTestName());
 		response.setPaymentMethod(doctorInvoice.getPaymentMethod());
-		response.setBookingId(doctorInvoice.getBooking().getBookingId());
+		//response.setBookingId(doctorInvoice.getBooking().getBookingId());
 		// Add more fields as needed
 		return response;
 	}

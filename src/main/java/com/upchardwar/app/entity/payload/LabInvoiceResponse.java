@@ -19,7 +19,7 @@ public class LabInvoiceResponse {
 
 	    private Long invoiceId;
    
-	    private Long bookingId;
+	  
 
 
 	    private Long totalAmount;
@@ -28,7 +28,7 @@ public class LabInvoiceResponse {
 	    
 	    private String paymentMethod;
 	    
-	   
+	    private Long bookingId;
 		private String invoiceStatus=AppConstant.INVOICE_STATUS_AWAITED;
 
 		private String patientName;

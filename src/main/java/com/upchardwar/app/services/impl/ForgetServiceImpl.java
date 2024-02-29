@@ -78,8 +78,8 @@ public class ForgetServiceImpl implements IForgetPasswordService {
 
 	public ResponseEntity<?> forgetPassword(PasswordResetRequest passwordResetRequest) {
 
-		ResponseEntity<?> user = urepo.getByEmail(passwordResetRequest.getEmail());// Replace with your UserRepository method
-		User user1 = (User) user.getBody();
+		Optional<User> user = urepo.getByEmail(passwordResetRequest.getEmail());// Replace with your UserRepository method
+		User user1 =  user.get();
 		Map<String, Object> response = new HashMap<>();
 		// Ensure the user is found
 		if (user == null) {

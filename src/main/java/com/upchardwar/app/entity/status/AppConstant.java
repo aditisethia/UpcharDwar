@@ -154,7 +154,7 @@ public class AppConstant {
 
 
 
-	public static final Object LABTEST_NOT_FOUND = "LabTest Not Found";
+	public static final String LABTEST_NOT_FOUND = "LabTest Not Found";
 
 
 
@@ -243,6 +243,14 @@ public class AppConstant {
 
 
 	public static final Object PATIENT_NOT_FOUND = "Patient not found";
+
+
+
+	public static final String LABTEST_NOT_ASSOCIATED = "LabTest not associated with this labId";
+
+
+
+	public static final Object LAB_STATUS_CHANGE = "Status change successfully";
 
 
 }

@@ -1,8 +1,10 @@
 package com.upchardwar.app.entity.payload;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.upchardwar.app.entity.lab.Lab;
+import com.upchardwar.app.entity.lab.LabInvoice;
 import com.upchardwar.app.entity.lab.LabTest;
 import com.upchardwar.app.entity.patient.Patient;
 
@@ -21,9 +23,15 @@ public class BookingRequest {
 
 	private Patient patient;
     private LabTest labTest;
-    private LocalDateTime bookingDate;
+    private LocalDate bookingDate;
     
     private Long amount;
     
     private String purpose;
+    
+    private Long labId;
+    
+    private String labName;
+    
+   
 }
