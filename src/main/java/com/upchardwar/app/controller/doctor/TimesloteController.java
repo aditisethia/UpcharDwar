@@ -88,10 +88,6 @@ public class TimesloteController {
     @PostMapping("/capture-payment")
     public ResponseEntity<Map<String, String>> capturePayment(@RequestBody Map<String, String> data) {
         try {
-            // Implement payment capture logic here
-            // You should use the Razorpay API to capture the payment using the order ID
-            // The data map may contain payment-related information, such as payment_id, order_id, etc.
-            // For simplicity, we're returning a success message here
             Map<String, String> response = new HashMap<>();
             response.put("status", "Payment captured successfully");
             response.put("data",data.toString());

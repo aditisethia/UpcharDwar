@@ -48,6 +48,7 @@ public class ScheduleController {
 
 	}
 
+
 	// to get schedule by id
 	@GetMapping("/{id}")
 	public ResponseEntity<ScheduleResponse> getSchedule(@PathVariable("id") Long id) {

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.upchardwar.app.entity.doctor.DoctorInvoice;
 import com.upchardwar.app.entity.payload.DoctorInvoiceRequest;
 import com.upchardwar.app.entity.payload.DoctorInvoiceResponse;
 import com.upchardwar.app.services.doctor.IDoctorInvoiceService;
@@ -47,4 +46,4 @@ public class DoctorInvoiceController {
         return ResponseEntity.ok(doctorinvoice);
     }
 	
-}
+} 

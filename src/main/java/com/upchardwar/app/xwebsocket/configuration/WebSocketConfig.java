@@ -12,6 +12,7 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -50,5 +51,11 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	
 	   public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 	       
+	    }
+	   
+	    @Override
+	    public void configureWebSocketTransport(WebSocketTransportRegistration registration) {
+	        // Increase the maximum message size (payload size)
+	        registration.setMessageSizeLimit(1024 * 1024 *20); // 1 MB
 	    }
 }
