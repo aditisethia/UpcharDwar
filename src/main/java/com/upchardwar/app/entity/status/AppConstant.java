@@ -235,6 +235,10 @@ public class AppConstant {
 
 
 	public static final String LAB_DOC_DIR = "lab_doc_dir";
+	
+	
+	public static final String CHAT_DOC_DIR = "lab_doc_dir";
+	
 
 
 

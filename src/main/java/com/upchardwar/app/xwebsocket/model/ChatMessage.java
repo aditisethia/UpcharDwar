@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor 
 @Builder
 //@Document
 @Entity
@@ -26,7 +26,8 @@ public class ChatMessage {
    private String recipientId;
    private String senderName;
    private String recipientName;
-   private String content;
+   private String content; 
+   private String Photos;
    private String timestamp;
    private MessageStatus status;
 }

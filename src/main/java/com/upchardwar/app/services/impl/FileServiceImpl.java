@@ -11,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-
 import com.upchardwar.app.services.IFileService;
 
 @Service
@@ -24,13 +23,13 @@ public class FileServiceImpl implements IFileService {
 	public String uploadFileInFolder(MultipartFile myFile, String destinationPath) {
 		String randomName= (UUID.randomUUID().toString() + myFile.getOriginalFilename());
 		String fileName = StringUtils.cleanPath(randomName);
-		Map uploadResponse;
+		Map<?, ?> uploadResponse;
 		try {
 			uploadResponse = cloudinary.uploader().upload(myFile.getBytes(),
 					  ObjectUtils.asMap("public_id", destinationPath +"/"+fileName)); 
 			return (String)uploadResponse.get("secure_url");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return null;
