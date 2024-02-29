@@ -34,7 +34,7 @@ public class LabInvoiceController {
     public ResponseEntity<?> createDoctorInvoice(@RequestBody LabInvoiceRequest labInvoiceRequest) {
         labInvoiceRequest.setInvoiceGenerateDate(LocalDateTime.now());
         
-        System.out.println(labInvoiceRequest.getBooking()+"atcghjchvkwvedghdscwvkhv");
+//        System.out.println(labInvoiceRequest.getBooking()+"atcghjchvkwvedghdscwvkhv");
      	return labInvoiceService.createLabInvoice(labInvoiceRequest);
 //        System.out.println(doctorInvoice+"atcghjchvkwvedghdscwvkhv");
 //        System.out.println(createdInvoice);
