@@ -2,6 +2,7 @@ package com.upchardwar.app.controller.patient;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,7 +57,7 @@ public class PatientController {
 //
 //	}
 
-	@PostMapping(path = "/save1", consumes = { "multipart/form-data", "application/octet-stream" ,"application/json" })
+	@PostMapping(path = "/save1", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 
 	public ResponseEntity<?> addPatient(@RequestPart("data") PatientRequest request,
 			@RequestPart(value = "files", required = false) MultipartFile files) {

@@ -1,7 +1,10 @@
 package com.upchardwar.app.entity.patient;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -17,7 +20,6 @@ import com.upchardwar.app.entity.lab.Booking;
 import com.upchardwar.app.entity.lab.LabInvoice;
 import com.upchardwar.app.entity.lab.LabPayment;
 import com.upchardwar.app.entity.lab.LabReport;
-import com.upchardwar.app.entity.lab.LabReviewRating;
 import com.upchardwar.app.entity.lab.PatientFavoriteLab;
 import com.upchardwar.app.entity.orders.payments;
 import com.upchardwar.app.entity.pharma.PharmaRequest;
@@ -55,9 +57,10 @@ public class Patient {
 	
 	private String mobile;
 	
-	private String age;
+	private Long age;
 	
     private String address;
+    
     
     private String city;
     

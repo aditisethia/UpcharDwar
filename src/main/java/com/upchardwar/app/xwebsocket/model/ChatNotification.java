@@ -16,5 +16,6 @@ public class ChatNotification {
     private String senderId;
     private String senderName;
     private String content;
+    private String Photos;
     
 }

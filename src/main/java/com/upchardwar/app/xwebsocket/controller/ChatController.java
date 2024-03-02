@@ -44,7 +44,7 @@ public class ChatController {
 		ChatMessage saved = chatMessageService.save(chatMessage);
 		messagingTemplate.convertAndSend(
 				"/user/" + chatMessage.getRecipientId() + "_" + chatMessage.getSenderId() + "/queue/messages",
-				new ChatNotification(saved.getId(), saved.getSenderId(), saved.getSenderName(), saved.getContent()));
+				new ChatNotification(saved.getId(), saved.getSenderId(), saved.getSenderName(), saved.getContent(), saved.getPhotos()));
 	}
 
 	@PostMapping("/api/chat/upload-photo")

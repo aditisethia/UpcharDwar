@@ -35,8 +35,8 @@ public class ScheduleServiceImpl implements IScheduleService {
 	private ScheduleRepository repository;
     @Autowired
 	private TimeSlotRepository treopo;
-	@Autowired
-	private DoctorRepository doctorRepository;
+//	@Autowired
+//	private DoctorRepository doctorRepository;
 	@Autowired
 	private ModelMapper modelMapper;
 	@Autowired
@@ -77,7 +77,7 @@ public class ScheduleServiceImpl implements IScheduleService {
 				}
 				treopo.deleteByScheduleId(id);
 				this.repository.deleteById(id);
-			List<TimeSlote> listOfTimesSlotsq = this.treopo.getAllTimeSlotsBySechdule(id);
+//			List<TimeSlote> listOfTimesSlotsq = this.treopo.getAllTimeSlotsBySechdule(id);
 			}
 		
 //		 TimeSlote timeSlote = treopo.findById(timeSloteId)

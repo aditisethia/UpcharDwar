@@ -34,7 +34,7 @@ public class TimesloteController {
 	@Autowired
 	private ITimeSlotService iTimeSlotService;
 
-	private static final String MOCK_ORDER_ID = "id";
+//	private static final String MOCK_ORDER_ID = "id";
 
 	
 	@PostMapping("/create-order")

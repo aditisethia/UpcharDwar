@@ -162,6 +162,7 @@ public class AuthServiceImpl implements IAuthService, UserDetailsService {
 	user.setName(var.getName());
 	user.setEmail(var.getEmail());
 	
+	
 	user.setPassword(var.getPassword());
 	//String encPwd = passwordEncoder.encode(user.getPassword());
 	user.setPassword(var.getPassword());
