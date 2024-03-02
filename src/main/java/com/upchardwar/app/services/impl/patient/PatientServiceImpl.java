@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,15 +89,26 @@ public class PatientServiceImpl implements IPatientService {
 	@Override
 	public ResponseEntity<?> addPatient(PatientRequest request, MultipartFile file) {
 		Optional<User> u = this.userRepository.findByEmail(request.getEmail());
+		Optional<Patient> s = this.patientRepository.findByEmail(request.getEmail());
+		if(s.isEmpty()!=true) {
+			Map<String, Object> r = new HashMap<>();
+			r.put("already present with this email", null);
+			return new ResponseEntity<>(r, HttpStatus.BAD_REQUEST);
+			
+		}
+		System.out.println();
+		System.out.println(request);
 //		if (u.isPresent())
 //			u.get().setStatus(AppConstant.User_verified);
 //		else
 //			throw new ResourceNotFoundException(AppConstant.USER_NOT_FOUND);
 		System.out.println("hvs");
+//		request.get
 		Map<String, Object> response = new HashMap<>();
 		Patient p = this.patientRequestToPatient(request);
 		String imageName = UUID.randomUUID().toString() + file.getOriginalFilename();
 		p.setImageName(imageName);
+
 
 		if (file != null) {
 
