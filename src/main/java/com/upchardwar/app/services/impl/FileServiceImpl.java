@@ -34,5 +34,15 @@ public class FileServiceImpl implements IFileService {
 		}
 		return null;
 	}
+	
+	public void deleteFileFromCloudinary(String publicId) {
+	    try {
+	
+	        cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	       
+	    }
+	}
 
 }

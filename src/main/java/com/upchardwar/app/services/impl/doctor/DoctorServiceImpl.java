@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -162,15 +163,15 @@ public class DoctorServiceImpl implements IDoctorService {
 
 	}
 
-	@Override
-	public DoctorResponse updateDoctor(DoctorRequest request) {
-
-		if (request.getStatus() == AppConstant.DOCTOR_NOT_APPROVED) {
-			throw new ResourceNotApprovedException(AppConstant.DOCTOR_NOT_APPROVED);
-		}
-		Doctor doc = this.doctorRepository.save(this.doctorRequestToDoctor(request));
-		return this.doctorToDoctorResponse(doc);
-	}
+//	@Override
+//	public DoctorResponse updateDoctor(DoctorRequest request) {
+//
+//		if (request.getStatus() == AppConstant.DOCTOR_NOT_APPROVED) {
+//			throw new ResourceNotApprovedException(AppConstant.DOCTOR_NOT_APPROVED);
+//		}
+//		Doctor doc = this.doctorRepository.save(this.doctorRequestToDoctor(request));
+//		return this.doctorToDoctorResponse(doc);
+//	}
 
 	@SuppressWarnings("unused")
 	public ResponseEntity<?> addDoctor(DoctorRequest request, MultipartFile file, List<MultipartFile> multipartFiles) {
@@ -251,5 +252,12 @@ public class DoctorServiceImpl implements IDoctorService {
     public List<Doctor> filterDoctorsByKeyword(String keyword) {
         return doctorRepository.filterDoctorsByKeyword(keyword);
     }
+
+	@Override
+	public Collection<Doctor> getAllDoctorses() {
+		// TODO Auto-generated method stub
+		return this.doctorRepository.findAll();
+	}
+
 
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -61,12 +62,17 @@ public class PatientController {
 
 	public ResponseEntity<?> addPatient(@RequestPart("data") PatientRequest request,
 			@RequestPart(value = "files", required = false) MultipartFile files) {
-		System.out.println("345678");
-
-
 
 	return this.patientService.addPatient(request, files);
 
 	}
+	
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updatePatient(@PathVariable Long id,
+                                           @RequestPart("data") PatientRequest request,
+                                           @RequestPart(value = "files", required = false) MultipartFile imageFile) {
+        ResponseEntity<?> response = patientService.updatePatient(id, request, imageFile);
+        return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
+    }
 
 }
