@@ -25,6 +25,7 @@ import com.upchardwar.app.entity.User;
 import com.upchardwar.app.entity.UserRole;
 import com.upchardwar.app.entity.Varification;
 import com.upchardwar.app.entity.payload.PasswordResetRequest;
+import com.upchardwar.app.entity.payload.ResendOtpRequest;
 import com.upchardwar.app.entity.payload.VarificationRequest;
 import com.upchardwar.app.entity.status.AppConstant;
 import com.upchardwar.app.exception.ResourceNotFoundException;
@@ -136,6 +137,7 @@ public class AuthServiceImpl implements IAuthService, UserDetailsService {
 		System.err.println(request.getEmail()+"  "+request.getOtp());		
 		Optional<Varification> userRegistered = this.varRepository.findByEmailAndOtp(request.getEmail(),
 				request.getOtp());
+		
 		System.err.println(userRegistered.isPresent());
 		System.out.println("test------------>>>>>>>>>>>>>>>>>>>>>");
 		System.out.println(request.getEmail());
@@ -193,7 +195,40 @@ public class AuthServiceImpl implements IAuthService, UserDetailsService {
 	}
 
 	
-	
+public ResponseEntity<?> resendOtp(ResendOtpRequest request) {
+		
+	Optional<Varification> user = this.varRepository.findByEmail(request.getEmail());
+		
+		Map<String, Object> response = new HashMap<>();
+		
+		if(user.isEmpty()) {
+			response.put(AppConstant.MESSAGE, AppConstant.USER_NOT_FOUND);
+			return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
+		}
+		if(user.isPresent() && user.get().getIsActive()) {
+			response.put(AppConstant.MESSAGE, AppConstant.USER_ALREADY_REGISTERED_WITH_EMAIL);
+			return new ResponseEntity<>(response,HttpStatus.FORBIDDEN);
+		}
+		String otp = eServices.generateOtp();
+		Varification userRegistration = user.get();
+		userRegistration.setOtp(otp);
+		userRegistration.setExprireTime(LocalDateTime.now().plusSeconds(2*60));
+
+		Boolean isSentSuccessfully = eServices.sendEmail(otp, userRegistration.getEmail());
+		if (isSentSuccessfully) {
+
+			response.put(AppConstant.MESSAGE, AppConstant.OTP_SENT_SUCCESS);
+			response.put(AppConstant.EMAIL_STATUS, AppConstant.VERIFICATION_EMAIL_SEND);
+			response.put(AppConstant.EMAIL, request.getEmail());
+			this.varRepository.save(userRegistration);
+		}else {
+			response.put(AppConstant.MESSAGE, AppConstant.USER_REGISTRATION_FAILED);
+			response.put(AppConstant.EMAIL_STATUS, AppConstant.EMAIL_SEND_STATUS_FAILED);
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return new ResponseEntity<>(response,HttpStatus.OK);
+	}
 	
 
 

@@ -24,6 +24,7 @@ import com.upchardwar.app.entity.User;
 import com.upchardwar.app.entity.Varification;
 import com.upchardwar.app.entity.payload.ChangePasswordRequest;
 import com.upchardwar.app.entity.payload.PasswordResetRequest;
+import com.upchardwar.app.entity.payload.ResendOtpRequest;
 import com.upchardwar.app.entity.payload.UserRequest;
 import com.upchardwar.app.entity.payload.UserResponse;
 import com.upchardwar.app.entity.payload.VarificationRequest;
@@ -58,14 +59,12 @@ public class AuthController {
 	public ResponseEntity<UserResponseS> loginUser(@RequestBody UserRequest userRequest) {
 		
 	
-         System.out.println(userRequest.getEmail());
-         System.err.println(userRequest.getPassword());;
+        
 		authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(userRequest.getEmail(), userRequest.getPassword()));
 
 		String token = jwtUtils.generateToken(userRequest.getEmail());
-		System.out.println("hello");
-		System.out.println(token);
+		
 		return ResponseEntity.ok(new UserResponseS(token, "getenared By aditi"));
 	}
 	
@@ -116,6 +115,9 @@ public class AuthController {
 		   return	this.uservice.changePassword(changePasswordRequest);
 		}
 		
-		 
+		@PostMapping("/resend")
+		public ResponseEntity<?> resendOtp(@RequestBody ResendOtpRequest request) {
+			return this.authService.resendOtp(request);
+		}
 }
 

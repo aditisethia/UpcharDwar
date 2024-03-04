@@ -35,29 +35,34 @@ public class ForgetServiceImpl implements IForgetPasswordService {
 
 	// Generate Otp For Forget Password
 	@Override
-	public Varification generateOtp(String email) {
-
-		String otp = emailServices.generateOtp();
-
+	public ResponseEntity<?> generateOtp(String email) {
+         Map<String, Object> response=new HashMap<>();
+		
+        System.err.println(email);
 		Optional<Varification> forg = vRepository.findByEmail(email);
-		// System.out.println(forgot.toString()+"-----");
-		if (forg.isPresent()) {
-			emailServices.sendEmail(otp, email);
 
+		if (forg.isPresent()) {
+			System.err.println(forg.get().getEmail());
+			String otp = emailServices.generateOtp();
+			emailServices.sendEmail(otp, email);
 			Varification f = forg.get();
 			f.setOtp(otp);
-			return vRepository.save(f);
+			f.setExprireTime(LocalDateTime.now().plusSeconds(2*60));
+		 vRepository.save(f);
+		 response.put(AppConstant.MESSAGE, AppConstant.OTP_SENT_SUCCESS);
+		 return new ResponseEntity<>(response,HttpStatus.OK);
 
 		} else {
-			throw new ResourceNotFoundException(AppConstant.USER_NOT_FOUND);
+			response.put(AppConstant.MESSAGE, AppConstant.USER_NOT_EXIST_WITH_EMAIL);
+			 return new ResponseEntity<>(response,HttpStatus.OK);
 		}
 
 	}
 
 	public ResponseEntity<?> verifyUser(String email, String otp) {
-		System.err.println(email + " " + otp);
+		System.err.println(email + " " + otp+"---------------8");
 		Optional<Varification> userRegistered = this.vRepository.findByEmailAndOtp(email, otp);
-		System.err.println(userRegistered.isPresent());
+		
 		Map<String, Object> response = new HashMap<>();
 		if (userRegistered.isEmpty()) {
 			response.put(AppConstant.MESSAGE, AppConstant.INVALID_OTP);

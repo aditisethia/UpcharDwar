@@ -141,25 +141,28 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public ResponseEntity<?> changePassword(ChangePasswordRequest changePasswordRequest) {
-		Map<String, Object> response = new HashMap<>();
-Optional<User> userOptional	=	urepo.findByEmail(changePasswordRequest.getEmail());
-		if(userOptional.isPresent()) {
-			User user= userOptional.get();
-			if(passwordEncoder.matches(changePasswordRequest.getOldPassword(), user.getPassword())) {
-				user.setPassword(this.passwordEncoder.encode(changePasswordRequest.getNewPassword()));
-				
-				urepo.save(user);
-				response.put(AppConstant.MESSAGE, AppConstant.CHANGE_PASSWORD_SUCCESS);
-				return new ResponseEntity<>(response,HttpStatus.OK);
-			}else {
-				response.put(AppConstant.MESSAGE, AppConstant.PASSWORD_NOT_MATCHED);
-				 return new ResponseEntity<>(response,HttpStatus.OK);
-			}
-		}
-		
-	   response.put(AppConstant.MESSAGE, AppConstant.USER_NOT_FOUND);
-	   return new ResponseEntity<>(response,HttpStatus.OK);
-	}
+        Map<String, Object> response = new HashMap<>();
+        Optional<User> userOptional = urepo.findByEmail(changePasswordRequest.getEmail());
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if (passwordEncoder.matches(changePasswordRequest.getOldPassword(), user.getPassword())) {
+                if (!passwordEncoder.matches(changePasswordRequest.getNewPassword(), user.getPassword())) {
+                    user.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
+                    urepo.save(user);
+                    response.put(AppConstant.MESSAGE, AppConstant.CHANGE_PASSWORD_SUCCESS);
+                    return new ResponseEntity<>(response, HttpStatus.OK);
+                } else {
+                    response.put(AppConstant.MESSAGE, AppConstant.NEW_PASSWORD_SAME_AS_OLD);
+                    return new ResponseEntity<>(response, HttpStatus.OK);
+                }
+            } else {
+                response.put(AppConstant.MESSAGE, AppConstant.PASSWORD_NOT_MATCHED);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+        }
+        response.put(AppConstant.MESSAGE, AppConstant.USER_NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
 	@Override
 	public ResponseEntity<?> getallusers() {

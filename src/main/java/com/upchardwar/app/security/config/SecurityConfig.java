@@ -38,10 +38,10 @@ public class SecurityConfig {
 			"/upchardwar/doctor/userid/{userId}", "/upchardwar/auth/login", "/upchardwar/doctor/save",
 			"/upchardwar/speciality/"
 
-			, "/upchardwar/patient/save1", "/upchardwar/lab/save", "/upchardwar/lab/all", "/upchardwar/pharmacy/save",
-			"/upchardwar/auth/sendemail", "/upchardwar/auth/generate-otp", "/upchardwar/auth/verify",
+			, "/upchardwar/patient/save1", "/upchardwar/lab/save", "/upchardwar/lab/all", "/upchardwar/pharmacy/save","/upchardwar/auth/login",
+			"/upchardwar/auth/*", "/upchardwar/auth/generate-otp", "/upchardwar/auth/verify",
 			"upchardwar/speciality/all", "/upchardwar/schedule/", "/upchardwar/appointment/book-appointment",
-			"/upchardwar/appointment/notify", "upchardwar/labrequest/save",
+			"/upchardwar/appointment/notify", "upchardwar/labrequest/save","/upchardwar/lab/all/{pageNo}/{pageSize}/labName",
 
 			"/upchardwar/patient/save", "/upchardwar/lab/save", "/upchardwar/pharmacy/save",
 			"/upchardwar/auth/sendemail", "/upchardwar/auth/generate-otp", "/upchardwar/auth/verify",
