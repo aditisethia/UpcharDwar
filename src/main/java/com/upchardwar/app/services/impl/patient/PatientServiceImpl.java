@@ -5,8 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +30,9 @@ import com.upchardwar.app.exception.ResourceAlreadyExistException;
 import com.upchardwar.app.exception.ResourceNotFoundException;
 import com.upchardwar.app.repository.PatientRepository;
 import com.upchardwar.app.repository.UserRepository;
+import com.upchardwar.app.services.IFileService;
 import com.upchardwar.app.services.IPatientService;
+import com.upchardwar.app.xwebsocket.model.ChatMessage;
 
 @Service
 public class PatientServiceImpl implements IPatientService {
@@ -46,6 +46,10 @@ public class PatientServiceImpl implements IPatientService {
 	private ModelMapper modelMapper;
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private IFileService fileService;
+
 
 	public PatientResponse patientToPatientResponse(Patient patient) {
 		return this.modelMapper.map(patient, PatientResponse.class);
@@ -106,22 +110,19 @@ public class PatientServiceImpl implements IPatientService {
 //		request.get
 		Map<String, Object> response = new HashMap<>();
 		Patient p = this.patientRequestToPatient(request);
-		String imageName = UUID.randomUUID().toString() + file.getOriginalFilename();
-		p.setImageName(imageName);
+	
 
 
 		if (file != null) {
-
-			String filename = StringUtils.cleanPath(imageName);
-			p.setDocumentType(file.getContentType());
-
-			Path fileStorage = Paths.get(AppConstant.DIRECTORY, filename).toAbsolutePath().normalize();
-
-			try {
-				Files.copy(file.getInputStream(), fileStorage, StandardCopyOption.REPLACE_EXISTING);
-			} catch (IOException e) {
-
-			}
+			
+			
+			
+			 System.err.println(file.getOriginalFilename());
+			 String documentImageName= fileService.uploadFileInFolder(file, "PATIENT PROFILE");
+				System.err.println(documentImageName);
+				p.setImageName(documentImageName);
+			
+			
 		}
 		response.put(AppConstant.MESSAGE, AppConstant.PATIENT_CREATED);
 		PatientResponse res = this.patientToPatientResponse(this.patientRepository.save(p));
@@ -163,9 +164,36 @@ public class PatientServiceImpl implements IPatientService {
 	}
 
 	@Override
-	public PatientResponse updatePatient(PatientRequest request) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public ResponseEntity<?> updatePatient(Long id, PatientRequest request, MultipartFile imageFile) {
+        Patient existingPatient = patientRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id " + id));
+
+        // Update existingPatient fields with data from the request
+//        existingPatient.setPatientName(request.getPatientName());
+        existingPatient.setBloodGroup(request.getBloodGroup());
+        existingPatient.setCity(request.getCity());
+        existingPatient.setAddress(request.getAddress());
+        existingPatient.setState(request.getState());
+        existingPatient.setZipcode(request.getZipcode());
+        existingPatient.setMobile(request.getMobile());
+		
+		
+		if (imageFile != null) {
+			
+			
+			
+			 System.err.println(imageFile.getOriginalFilename());
+			 String documentImageName= fileService.uploadFileInFolder(imageFile, "PATIENT PROFILE");
+				System.err.println(documentImageName);
+				existingPatient.setImageName(documentImageName);
+			
+			
+		}
+   
+        // Save the updated patient
+        Patient updatedPatient = patientRepository.save(existingPatient);
+
+        return ResponseEntity.ok(updatedPatient);
+    }
 
 }

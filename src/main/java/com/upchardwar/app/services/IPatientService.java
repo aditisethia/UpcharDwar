@@ -21,7 +21,7 @@ public interface IPatientService {
 	public List<PatientResponse> searchPatient(Integer pageNo, Integer pageSize, PatientRequest patientRequest,
 			String sortBy);
 
-	public PatientResponse updatePatient(PatientRequest request);
+	public ResponseEntity<?> updatePatient(Long id, PatientRequest request, MultipartFile imageFile);
 	
 	public ResponseEntity<?> addPatient(PatientRequest request,MultipartFile file);
 }

@@ -31,7 +31,7 @@ public class SecurityConfig {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
-	private String[] pAll = {"/upchardwar/doctor/{id}","upchardwar/lab/all/{pageNo}/{pageSize}/{sortBy}","/upchardwar/chat/api/chat/upload-photo","/upchardwar/user/users-by-email/{email}","/upchardwar/user/users-by-emails","/upchardwar/appointment/doctor/status/{doctorId}","/upchardwar/user/getall","/upchardwar/chat/messages/{id}","/upchardwar/chat/messages/{senderId}/{recipientId}/count","/upchardwar/chat/messages/{senderId}/{recipientId}" ,"/ws/**", "/upchardwar/invoice/create", "/upchardwar/invoice/get/doctor/{doctorId}",
+	private String[] pAll = {"/upchardwar/doctor/cities","/upchardwar/doctor/{id}","upchardwar/lab/all/{pageNo}/{pageSize}/{sortBy}","/upchardwar/chat/api/chat/upload-photo","/upchardwar/user/users-by-email/{email}","/upchardwar/user/users-by-emails","/upchardwar/appointment/doctor/status/{doctorId}","/upchardwar/user/getall","/upchardwar/chat/messages/{id}","/upchardwar/chat/messages/{senderId}/{recipientId}/count","/upchardwar/chat/messages/{senderId}/{recipientId}" ,"/ws/**", "/upchardwar/invoice/create", "/upchardwar/invoice/get/doctor/{doctorId}",
 			"/upchardwar/timeslote/get/{id}", "/upchardwar/patient/by-email/{email}",
 			"/upchardwar/timeslote/update/isbooked/{timeSlotId}", "/upchardwar/schedule/{id}",
 			"/upchardwar/appointment/book", "upchardwar/schedule/doctor/{doctorId}", "upchardwar/reviewrating/",
@@ -80,7 +80,7 @@ public class SecurityConfig {
 			"upchardwar/labTest/get/{labTestId}", "upchardwar/lab/all/{pageNo}/{pageSize}/{sortBy}",
 			"upchardwar/lab/search/{pn}/{ps}/{sortBy}" };
 
-	private String[] accessByPatient = { "/upchardwar/patient/save1",
+	private String[] accessByPatient = { "/upchardwar/patient/save1","/upchardwar/patient/{id}",
 			"/upchardwar/appointment/all/patient/{pageNo}/{pageSize}/{sortBy}", "upchardwar/labreviewrating/",
 			"upchardwar/labBooking/createTransaction/{amount}", "upchardwar/lab/{labId}/favorite/{patientId}",
 			"upchardwar/lab/favorites/{patientId}/{pageNo}/{pageSize}/{sortBy}",

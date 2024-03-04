@@ -1,6 +1,7 @@
 package com.upchardwar.app.controller.doctor;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -68,12 +68,6 @@ public class DoctorController {
 		return new ResponseEntity<List<DoctorResponse>>(sr, HttpStatus.OK);
 	}
 
-	@PutMapping("/")
-	public ResponseEntity<DoctorResponse> update(@RequestBody DoctorRequest request) {
-
-		return new ResponseEntity<DoctorResponse>(this.doctorService.updateDoctor(request), HttpStatus.OK);
-	}
-
 	@PostMapping(path = "/save1", consumes = { "multipart/form-data", "application/octet-stream" })
 	public ResponseEntity<?> addDoctor2(@RequestPart("data") DoctorRequest request,
 			@RequestPart("files") List<MultipartFile> multipartFiles) {
@@ -86,8 +80,16 @@ public class DoctorController {
 		return doctorService.getDoctorByUserId(userId);
 	}
 
-    @GetMapping("/doctors/by-keyword")
-    public List<Doctor> filterDoctors(@RequestParam String keyword) {
-        return doctorService.filterDoctorsByKeyword(keyword);
-    }
+	@GetMapping("/doctors/by-keyword")
+	public List<Doctor> filterDoctors(@RequestParam String keyword) {
+		return doctorService.filterDoctorsByKeyword(keyword);
+	}
+
+	@GetMapping("/cities")
+	public ResponseEntity<List<String>> getAllCities() {
+		List<String> uniqueCities = doctorService.getAllDoctorses().stream().map(Doctor::getCity).distinct()
+				.collect(Collectors.toList());
+
+		return ResponseEntity.ok(uniqueCities);
+	}
 }

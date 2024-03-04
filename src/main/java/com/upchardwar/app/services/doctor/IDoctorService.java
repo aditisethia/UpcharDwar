@@ -1,5 +1,6 @@
 package com.upchardwar.app.services.doctor;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,11 +29,15 @@ public interface IDoctorService {
 	public List<DoctorResponse> searchDoctor(Integer pageNo, Integer pageSize, DoctorRequest doctorRequest,
 			String sortBy);
 
-	public DoctorResponse updateDoctor(DoctorRequest request);
-	
+
 	public ResponseEntity<?> addDoctor(DoctorRequest request,MultipartFile file,List<MultipartFile> multipartFiles);
 
 	public ResponseEntity<?> getDoctorByUserId(Long userId);
 
 	List<Doctor> filterDoctorsByKeyword(String keyword);
+
+	public Collection<Doctor> getAllDoctorses();
+
+
+	
 }
