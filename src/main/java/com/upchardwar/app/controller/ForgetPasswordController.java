@@ -26,7 +26,7 @@ public class ForgetPasswordController {
 	@PostMapping(value = "/generate-otp", produces = "application/json") 
 	 public ResponseEntity<?> sendOtpToEmail(@RequestBody String email) {
 	            System.out.println("hello at controller");
-	            return   ResponseEntity.ok( forgetPasswordService.generateOtp(email));
+	            return   this.forgetPasswordService.generateOtp(email);
 	        } 
 	
 	

@@ -7,7 +7,7 @@ import com.upchardwar.app.entity.payload.PasswordResetRequest;
 
 public interface IForgetPasswordService {
 
-	public Varification generateOtp(String email);
+	public ResponseEntity<?> generateOtp(String email);
 	
 	public ResponseEntity<?> verifyUser(String email,String otp);
 	

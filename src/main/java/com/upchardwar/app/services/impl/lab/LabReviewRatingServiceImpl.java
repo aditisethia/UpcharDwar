@@ -78,13 +78,16 @@ public class LabReviewRatingServiceImpl implements ILabReviewRating {
 			if (anyMatch.isEmpty()) {
 				LabReviewRating reviewRating = new LabReviewRating();
 				reviewRating.setLab(lab.get());
+				
 				reviewRating.setRating(request.getRating());
 				reviewRating.setPatient(patientRepository.findById(request.getPatientId()).get());
 				reviewRating.setDescription(request.getDescription());
 				reviewRating.setCreateTime(LocalDateTime.now());
 				
 				lab.get().getLabReviewRatings().add(reviewRating);
+				System.err.println(lab.get().getLabReviewRatings());
 				lab.get().setRating(calculateAverageRatingOfLab(lab.get().getId()).getBody() );
+				System.err.println(lab.get().getRating());
 				labRepository.save(lab.get());
 				LabReviewRatingResponse lr = convertToResponse(labReviewRatingRepository.save(reviewRating));
 				response.put(AppConstant.LAB_REVIEW_RATING, lr);
@@ -335,46 +338,91 @@ public class LabReviewRatingServiceImpl implements ILabReviewRating {
 	}
 	
 	
+//	public ResponseEntity<Double> calculateAverageRatingOfLab(Long labId) {
+//		System.err.println("---------->");
+//        List<LabReviewRating> labReviewRatings = labReviewRatingRepository.findAllByLabId(labId);
+//        
+//        
+//        int oneStarCount = 0, twoStarCount = 0, threeStarCount = 0, fourStarCount = 0, fiveStarCount = 0;
+//        int totalRatings = 0;
+//
+//       
+//        for (LabReviewRating rating : labReviewRatings) {
+//            int stars = rating.getRating();
+//            System.err.println(stars);
+//            switch (stars) {
+//                case 1:
+//                    oneStarCount++;
+//                    break;
+//                case 2:
+//                    twoStarCount++;
+//                    break;
+//                case 3:
+//                    threeStarCount++;
+//                    break;
+//                case 4:
+//                    fourStarCount++;
+//                    break;
+//                case 5:
+//                    fiveStarCount++;
+//                    break;
+//                default:
+//                  
+//            }
+//            totalRatings++;
+//        }
+//
+//        
+//        double averageRating = (oneStarCount * 1 + twoStarCount * 2 + threeStarCount * 3 + fourStarCount * 4 + fiveStarCount * 5) / (double) totalRatings;
+//
+//        return ResponseEntity.ok(averageRating);
+//    }
+
+	
 	public ResponseEntity<Double> calculateAverageRatingOfLab(Long labId) {
-        List<LabReviewRating> labReviewRatings = labReviewRatingRepository.findAllByLabId(labId);
-        
-        
-        int oneStarCount = 0, twoStarCount = 0, threeStarCount = 0, fourStarCount = 0, fiveStarCount = 0;
-        int totalRatings = 0;
+	    List<LabReviewRating> labReviewRatings = labReviewRatingRepository.findAllByLabId(labId);
+	    
+	    int oneStarCount = 0, twoStarCount = 0, threeStarCount = 0, fourStarCount = 0, fiveStarCount = 0;
+	    int totalRatings = 0;
 
-       
-        for (LabReviewRating rating : labReviewRatings) {
-            int stars = rating.getRating();
-            switch (stars) {
-                case 1:
-                    oneStarCount++;
-                    break;
-                case 2:
-                    twoStarCount++;
-                    break;
-                case 3:
-                    threeStarCount++;
-                    break;
-                case 4:
-                    fourStarCount++;
-                    break;
-                case 5:
-                    fiveStarCount++;
-                    break;
-                default:
-                  
-            }
-            totalRatings++;
-        }
+	    for (LabReviewRating rating : labReviewRatings) {
+	        int stars = rating.getRating();
+	        switch (stars) {
+	            case 1:
+	                oneStarCount++;
+	                break;
+	            case 2:
+	                twoStarCount++;
+	                break;
+	            case 3:
+	                threeStarCount++;
+	                break;
+	            case 4:
+	                fourStarCount++;
+	                break;
+	            case 5:
+	                fiveStarCount++;
+	                break;
+	            default:
+	                // Handle unexpected rating value
+	        }
+	        totalRatings++;
+	    }
 
-        
-        double averageRating = (oneStarCount * 1 + twoStarCount * 2 + threeStarCount * 3 + fourStarCount * 4 + fiveStarCount * 5) / (double) totalRatings;
+	    double averageRating = 0.0;
+	    if (totalRatings > 0) {
+	        averageRating = (oneStarCount * 1 + twoStarCount * 2 + threeStarCount * 3 + fourStarCount * 4 + fiveStarCount * 5) / (double) totalRatings;
+	    }
 
-        return ResponseEntity.ok(averageRating);
-    }
+	    // Check if averageRating is NaN and handle it
+	    if (Double.isNaN(averageRating)) {
+	        // Handle NaN, maybe set a default value or log an error
+	        averageRating = 0.0; // Setting a default value of 0.0
+	    }
 
-	
-	
+	    return ResponseEntity.ok(averageRating);
+	}
+
 	
 	public ResponseEntity<?> deleteReply1(Long id, String email, Long reviewRatingId) {
 	    Map<String, Object> response = new HashMap<>();

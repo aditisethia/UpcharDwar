@@ -257,4 +257,20 @@ public class AppConstant {
 	public static final Object LAB_STATUS_CHANGE = "Status change successfully";
 
 
+
+	public static final Object OTP_SENT_SUCCESS = "Otp Send successfully";
+
+
+
+	public static final Object USER_REGISTRATION_FAILED = "User Registration failed";
+
+
+
+	public static final Object USER_NOT_EXIST_WITH_EMAIL = "User Not register with this email please register first";
+
+
+
+	public static final Object NEW_PASSWORD_SAME_AS_OLD = "New Password is same as old Password please try something else";
+
+
 }
