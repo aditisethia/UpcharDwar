@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.upchardwar.app.entity.doctor.Doctor;
 import com.upchardwar.app.entity.lab.Lab;
 
 
@@ -35,5 +36,7 @@ public interface LabRepository extends JpaRepository<Lab, Long> {
 	
     @Query("SELECT lab FROM Lab lab WHERE lab.labName LIKE %:keyword% OR lab.email LIKE %:keyword%")
     List<Lab> searchLabs(String keyword);
+
+	
 
 }
