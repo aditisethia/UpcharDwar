@@ -113,12 +113,11 @@ public class BookingServiceImpl implements IBookingService {
         LabTest labTest = labTestRepository.findById(request.getLabTest().getId())
                 .orElseThrow(() -> new ResourceNotFoundException(AppConstant.LAB_NOT_FOUND));
         
-
         System.err.println((request.getBookingDate()));
         Booking booking = new Booking();
         booking.setPatient(patient);
         booking.setLabTest(labTest);
-        booking.setAmount(request.getAmount());
+        booking.setAmount((request.getAmount()/100));
         booking.setPurpose(request.getPurpose());
        booking.setBookingDate(LocalDate.now());
        booking.setStatus(LabTestStatus.CONFIRM);

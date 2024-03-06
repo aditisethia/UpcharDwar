@@ -41,7 +41,7 @@ public class SecurityConfig {
 			, "/upchardwar/patient/save1", "/upchardwar/lab/save", "/upchardwar/lab/all", "/upchardwar/pharmacy/save","/upchardwar/auth/login",
 			"/upchardwar/auth/*", "/upchardwar/auth/generate-otp", "/upchardwar/auth/verify",
 			"upchardwar/speciality/all", "/upchardwar/schedule/", "/upchardwar/appointment/book-appointment",
-			"/upchardwar/appointment/notify", "upchardwar/labrequest/save","/upchardwar/lab/all/{pageNo}/{pageSize}/labName",
+			"/upchardwar/appointment/notify", "upchardwar/labrequest/save","/upchardwar/lab/all/{pageNo}/{pageSize}/{sortBy}",
 
 			"/upchardwar/patient/save", "/upchardwar/lab/save", "/upchardwar/pharmacy/save",
 			"/upchardwar/auth/sendemail", "/upchardwar/auth/generate-otp", "/upchardwar/auth/verify",
@@ -57,7 +57,7 @@ public class SecurityConfig {
 			"/upchardwar/appointment/doctor/{doctorId}/upcoming-appointments",
 			"/upchardwar/appointment/doctor/today/{doctorId}", "/upchardwar/appointment/patient/{patientId}",
 			"/upchardwar/user/search", "/upchardwar/auth/reset", "/upchardwar/forgetpassword/*",
-			"/upchardwar/auth/change-password", "/upchardwar/labBooking/", "/socket/**" ,"upchardwar/labBooking/patientTotalBooking/{patientId}"};
+			"/upchardwar/auth/change-password", "/upchardwar/labBooking/", "/socket/**" ,"upchardwar/labBooking/patientTotalBooking/{patientId}","/upchardwar/labreviewrating/lab/{labId}","upchardwar/labTest/all/{pageNo}/{pageSize}/{sortBy}/{labId}"};
 
 
 	private String[] accessByAdmin = { "/user/admin", "upchardwar/lab/delete/{id}" };
@@ -76,7 +76,7 @@ public class SecurityConfig {
 			"/upchardwar/appointment/countTodaysPetient", "/upchardwar/appointment/countUpcomingAppointments" };
 
 
-	private String[] accessByLabPatientAdmin = { "upchardwar/labTest/all/{pageNo}/{pageSize}/{sortBy}/{labId}",
+	private String[] accessByLabPatientAdmin = { 
 			"upchardwar/labTest/get/{labTestId}", "upchardwar/lab/all/{pageNo}/{pageSize}/{sortBy}",
 			"upchardwar/lab/search/{pn}/{ps}/{sortBy}" };
 

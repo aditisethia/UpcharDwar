@@ -221,7 +221,7 @@ public class LabServiceImpl implements ILabService {
 			
 			
 			// Create Pageable object with pagination and sorting
-			System.out.println("inside a method");
+			System.out.println("inside a method ...........");
 			Pageable pageable = PageRequest.of(pageNo, pageSize, Direction.ASC, sortBy);
 			// Query the database directly based on doctorId
 			Page<Lab> findAllLab = labRepository.findByIsDeletedAndIsApproved(pageable,false,true);
@@ -231,6 +231,9 @@ public class LabServiceImpl implements ILabService {
 
 			// Reverse the order of content if needed
 			List<GetLabResponse> content = map.getContent();
+			 for(GetLabResponse l:content) {
+				 System.err.println(l.getLabName());
+			 }
 			List<GetLabResponse> newList = null;
 			if (content != null && !content.isEmpty()) {
 				newList = new ArrayList<>(content);
